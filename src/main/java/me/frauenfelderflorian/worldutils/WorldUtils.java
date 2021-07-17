@@ -1,0 +1,41 @@
+package me.frauenfelderflorian.worldutils;
+
+import me.frauenfelderflorian.worldutils.completers.PositionCompleter;
+import me.frauenfelderflorian.worldutils.executors.PositionExecutor;
+import me.frauenfelderflorian.worldutils.executors.ResetExecutor;
+import me.frauenfelderflorian.worldutils.executors.SettingsExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.Objects;
+
+public final class WorldUtils extends JavaPlugin {
+    public Config positions;
+
+    @Override
+    public void onLoad() {
+        //load important configs before world is initialized
+    }
+
+    @Override
+    public void onEnable() {
+        positions = new Config(this, "positions.yml");
+        Objects.requireNonNull(this.getCommand("position")).setExecutor(new PositionExecutor(this));
+        Objects.requireNonNull(this.getCommand("position")).setTabCompleter(new PositionCompleter(this));
+        Objects.requireNonNull(this.getCommand("reset")).setExecutor(new ResetExecutor(this));
+        Objects.requireNonNull(this.getCommand("settings")).setExecutor(new SettingsExecutor(this));
+    }
+
+    public void notAllowed(CommandSender sender) {
+        sender.sendMessage("§4You are not allowed to do this.");
+    }
+
+    public void notConsoleCommand(CommandSender sender) {
+        sender.sendMessage("§eThis is not a console command");
+    }
+
+    @Override
+    public void onDisable() {
+        positions.save();
+    }
+}

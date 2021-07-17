@@ -1,0 +1,25 @@
+name: WorldUtils
+version: ${project.version}
+main: me.frauenfelderflorian.worldutils.WorldUtils
+api-version: 1.17
+authors: [ flopsi_ ]
+description: a Minecraft Spigot plugin with some general handy commands
+commands:
+  position:
+    description: save, view, delete positions
+    usage: /<command> [<name> | <options> [<name>]]
+    aliases: pos
+  privateposition:
+    description: save, view, delete private positions
+    usage: /<command> [<name> | <options> [<name>]]
+    aliases:
+      - privatepos
+      - privpos
+      - ppos
+  reset:
+    description: reset the world
+    usage: /<command> [confirm | seed]
+  settings:
+    description: edit settings of this plugin
+    usage: /<command> [<setting> <value>]
+    aliases: stg
