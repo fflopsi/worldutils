@@ -19,7 +19,7 @@ commands:
   reset:
     description: reset the world
     usage: /<command> [confirm]
-#  settings:
-#    description: edit settings of this plugin
-#    usage: /<command> [<setting> <value>]
-#    aliases: stg
+  settings:
+    description: edit settings of this plugin
+    usage: /<command> [<setting> <value>]
+    aliases: stg
