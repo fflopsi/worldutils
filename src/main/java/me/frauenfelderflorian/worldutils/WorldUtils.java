@@ -10,11 +10,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.Objects;
 
 public final class WorldUtils extends JavaPlugin {
+    public Config config;
     public Config positions;
 
     @Override
     public void onLoad() {
-        //load important configs before world is initialized
+        config = new Config(this, "config.yml");
     }
 
     @Override
