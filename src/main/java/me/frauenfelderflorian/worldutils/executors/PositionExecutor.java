@@ -34,7 +34,7 @@ public record PositionExecutor(WorldUtils plugin) implements CommandExecutor {
                             plugin.positions.set(args[0], ((Player) sender).getLocation());
                             Bukkit.broadcastMessage("Added position "
                                     + positionMessage(args[0], (Location) plugin.positions.get(args[0])));
-                        } else plugin.notConsoleCommand(sender);
+                        } else WorldUtils.notConsoleCommand(sender);
                     }
                     return true;
                 }
@@ -44,8 +44,8 @@ public record PositionExecutor(WorldUtils plugin) implements CommandExecutor {
                 case "tp" -> {
                     if (sender instanceof Player && sender.isOp())
                         ((Player) sender).teleport((Location) plugin.positions.get(args[1]));
-                    else if (sender instanceof Player) plugin.notAllowed(sender);
-                    else plugin.notConsoleCommand(sender);
+                    else if (sender instanceof Player) WorldUtils.notAllowed(sender);
+                    else WorldUtils.notConsoleCommand(sender);
                     return true;
                 }
                 case "del" -> {
@@ -59,7 +59,7 @@ public record PositionExecutor(WorldUtils plugin) implements CommandExecutor {
         return false;
     }
 
-    private String positionMessage(String name, Location location) {
+    static public String positionMessage(String name, Location location) {
         return name + " (" + Objects.requireNonNull(location.getWorld()).getName() + "): "
                 + location.getBlockX() + "  " + location.getBlockY() + "  " + location.getBlockZ();
     }
