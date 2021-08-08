@@ -7,19 +7,19 @@ description: a Minecraft Spigot plugin with some general handy commands
 commands:
   position:
     description: save, view, delete positions
-    usage: /<command> [<name> | <options> [<name>]]
+    usage: /<command> [<name> | <option> [<name>]]
     aliases: pos
-  privateposition:
-    description: save, view, delete private positions
-    usage: /<command> [<name> | <options> [<name>]]
+  personalposition:
+    description: save, view, delete personal positions
+    usage: /<command> [<name> | <option> [<name>]]
     aliases:
-      - privatepos
-      - privpos
+      - personalpos
+      - perspos
       - ppos
   reset:
     description: reset the world
-    usage: /<command> [confirm | seed]
-  settings:
-    description: edit settings of this plugin
-    usage: /<command> [<setting> <value>]
-    aliases: stg
+    usage: /<command> [confirm]
+#  settings:
+#    description: edit settings of this plugin
+#    usage: /<command> [<setting> <value>]
+#    aliases: stg
