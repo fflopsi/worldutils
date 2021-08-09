@@ -59,7 +59,7 @@ public record PositionExecutor(WorldUtils plugin) implements CommandExecutor {
         return false;
     }
 
-    static public String positionMessage(String name, Location location) {
+    public static String positionMessage(String name, Location location) {
         return name + " (" + Objects.requireNonNull(location.getWorld()).getName() + "): "
                 + location.getBlockX() + "  " + location.getBlockY() + "  " + location.getBlockZ();
     }
