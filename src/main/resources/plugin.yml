@@ -7,11 +7,11 @@ description: a Minecraft Spigot plugin with some general handy commands
 commands:
   position:
     description: save, view, delete positions
-    usage: /<command> [<name> | <option> [<name>]]
+    usage: /<command> <name> | <option> [<name>]
     aliases: pos
   personalposition:
     description: save, view, delete personal positions
-    usage: /<command> [<name> | <option> [<name>]]
+    usage: /<command> <name> | <option> [<name>]
     aliases:
       - personalpos
       - perspos
@@ -21,5 +21,5 @@ commands:
     usage: /<command> [confirm]
   settings:
     description: edit settings of this plugin
-    usage: /<command> [<setting> <value>]
+    usage: /<command> <commandname> <setting> <value>
     aliases: stg
