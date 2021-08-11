@@ -1,12 +1,9 @@
 package me.frauenfelderflorian.worldutils;
 
-import me.frauenfelderflorian.worldutils.completers.PersonalPositionCompleter;
-import me.frauenfelderflorian.worldutils.completers.PositionCompleter;
-import me.frauenfelderflorian.worldutils.completers.ResetCompleter;
-import me.frauenfelderflorian.worldutils.executors.PersonalPositionExecutor;
-import me.frauenfelderflorian.worldutils.executors.PositionExecutor;
-import me.frauenfelderflorian.worldutils.executors.ResetExecutor;
-import me.frauenfelderflorian.worldutils.executors.SettingsExecutor;
+import me.frauenfelderflorian.worldutils.commands.PersonalPositionCommand;
+import me.frauenfelderflorian.worldutils.commands.PositionCommand;
+import me.frauenfelderflorian.worldutils.commands.ResetCommand;
+import me.frauenfelderflorian.worldutils.commands.SettingsCommand;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -25,20 +22,21 @@ public final class WorldUtils extends JavaPlugin {
     @Override
     public void onEnable() {
         positions = new Config(this, "positions.yml");
-        Objects.requireNonNull(this.getCommand("position")).setExecutor(new PositionExecutor(this));
-        Objects.requireNonNull(this.getCommand("position")).setTabCompleter(new PositionCompleter(this));
-        Objects.requireNonNull(this.getCommand("personalposition")).setExecutor(new PersonalPositionExecutor(this));
-        Objects.requireNonNull(this.getCommand("personalposition")).setTabCompleter(new PersonalPositionCompleter(this));
-        Objects.requireNonNull(this.getCommand("reset")).setExecutor(new ResetExecutor(this));
-        Objects.requireNonNull(this.getCommand("reset")).setTabCompleter(new ResetCompleter());
-        Objects.requireNonNull(this.getCommand("settings")).setExecutor(new SettingsExecutor(this));
+        Objects.requireNonNull(this.getCommand("position")).setExecutor(new PositionCommand(this));
+        Objects.requireNonNull(this.getCommand("position")).setTabCompleter(new PositionCommand(this));
+        Objects.requireNonNull(this.getCommand("personalposition")).setExecutor(new PersonalPositionCommand(this));
+        Objects.requireNonNull(this.getCommand("personalposition")).setTabCompleter(new PersonalPositionCommand(this));
+        Objects.requireNonNull(this.getCommand("reset")).setExecutor(new ResetCommand(this));
+        Objects.requireNonNull(this.getCommand("reset")).setTabCompleter(new ResetCommand(this));
+        Objects.requireNonNull(this.getCommand("settings")).setExecutor(new SettingsCommand(this));
+        Objects.requireNonNull(this.getCommand("settings")).setTabCompleter(new SettingsCommand(this));
     }
 
     public static void notAllowed(CommandSender sender) {
         sender.sendMessage("§4You are not allowed to do this.");
     }
 
-    public static void notConsoleCommand(CommandSender sender) {
+    public static void notConsole(CommandSender sender) {
         sender.sendMessage("§eThis is not a console command");
     }
 
