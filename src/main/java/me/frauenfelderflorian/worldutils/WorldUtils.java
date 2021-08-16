@@ -16,7 +16,6 @@ public final class WorldUtils extends JavaPlugin {
     @Override
     public void onLoad() {
         config = new Config(this, "config.yml");
-        //delete worlds on reset?
     }
 
     @Override
@@ -32,16 +31,16 @@ public final class WorldUtils extends JavaPlugin {
         Objects.requireNonNull(this.getCommand("settings")).setTabCompleter(new SettingsCommand(this));
     }
 
+    @Override
+    public void onDisable() {
+        config.save();
+    }
+
     public static void notAllowed(CommandSender sender) {
         sender.sendMessage("§4You are not allowed to do this.");
     }
 
     public static void notConsole(CommandSender sender) {
         sender.sendMessage("§eThis is not a console command");
-    }
-
-    @Override
-    public void onDisable() {
-        //delete worlds on reset?
     }
 }
