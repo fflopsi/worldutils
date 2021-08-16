@@ -1,7 +1,9 @@
 package me.frauenfelderflorian.worldutils.commands;
 
 import me.frauenfelderflorian.worldutils.Config;
+import me.frauenfelderflorian.worldutils.Settings;
 import me.frauenfelderflorian.worldutils.WorldUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -21,42 +23,54 @@ public record PersonalPositionCommand(WorldUtils plugin) implements CommandExecu
     public boolean onCommand(CommandSender sender, Command command, String alias, String[] args) {
         if (sender instanceof Player) {
             Config positions = new Config(plugin, "positions_" + sender.getName() + ".yml");
-            if (args.length == 1) {
-                switch (args[0]) {
-                    case "list" -> {
-                        for (String pos : positions.getKeys(false))
-                            sender.sendMessage(PositionCommand.positionMessage(pos, (Location) positions.get(pos)));
-                        return true;
-                    }
-                    case "clear" -> {
-                        sender.sendMessage("Cleared personal positions");
-                        for (String pos : positions.getKeys(false)) positions.remove(pos);
-                        return true;
-                    }
-                    default -> {
-                        if (positions.contains(args[0]))
-                            sender.sendMessage(PositionCommand.positionMessage(args[0], (Location) positions.get(args[0])));
-                        else {
-                            positions.set(args[0], ((Player) sender).getLocation());
-                            sender.sendMessage("Added personal position "
-                                    + PositionCommand.positionMessage(args[0], (Location) positions.get(args[0])));
+            switch (args.length) {
+                case 1 -> {
+                    switch (args[0]) {
+                        case "list" -> {
+                            for (String pos : positions.getKeys(false))
+                                sender.sendMessage(PositionCommand.positionMessage(pos, (Location) positions.get(pos)));
+                            return true;
                         }
-                        return true;
+                        case "clear" -> {
+                            sender.sendMessage("Cleared personal positions");
+                            for (String pos : positions.getKeys(false)) positions.remove(pos);
+                            return true;
+                        }
+                        default -> {
+                            if (positions.contains(args[0]))
+                                sender.sendMessage(PositionCommand.positionMessage(args[0], (Location) positions.get(args[0])));
+                            else {
+                                positions.set(args[0], ((Player) sender).getLocation());
+                                sender.sendMessage("Added personal position "
+                                        + PositionCommand.positionMessage(args[0], (Location) positions.get(args[0])));
+                            }
+                            return true;
+                        }
                     }
                 }
-            } else if (args.length == 2) {
-                switch (args[0]) {
-                    case "tp" -> {
-                        if (sender.isOp())
-                            ((Player) sender).teleport((Location) positions.get(args[1]));
-                        else WorldUtils.notAllowed(sender);
-                        return true;
-                    }
-                    case "del" -> {
-                        sender.sendMessage("Deleted personal position "
-                                + PositionCommand.positionMessage(args[1], (Location) positions.get(args[1])));
-                        positions.remove(args[1]);
-                        return true;
+                case 2 -> {
+                    switch (args[0]) {
+                        case "tp" -> {
+                            if (sender.isOp())
+                                ((Player) sender).teleport((Location) positions.get(args[1]));
+                            else WorldUtils.notAllowed(sender);
+                            return true;
+                        }
+                        case "del" -> {
+                            sender.sendMessage("Deleted personal position "
+                                    + PositionCommand.positionMessage(args[1], (Location) positions.get(args[1])));
+                            positions.remove(args[1]);
+                            return true;
+                        }
+                        default -> {
+                            if ((Boolean) plugin.config.get(Settings.PERSONALPOSITION.getKey(0)))
+                                if (Bukkit.getOnlinePlayers().contains(Bukkit.getPlayer(args[0]))) {
+                                    positions = new Config(plugin, "positions_" + args[0] + ".yml");
+                                    sender.sendMessage("Personal position from player " + args[0] + ": "
+                                            + PositionCommand.positionMessage(args[1], (Location) positions.get(args[1])));
+                                    return true;
+                                }
+                        }
                     }
                 }
             }
@@ -68,16 +82,20 @@ public record PersonalPositionCommand(WorldUtils plugin) implements CommandExecu
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         Config positions = new Config(plugin, "positions_" + sender.getName() + ".yml");
         List<String> completions = new ArrayList<>();
-        if (args.length == 1) {
-            //command or position name being entered
-            StringUtil.copyPartialMatches(args[0], SOLO_COMMANDS, completions);
-            StringUtil.copyPartialMatches(args[0], NAME_COMMANDS, completions);
-            StringUtil.copyPartialMatches(args[0], positions.getKeys(false), completions);
-        } else if (args.length == 2)
-            //position name being entered
-            for (String cmd : NAME_COMMANDS)
-                if (args[0].equals(cmd))
-                    StringUtil.copyPartialMatches(args[1], positions.getKeys(false), completions);
+        switch (args.length) {
+            case 1 -> {
+                //command or position name being entered
+                StringUtil.copyPartialMatches(args[0], SOLO_COMMANDS, completions);
+                StringUtil.copyPartialMatches(args[0], NAME_COMMANDS, completions);
+                StringUtil.copyPartialMatches(args[0], positions.getKeys(false), completions);
+            }
+            case 2 -> {
+                //position name being entered
+                for (String cmd : NAME_COMMANDS)
+                    if (args[0].equals(cmd))
+                        StringUtil.copyPartialMatches(args[1], positions.getKeys(false), completions);
+            }
+        }
         return completions;
     }
 }
