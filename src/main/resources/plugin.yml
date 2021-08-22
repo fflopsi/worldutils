@@ -16,6 +16,12 @@ commands:
       - personalpos
       - perspos
       - ppos
+  sendposition:
+    description: send your position to other players
+    usage: /<command> <playername>
+    aliases:
+      - sendpos
+      - spos
   reset:
     description: reset the world
     usage: /<command> [confirm]

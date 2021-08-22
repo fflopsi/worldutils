@@ -1,10 +1,8 @@
 package me.frauenfelderflorian.worldutils;
 
-import me.frauenfelderflorian.worldutils.commands.PersonalPositionCommand;
-import me.frauenfelderflorian.worldutils.commands.PositionCommand;
-import me.frauenfelderflorian.worldutils.commands.ResetCommand;
-import me.frauenfelderflorian.worldutils.commands.SettingsCommand;
+import me.frauenfelderflorian.worldutils.commands.*;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Objects;
@@ -36,6 +34,8 @@ public final class WorldUtils extends JavaPlugin {
         Objects.requireNonNull(this.getCommand("position")).setTabCompleter(new PositionCommand(this));
         Objects.requireNonNull(this.getCommand("personalposition")).setExecutor(new PersonalPositionCommand(this));
         Objects.requireNonNull(this.getCommand("personalposition")).setTabCompleter(new PersonalPositionCommand(this));
+        Objects.requireNonNull(this.getCommand("sendposition")).setExecutor(new SendPositionCommand());
+        Objects.requireNonNull(this.getCommand("sendposition")).setTabCompleter(new SendPositionCommand());
         Objects.requireNonNull(this.getCommand("reset")).setExecutor(new ResetCommand(this));
         Objects.requireNonNull(this.getCommand("reset")).setTabCompleter(new ResetCommand(this));
         Objects.requireNonNull(this.getCommand("settings")).setExecutor(new SettingsCommand(this));
