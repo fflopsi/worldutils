@@ -15,7 +15,7 @@ import java.util.Objects;
 /**
  * CommandExecutor and TabCompleter for command settings
  */
-public record SettingsCommand(WorldUtils plugin) implements CommandExecutor, TabCompleter {
+public class SettingsCommand implements CommandExecutor, TabCompleter {
     /**
      * Done when command sent
      *
@@ -48,10 +48,10 @@ public record SettingsCommand(WorldUtils plugin) implements CommandExecutor, Tab
                 if (Settings.contains(args[0])
                         && Objects.requireNonNull(Settings.get(args[0])).containsSetting(args[1])) {
                     if (args[2].equalsIgnoreCase("true")) {
-                        plugin.config.set(Objects.requireNonNull(Settings.get(args[0])).getKey(args[1]), true);
+                        WorldUtils.config.set(Objects.requireNonNull(Settings.get(args[0])).getKey(args[1]), true);
                         return true;
                     } else if (args[2].equalsIgnoreCase("false")) {
-                        plugin.config.set(Objects.requireNonNull(Settings.get(args[0])).getKey(args[1]), false);
+                        WorldUtils.config.set(Objects.requireNonNull(Settings.get(args[0])).getKey(args[1]), false);
                         return true;
                     }
                 }

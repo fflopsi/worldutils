@@ -39,33 +39,34 @@ public record PositionCommand(WorldUtils plugin) implements CommandExecutor, Tab
                 switch (args[0]) {
                     case "list" -> {
                         //send all position info
-                        for (String pos : plugin.positions.getKeys(false))
-                            sender.sendMessage(positionMessage(pos, (Location) plugin.positions.get(pos)));
+                        for (String pos : WorldUtils.positions.getKeys(false))
+                            sender.sendMessage(positionMessage(pos, (Location) WorldUtils.positions.get(pos)));
                         return true;
                     }
                     case "clear" -> {
                         //remove all positions
                         plugin.getLogger().info("Cleared positions");
+                        //Bukkit.getLogger().info("Cleared positions"); //does this work the same?
                         Bukkit.broadcastMessage("Cleared positions");
-                        for (String pos : plugin.positions.getKeys(false)) plugin.positions.remove(pos);
+                        for (String pos : WorldUtils.positions.getKeys(false)) WorldUtils.positions.remove(pos);
                         return true;
                     }
                     default -> {
                         //position name entered
-                        if (plugin.positions.contains(args[0]))
+                        if (WorldUtils.positions.contains(args[0]))
                             //existing position, send info
-                            if (plugin.positions.contains(args[0] + ".author"))
+                            if (WorldUtils.positions.contains(args[0] + ".author"))
                                 sender.sendMessage(positionMessage(
-                                        args[0], (String) plugin.positions.get(args[0] + ".author"),
-                                        (Location) plugin.positions.get(args[0])));
-                            else sender.sendMessage(positionMessage(args[0], (Location) plugin.positions.get(args[0])));
+                                        args[0], (String) WorldUtils.positions.get(args[0] + ".author"),
+                                        (Location) WorldUtils.positions.get(args[0])));
+                            else sender.sendMessage(positionMessage(args[0], (Location) WorldUtils.positions.get(args[0])));
                         else if (sender instanceof Player) {
                             //new position name, save position
-                            plugin.positions.set(args[0], ((Player) sender).getLocation());
-                            if ((Boolean) plugin.config.get(Settings.POSITION.getKey(0)))
-                                plugin.positions.set(args[0] + ".author", sender.getName());
+                            WorldUtils.positions.set(args[0], ((Player) sender).getLocation());
+                            if ((Boolean) WorldUtils.config.get(Settings.POSITION.getKey(0)))
+                                WorldUtils.positions.set(args[0] + ".author", sender.getName());
                             Bukkit.broadcastMessage("Added position "
-                                    + positionMessage(args[0], (Location) plugin.positions.get(args[0])));
+                                    + positionMessage(args[0], (Location) WorldUtils.positions.get(args[0])));
                         } else WorldUtils.notConsole(sender);
                         return true;
                     }
@@ -77,7 +78,7 @@ public record PositionCommand(WorldUtils plugin) implements CommandExecutor, Tab
                     case "tp" -> {
                         //teleport player to position if OP
                         if (sender instanceof Player && sender.isOp())
-                            ((Player) sender).teleport((Location) plugin.positions.get(args[1]));
+                            ((Player) sender).teleport((Location) WorldUtils.positions.get(args[1]));
                         else if (sender instanceof Player) WorldUtils.notAllowed(sender);
                         else WorldUtils.notConsole(sender);
                         return true;
@@ -85,8 +86,8 @@ public record PositionCommand(WorldUtils plugin) implements CommandExecutor, Tab
                     case "del" -> {
                         //delete position
                         Bukkit.broadcastMessage("Deleted position "
-                                + positionMessage(args[1], (Location) plugin.positions.get(args[1])));
-                        plugin.positions.remove(args[1]);
+                                + positionMessage(args[1], (Location) WorldUtils.positions.get(args[1])));
+                        WorldUtils.positions.remove(args[1]);
                         return true;
                     }
                 }
@@ -137,13 +138,13 @@ public record PositionCommand(WorldUtils plugin) implements CommandExecutor, Tab
                 //command or position name being entered
                 StringUtil.copyPartialMatches(args[0], SOLO_COMMANDS, completions);
                 StringUtil.copyPartialMatches(args[0], NAME_COMMANDS, completions);
-                StringUtil.copyPartialMatches(args[0], plugin.positions.getKeys(false), completions);
+                StringUtil.copyPartialMatches(args[0], WorldUtils.positions.getKeys(false), completions);
             }
             case 2 -> {
                 //position name being entered
                 for (String cmd : NAME_COMMANDS)
                     if (args[0].equals(cmd))
-                        StringUtil.copyPartialMatches(args[1], plugin.positions.getKeys(false), completions);
+                        StringUtil.copyPartialMatches(args[1], WorldUtils.positions.getKeys(false), completions);
             }
         }
         return completions;

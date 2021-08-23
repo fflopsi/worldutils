@@ -11,8 +11,8 @@ import java.util.Objects;
  * Main plugin class
  */
 public final class WorldUtils extends JavaPlugin {
-    public Config config;
-    public Config positions;
+    public static Config config;
+    public static Config positions;
 
     /**
      * Done on plugin load before world loading
@@ -36,10 +36,10 @@ public final class WorldUtils extends JavaPlugin {
         Objects.requireNonNull(this.getCommand("personalposition")).setTabCompleter(new PersonalPositionCommand(this));
         Objects.requireNonNull(this.getCommand("sendposition")).setExecutor(new SendPositionCommand());
         Objects.requireNonNull(this.getCommand("sendposition")).setTabCompleter(new SendPositionCommand());
-        Objects.requireNonNull(this.getCommand("reset")).setExecutor(new ResetCommand(this));
-        Objects.requireNonNull(this.getCommand("reset")).setTabCompleter(new ResetCommand(this));
-        Objects.requireNonNull(this.getCommand("settings")).setExecutor(new SettingsCommand(this));
-        Objects.requireNonNull(this.getCommand("settings")).setTabCompleter(new SettingsCommand(this));
+        Objects.requireNonNull(this.getCommand("reset")).setExecutor(new ResetCommand());
+        Objects.requireNonNull(this.getCommand("reset")).setTabCompleter(new ResetCommand());
+        Objects.requireNonNull(this.getCommand("settings")).setExecutor(new SettingsCommand());
+        Objects.requireNonNull(this.getCommand("settings")).setTabCompleter(new SettingsCommand());
     }
 
     /**

@@ -84,7 +84,7 @@ public record PersonalPositionCommand(WorldUtils plugin) implements CommandExecu
                             return true;
                         }
                         default -> {
-                            if ((Boolean) plugin.config.get(Settings.PERSONALPOSITION.getKey(0)))
+                            if ((Boolean) WorldUtils.config.get(Settings.PERSONALPOSITION.getKey(0)))
                                 if (Bukkit.getOnlinePlayers().contains(Bukkit.getPlayer(args[0]))) {
                                     //get personalposition from player
                                     positions = new Config(plugin, "positions_" + args[0] + ".yml");
