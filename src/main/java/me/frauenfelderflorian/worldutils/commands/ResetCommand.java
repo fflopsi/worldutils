@@ -33,7 +33,7 @@ public class ResetCommand implements CommandExecutor, TabCompleter {
      */
     @Override
     public boolean onCommand(CommandSender sender, Command command, String alias, String[] args) {
-        if (!(Boolean) WorldUtils.config.get(Settings.RESET.getKey(0))
+        if (!(Boolean) WorldUtils.config.get(Settings.RESET.getKey("needConfirm"))
                 || args.length == 1 && args[0].equalsIgnoreCase("confirm")) {
             //another possibility: onLoad or onDisable deletion of worlds: settings?
             String[] worlds = new String[]{"world", "world_nether", "world_the_end"};
@@ -47,7 +47,7 @@ public class ResetCommand implements CommandExecutor, TabCompleter {
                 }
             }
             //set seed?
-            if ((Boolean) WorldUtils.config.get(Settings.RESET.getKey(1))) {
+            if ((Boolean) WorldUtils.config.get(Settings.RESET.getKey("restartAfterReset"))) {
                 Bukkit.spigot().restart();
             }
             return true;
@@ -67,7 +67,7 @@ public class ResetCommand implements CommandExecutor, TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         List<String> completions = new ArrayList<>();
-        if ((Boolean) WorldUtils.config.get(Settings.RESET.getKey(0)) && args.length == 1)
+        if ((Boolean) WorldUtils.config.get(Settings.RESET.getKey("needConfirm")) && args.length == 1)
             StringUtil.copyPartialMatches(args[0], List.of("confirm"), completions);
         return completions;
     }

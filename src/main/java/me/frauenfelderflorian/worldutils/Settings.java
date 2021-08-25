@@ -2,6 +2,8 @@ package me.frauenfelderflorian.worldutils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * Enum for all Settings per command
@@ -12,13 +14,13 @@ public enum Settings {
      * <p>
      * 0 - saveAuthor
      */
-    POSITION("position", List.of("saveAuthor")),
+    POSITION("position", Map.of("saveAuthor", false)),
     /**
      * index - setting
      * <p>
      * 0 - makeAccessibleGlobally
      */
-    PERSONALPOSITION("personalposition", List.of("makeAccessibleGlobally")),
+    PERSONALPOSITION("personalposition", Map.of("makeAccessibleGlobally", false)),
     /**
      * index - setting
      * <p>
@@ -26,11 +28,11 @@ public enum Settings {
      * <p>
      * 1 - restartAfterReset
      */
-    RESET("reset", List.of("needConfirm", "restartAfterReset"));
+    RESET("reset", Map.of("needConfirm", true, "restartAfterReset", true));
     private final String command;
-    private final List<String> settings;
+    private final Map<String, Boolean> settings;
 
-    Settings(String command, List<String> settings) {
+    Settings(String command, Map<String, Boolean> settings) {
         this.command = command;
         this.settings = settings;
     }
@@ -48,6 +50,30 @@ public enum Settings {
     }
 
     /**
+     * Get the String of the command of the key
+     *
+     * @param key the key containing the command
+     * @return String of the command
+     */
+    public static String getCommandFromKey(String key) {
+        if (contains(key.substring(0, key.indexOf("."))))
+            return key.substring(0, key.indexOf("."));
+        return null;
+    }
+
+    /**
+     * Get a Settings object from a key
+     *
+     * @param key the key belonging to the SEttings object
+     * @return Settings object with key
+     */
+    public static Settings getFromKey(String key) {
+        if (contains(getCommandFromKey(key)))
+            return get(getCommandFromKey(key));
+        return null;
+    }
+
+    /**
      * Get all commands
      *
      * @return List of Strings containing all commands
@@ -60,13 +86,40 @@ public enum Settings {
     }
 
     /**
+     * Get all possible config keys
+     *
+     * @return List of Strings containing all keys
+     */
+    public static List<String> getKeys() {
+        List<String> keys = new ArrayList<>();
+        for (Settings setting : values())
+            keys.addAll(setting.getSettings().keySet());
+        return keys;
+    }
+
+    /**
+     * Get the default value for a key
+     *
+     * @param key the key for which the defautl value should be returned
+     * @return the default value of the key (true, false) or null if key does not exist
+     */
+    public static Boolean getDefaultFromKey(String key) {
+        if (contains(Objects.requireNonNull(getCommandFromKey(key)))
+                && getKeys().contains(key.substring(key.lastIndexOf(".") + 1)))
+            return Objects.requireNonNull(getFromKey(key)).getSettings().get(key.substring(key.lastIndexOf(".") + 1));
+        return null;
+    }
+
+    /**
      * Check if a command exists
      *
      * @param command the command to be checked
      * @return true if command is found, false if not
      */
     public static boolean contains(String command) {
-        return get(command) != null;
+        for (Settings setting : values())
+            if (command.equals(setting.getCommand())) return true;
+        return false;
     }
 
     /**
@@ -76,7 +129,7 @@ public enum Settings {
      * @return true is command contains setting, fals if not
      */
     public boolean containsSetting(String setting) {
-        for (String stg : getSettings())
+        for (String stg : getSettings().keySet())
             if (setting.equals(stg)) return true;
         return false;
     }
@@ -95,18 +148,8 @@ public enum Settings {
      *
      * @return List of Strings containing all Settings
      */
-    public List<String> getSettings() {
+    public Map<String, Boolean> getSettings() {
         return settings;
-    }
-
-    /**
-     * Get a config key via index
-     *
-     * @param index number of the setting
-     * @return String of the key
-     */
-    public String getKey(int index) {
-        return getCommand() + "." + getSettings().get(index);
     }
 
     /**
@@ -116,6 +159,6 @@ public enum Settings {
      * @return String of the key
      */
     public String getKey(String setting) {
-        return getSettings().contains(setting) ? getCommand() + "." + setting : null;
+        return getSettings().containsKey(setting) ? getCommand() + "." + setting : null;
     }
 }

@@ -2,7 +2,6 @@ package me.frauenfelderflorian.worldutils;
 
 import me.frauenfelderflorian.worldutils.commands.*;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Objects;
@@ -20,6 +19,8 @@ public final class WorldUtils extends JavaPlugin {
     @Override
     public void onLoad() {
         config = new Config(this, "config.yml");
+        for (String key : Settings.getKeys())
+            if (!config.contains(key)) config.set(key, Settings.getDefaultFromKey(key));
     }
 
     /**

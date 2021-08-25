@@ -79,7 +79,7 @@ public class SettingsCommand implements CommandExecutor, TabCompleter {
                 //setting being entered
                 if (Settings.contains(args[0]))
                     StringUtil.copyPartialMatches(
-                            args[1], Objects.requireNonNull(Settings.get(args[0])).getSettings(), completions);
+                            args[1], Objects.requireNonNull(Settings.get(args[0])).getSettings().keySet(), completions);
             }
             case 3 -> {
                 //value being entered
