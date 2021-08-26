@@ -93,7 +93,8 @@ public enum Settings {
     public static List<String> getKeys() {
         List<String> keys = new ArrayList<>();
         for (Settings setting : values())
-            keys.addAll(setting.getSettings().keySet());
+            for (String setting2 : setting.getSettings().keySet())
+                keys.add(setting.getKey(setting2));
         return keys;
     }
 
@@ -104,8 +105,7 @@ public enum Settings {
      * @return the default value of the key (true, false) or null if key does not exist
      */
     public static Boolean getDefaultFromKey(String key) {
-        if (contains(Objects.requireNonNull(getCommandFromKey(key)))
-                && getKeys().contains(key.substring(key.lastIndexOf(".") + 1)))
+        if (getKeys().contains(key))
             return Objects.requireNonNull(getFromKey(key)).getSettings().get(key.substring(key.lastIndexOf(".") + 1));
         return null;
     }

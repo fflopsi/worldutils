@@ -59,7 +59,9 @@ public record PositionCommand(WorldUtils plugin) implements CommandExecutor, Tab
                                 sender.sendMessage(positionMessage(
                                         args[0], (String) WorldUtils.positions.get(args[0] + ".author"),
                                         (Location) WorldUtils.positions.get(args[0])));
-                            else sender.sendMessage(positionMessage(args[0], (Location) WorldUtils.positions.get(args[0])));
+                            else
+                                sender.sendMessage(positionMessage(
+                                        args[0], (Location) WorldUtils.positions.get(args[0])));
                         else if (sender instanceof Player) {
                             //new position name, save position
                             WorldUtils.positions.set(args[0], ((Player) sender).getLocation());
