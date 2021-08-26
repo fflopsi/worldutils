@@ -16,7 +16,7 @@ public class Config {
     private final YamlConfiguration config;
 
     /**
-     * Load the config file ro creates a new one if none is found
+     * Load the config file or create a new one if none is found
      *
      * @param plugin   the plugin to whom the Config belongs
      * @param filename the filename of the config file
@@ -38,7 +38,7 @@ public class Config {
             }
         }
         config = YamlConfiguration.loadConfiguration(file);
-        plugin.getLogger().info("Loaded configs from " + file.getName());
+        plugin.getLogger().info("Loaded config from " + file.getName());
 
     }
 
@@ -50,6 +50,7 @@ public class Config {
      */
     public void set(String path, Object value) {
         config.set(path, value);
+        plugin.getLogger().info("Set config " + path + " to " + value);
         save();
     }
 
@@ -64,6 +65,8 @@ public class Config {
     }
 
     /**
+     * Get a value from a path
+     *
      * @param path the path of the object
      * @return the Object at the path
      */
@@ -87,7 +90,6 @@ public class Config {
      * @param path the path to the value to be removed
      */
     public void remove(String path) {
-        //contains(path)?
         set(path, null);
     }
 
@@ -97,9 +99,9 @@ public class Config {
     public void save() {
         try {
             config.save(file);
-            plugin.getLogger().info("Saved " + file.getName());
+            plugin.getLogger().info("Saved config to " + file.getName());
         } catch (IOException e) {
-            plugin.getLogger().severe("Could not save " + file.getName());
+            plugin.getLogger().severe("Could not save config to " + file.getName());
             plugin.getLogger().info(config.saveToString());
         }
     }
