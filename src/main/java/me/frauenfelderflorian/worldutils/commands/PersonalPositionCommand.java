@@ -97,7 +97,10 @@ public record PersonalPositionCommand(WorldUtils plugin) implements CommandExecu
                     }
                 }
             }
-        } else WorldUtils.notConsole(sender);
+        } else {
+            WorldUtils.notConsole(sender);
+            return true;
+        }
         return false;
     }
 
