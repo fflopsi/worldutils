@@ -53,6 +53,9 @@ public class SettingsCommand implements CommandExecutor, TabCompleter {
                     } else if (args[2].equalsIgnoreCase("false")) {
                         WorldUtils.config.set(Objects.requireNonNull(Settings.get(args[0])).getKey(args[1]), false);
                         return true;
+                    } else if (args[2].equals("null")) {
+                        WorldUtils.config.remove(Objects.requireNonNull(Settings.get(args[0])).getKey(args[1]));
+                        return true;
                     }
                 }
             }
