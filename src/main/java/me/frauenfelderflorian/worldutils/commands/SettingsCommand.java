@@ -27,38 +27,43 @@ public class SettingsCommand implements CommandExecutor, TabCompleter {
      */
     @Override
     public boolean onCommand(CommandSender sender, Command command, String alias, String[] args) {
-        switch (args.length) {
-            case 1 -> {
-                //only command entered
-                if (Settings.contains(args[0])) {
-                    sender.sendMessage("Enter a setting for command " + args[0]);
-                    return true;
-                }
-            }
-            case 2 -> {
-                //command and setting entered
-                if (Settings.contains(args[0])
-                        && Objects.requireNonNull(Settings.get(args[0])).containsSetting(args[1])) {
-                    sender.sendMessage("Enter a value for setting " + args[1] + " from command " + args[0]);
-                    return true;
-                }
-            }
-            case 3 -> {
-                //command, setting and value entered
-                if (Settings.contains(args[0])
-                        && Objects.requireNonNull(Settings.get(args[0])).containsSetting(args[1])) {
-                    if (args[2].equalsIgnoreCase("true")) {
-                        WorldUtils.config.set(Objects.requireNonNull(Settings.get(args[0])).getKey(args[1]), true);
-                        return true;
-                    } else if (args[2].equalsIgnoreCase("false")) {
-                        WorldUtils.config.set(Objects.requireNonNull(Settings.get(args[0])).getKey(args[1]), false);
-                        return true;
-                    } else if (args[2].equals("null")) {
-                        WorldUtils.config.remove(Objects.requireNonNull(Settings.get(args[0])).getKey(args[1]));
+        if (sender.isOp() || !((Boolean) WorldUtils.config.get(Settings.SETTINGS.getKey("needOp"))))
+            switch (args.length) {
+                case 1 -> {
+                    //only command entered
+                    if (Settings.contains(args[0])) {
+                        sender.sendMessage("Enter a setting for command " + args[0]);
                         return true;
                     }
                 }
+                case 2 -> {
+                    //command and setting entered
+                    if (Settings.contains(args[0])
+                            && Objects.requireNonNull(Settings.get(args[0])).containsSetting(args[1])) {
+                        sender.sendMessage("Enter a value for setting " + args[1] + " from command " + args[0]);
+                        return true;
+                    }
+                }
+                case 3 -> {
+                    //command, setting and value entered
+                    if (Settings.contains(args[0])
+                            && Objects.requireNonNull(Settings.get(args[0])).containsSetting(args[1])) {
+                        if (args[2].equalsIgnoreCase("true")) {
+                            WorldUtils.config.set(Objects.requireNonNull(Settings.get(args[0])).getKey(args[1]), true);
+                            return true;
+                        } else if (args[2].equalsIgnoreCase("false")) {
+                            WorldUtils.config.set(Objects.requireNonNull(Settings.get(args[0])).getKey(args[1]), false);
+                            return true;
+                        } else if (args[2].equals("null")) {
+                            WorldUtils.config.remove(Objects.requireNonNull(Settings.get(args[0])).getKey(args[1]));
+                            return true;
+                        }
+                    }
+                }
             }
+        else {
+            WorldUtils.notAllowed(sender);
+            return true;
         }
         return false;
     }

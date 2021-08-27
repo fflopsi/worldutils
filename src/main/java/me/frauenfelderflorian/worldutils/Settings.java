@@ -10,25 +10,23 @@ import java.util.Objects;
  */
 public enum Settings {
     /**
-     * index - setting
-     * <p>
-     * 0 - saveAuthor
+     * saveAuthor: save the player that added the position
      */
     POSITION("position", Map.of("saveAuthor", false)),
     /**
-     * index - setting
-     * <p>
-     * 0 - makeAccessibleGlobally
+     * makeAccessibleGlobally: make all personal positions available with "/personalposition playername positionname"
      */
     PERSONALPOSITION("personalposition", Map.of("makeAccessibleGlobally", false)),
     /**
-     * index - setting
+     * needConfirm: command needs confirm as argument to work
      * <p>
-     * 0 - needConfirm
-     * <p>
-     * 1 - restartAfterReset
+     * restartAfterReset: restart the server automatically after it has been reset
      */
-    RESET("reset", Map.of("needConfirm", true, "restartAfterReset", true));
+    RESET("reset", Map.of("needConfirm", true, "restartAfterReset", true)),
+    /**
+     * needOp: player needs OP rank to change settings
+     */
+    SETTINGS("settings", Map.of("needOp", true));
     private final String command;
     private final Map<String, Boolean> settings;
 
