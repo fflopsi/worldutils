@@ -19,12 +19,12 @@ public class SendPositionCommand implements CommandExecutor, TabCompleter {
         if (sender instanceof Player)
             switch (args.length) {
                 case 0 -> {
-                    Bukkit.broadcastMessage(PositionCommand.positionMessage(
+                    Bukkit.broadcastMessage(WorldUtils.positionMessage(
                             sender.getName(), ((Player) sender).getLocation()));
                     return true;
                 }
                 case 1 -> {
-                    Objects.requireNonNull(Bukkit.getPlayer(args[0])).sendMessage(PositionCommand.positionMessage(
+                    Objects.requireNonNull(Bukkit.getPlayer(args[0])).sendMessage(WorldUtils.positionMessage(
                             sender.getName(), ((Player) sender).getLocation()));
                     return true;
                 }

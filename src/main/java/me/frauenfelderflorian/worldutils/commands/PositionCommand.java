@@ -13,7 +13,6 @@ import org.bukkit.util.StringUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * CommandExecutor and TabCompleter for command position
@@ -40,7 +39,7 @@ public record PositionCommand(WorldUtils plugin) implements CommandExecutor, Tab
                     case "list" -> {
                         //send all position info
                         for (String pos : WorldUtils.positions.getKeys(false))
-                            sender.sendMessage(positionMessage(pos, (Location) WorldUtils.positions.get(pos)));
+                            sender.sendMessage(WorldUtils.positionMessage(pos, (Location) WorldUtils.positions.get(pos)));
                         return true;
                     }
                     case "clear" -> {
@@ -56,11 +55,11 @@ public record PositionCommand(WorldUtils plugin) implements CommandExecutor, Tab
                         if (WorldUtils.positions.contains(args[0]))
                             //existing position, send info
                             if (WorldUtils.positions.contains(args[0] + ".author"))
-                                sender.sendMessage(positionMessage(
+                                sender.sendMessage(WorldUtils.positionMessage(
                                         args[0], (String) WorldUtils.positions.get(args[0] + ".author"),
                                         (Location) WorldUtils.positions.get(args[0])));
                             else
-                                sender.sendMessage(positionMessage(
+                                sender.sendMessage(WorldUtils.positionMessage(
                                         args[0], (Location) WorldUtils.positions.get(args[0])));
                         else if (sender instanceof Player) {
                             //new position name, save position
@@ -68,7 +67,7 @@ public record PositionCommand(WorldUtils plugin) implements CommandExecutor, Tab
                             if ((Boolean) WorldUtils.config.get(Settings.POSITION.getKey("saveAuthor")))
                                 WorldUtils.positions.set(args[0] + ".author", sender.getName());
                             Bukkit.broadcastMessage("Added position "
-                                    + positionMessage(args[0], (Location) WorldUtils.positions.get(args[0])));
+                                    + WorldUtils.positionMessage(args[0], (Location) WorldUtils.positions.get(args[0])));
                         } else WorldUtils.notConsole(sender);
                         return true;
                     }
@@ -88,7 +87,7 @@ public record PositionCommand(WorldUtils plugin) implements CommandExecutor, Tab
                     case "del" -> {
                         //delete position
                         Bukkit.broadcastMessage("Deleted position "
-                                + positionMessage(args[1], (Location) WorldUtils.positions.get(args[1])));
+                                + WorldUtils.positionMessage(args[1], (Location) WorldUtils.positions.get(args[1])));
                         WorldUtils.positions.remove(args[1]);
                         return true;
                     }
@@ -96,31 +95,6 @@ public record PositionCommand(WorldUtils plugin) implements CommandExecutor, Tab
             }
         }
         return false;
-    }
-
-    /**
-     * Get a formatted message with position information
-     *
-     * @param name     name  of the position
-     * @param author   who saved the position
-     * @param location location of the position
-     * @return String with formatted position
-     */
-    public static String positionMessage(String name, String author, Location location) {
-        return name + " from " + author + " (" + Objects.requireNonNull(location.getWorld()).getName() + "): "
-                + location.getBlockX() + "  " + location.getBlockY() + "  " + location.getBlockZ();
-    }
-
-    /**
-     * Get a formatted message with position information
-     *
-     * @param name     name of the position
-     * @param location location of the position
-     * @return String with formatted position
-     */
-    public static String positionMessage(String name, Location location) {
-        return name + " (" + Objects.requireNonNull(location.getWorld()).getName() + "): "
-                + location.getBlockX() + "  " + location.getBlockY() + "  " + location.getBlockZ();
     }
 
     /**

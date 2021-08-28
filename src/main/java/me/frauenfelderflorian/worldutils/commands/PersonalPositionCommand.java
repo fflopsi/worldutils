@@ -42,7 +42,7 @@ public record PersonalPositionCommand(WorldUtils plugin) implements CommandExecu
                         case "list" -> {
                             //send all position info
                             for (String pos : positions.getKeys(false))
-                                sender.sendMessage(PositionCommand.positionMessage(pos, (Location) positions.get(pos)));
+                                sender.sendMessage(WorldUtils.positionMessage(pos, (Location) positions.get(pos)));
                             return true;
                         }
                         case "clear" -> {
@@ -55,12 +55,12 @@ public record PersonalPositionCommand(WorldUtils plugin) implements CommandExecu
                             //position name entered
                             if (positions.contains(args[0]))
                                 //existing position, send info
-                                sender.sendMessage(PositionCommand.positionMessage(args[0], (Location) positions.get(args[0])));
+                                sender.sendMessage(WorldUtils.positionMessage(args[0], (Location) positions.get(args[0])));
                             else {
                                 //new position name, save position
                                 positions.set(args[0], ((Player) sender).getLocation());
                                 sender.sendMessage("Added personal position "
-                                        + PositionCommand.positionMessage(args[0], (Location) positions.get(args[0])));
+                                        + WorldUtils.positionMessage(args[0], (Location) positions.get(args[0])));
                             }
                             return true;
                         }
@@ -79,7 +79,7 @@ public record PersonalPositionCommand(WorldUtils plugin) implements CommandExecu
                         case "del" -> {
                             //delete position
                             sender.sendMessage("Deleted personal position "
-                                    + PositionCommand.positionMessage(args[1], (Location) positions.get(args[1])));
+                                    + WorldUtils.positionMessage(args[1], (Location) positions.get(args[1])));
                             positions.remove(args[1]);
                             return true;
                         }
@@ -90,7 +90,7 @@ public record PersonalPositionCommand(WorldUtils plugin) implements CommandExecu
                                     //get personalposition from player
                                     positions = new Config(plugin, "positions_" + args[0] + ".yml");
                                     sender.sendMessage("Personal position from player " + args[0] + ": "
-                                            + PositionCommand.positionMessage(args[1], (Location) positions.get(args[1])));
+                                            + WorldUtils.positionMessage(args[1], (Location) positions.get(args[1])));
                                     return true;
                                 }
                         }
