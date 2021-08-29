@@ -13,7 +13,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * CommandExecutor and TabCompleter for command sendposition
+ */
 public class SendPositionCommand implements CommandExecutor, TabCompleter {
+    /**
+     * Done when command sent
+     *
+     * @param sender  sender of the command
+     * @param command sent command
+     * @param alias   used alias
+     * @param args    used arguments
+     * @return true if correct command syntax used and no errors, false otherwise
+     */
     @Override
     public boolean onCommand(CommandSender sender, Command command, String alias, String[] args) {
         if (sender instanceof Player)
@@ -36,6 +48,15 @@ public class SendPositionCommand implements CommandExecutor, TabCompleter {
         return false;
     }
 
+    /**
+     * Done while entering command
+     *
+     * @param sender  sender of the command
+     * @param command sent command
+     * @param alias   used alias
+     * @param args    used arguments
+     * @return List of Strings for tab completion
+     */
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         List<String> players = new ArrayList<>();
