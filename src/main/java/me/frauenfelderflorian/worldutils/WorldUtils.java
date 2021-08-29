@@ -1,6 +1,7 @@
 package me.frauenfelderflorian.worldutils;
 
 import me.frauenfelderflorian.worldutils.commands.*;
+import me.frauenfelderflorian.worldutils.listeners.PlayerDeathListener;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -42,6 +43,7 @@ public final class WorldUtils extends JavaPlugin {
         Objects.requireNonNull(getCommand("reset")).setTabCompleter(new ResetCommand());
         Objects.requireNonNull(getCommand("settings")).setExecutor(new SettingsCommand());
         Objects.requireNonNull(getCommand("settings")).setTabCompleter(new SettingsCommand());
+        getServer().getPluginManager().registerEvents(new PlayerDeathListener(), this);
     }
 
     /**
