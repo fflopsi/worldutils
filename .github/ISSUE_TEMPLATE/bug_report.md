@@ -23,9 +23,9 @@ A clear and concise description of what you expected to happen.
 If applicable, add screenshots or error messages to help explain your problem.
 
 **Minecraft (please complete the following information):**
- - Client version [e.g. Badlion 1.17.1]
- - Server software and version [e.g. Paper 1.17.1 #225]
- - Plugin version [e.g. 0.3]
+ - Client [e.g. Badlion 1.17.1]
+ - Server [e.g. Paper 1.17.1 #225]
+ - Plugin [e.g. 0.3]
 
 **Additional context**
 Add any other context about the problem here.
