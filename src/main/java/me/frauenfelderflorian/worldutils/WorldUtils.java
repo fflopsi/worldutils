@@ -105,6 +105,14 @@ public final class WorldUtils extends JavaPlugin {
      * @param target the target to whom the message should be sent
      */
     public static void notConsole(CommandSender target) {
-        target.sendMessage("§eThis is not a console command");
+        target.sendMessage("§eThis is not a console command.");
+    }
+
+    /**
+     * Send a message to the target: "The entered player name does not belong to an online player."
+     * @param target the target to whom the message should be sent
+     */
+    public static void playerNotFound(CommandSender target) {
+        target.sendMessage("§eThe entered player name does not belong to an online player.");
     }
 }

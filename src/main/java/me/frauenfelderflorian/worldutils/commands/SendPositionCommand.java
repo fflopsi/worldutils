@@ -36,8 +36,12 @@ public class SendPositionCommand implements CommandExecutor, TabCompleter {
                     return true;
                 }
                 case 1 -> {
-                    Objects.requireNonNull(Bukkit.getPlayer(args[0])).sendMessage(WorldUtils.positionMessage(
-                            sender.getName(), ((Player) sender).getLocation()));
+                    try {
+                        Objects.requireNonNull(Bukkit.getPlayer(args[0])).sendMessage(WorldUtils.positionMessage(
+                                sender.getName(), ((Player) sender).getLocation()));
+                    } catch (NullPointerException e) {
+                        WorldUtils.playerNotFound(sender);
+                    }
                     return true;
                 }
             }
