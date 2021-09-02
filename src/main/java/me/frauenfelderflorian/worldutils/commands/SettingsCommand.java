@@ -2,6 +2,7 @@ package me.frauenfelderflorian.worldutils.commands;
 
 import me.frauenfelderflorian.worldutils.Settings;
 import me.frauenfelderflorian.worldutils.WorldUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -50,12 +51,16 @@ public class SettingsCommand implements CommandExecutor, TabCompleter {
                             && Objects.requireNonNull(Settings.get(args[0])).containsSetting(args[1])) {
                         if (args[2].equalsIgnoreCase("true")) {
                             WorldUtils.config.set(Objects.requireNonNull(Settings.get(args[0])).getKey(args[1]), true);
+                            Bukkit.broadcastMessage("Setting " + args[1] + " from command " + args[0] + " set to true");
                             return true;
                         } else if (args[2].equalsIgnoreCase("false")) {
                             WorldUtils.config.set(Objects.requireNonNull(Settings.get(args[0])).getKey(args[1]), false);
+                            Bukkit.broadcastMessage("Setting " + args[1] + " from command " + args[0] + " set to false");
                             return true;
                         } else if (args[2].equals("null")) {
                             WorldUtils.config.remove(Objects.requireNonNull(Settings.get(args[0])).getKey(args[1]));
+                            Bukkit.broadcastMessage("Setting " + args[1] + " from command " + args[0] + " set to null");
+                            Bukkit.broadcastMessage("§4Use with caution: The plugin might not work correctly!");
                             return true;
                         }
                     }
