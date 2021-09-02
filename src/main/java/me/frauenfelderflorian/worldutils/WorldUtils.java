@@ -109,10 +109,20 @@ public final class WorldUtils extends JavaPlugin {
     }
 
     /**
-     * Send a message to the target: "The entered player name does not belong to an online player."
+     * Send a message to the target: "The entered name does not belong to an online player."
+     *
      * @param target the target to whom the message should be sent
      */
     public static void playerNotFound(CommandSender target) {
-        target.sendMessage("§eThe entered player name does not belong to an online player.");
+        target.sendMessage("§eThe entered name does not belong to an online player.");
+    }
+
+    /**
+     * Send a message to the target: "The entered position name cannot be found."
+     *
+     * @param target the target to whom the message should be sent
+     */
+    public static void positionNameNotFound(CommandSender target) {
+        target.sendMessage("§eThe entered position name cannot be found.");
     }
 }

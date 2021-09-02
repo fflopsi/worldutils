@@ -14,6 +14,7 @@ import org.bukkit.util.StringUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * CommandExecutor and TabCompleter for command personalposition
@@ -85,14 +86,24 @@ public record PersonalPositionCommand(WorldUtils plugin) implements CommandExecu
                         }
                         default -> {
                             if ((Boolean) WorldUtils.config.get(
-                                    Settings.PERSONALPOSITION.getKey("makeAccessibleGlobally")))
-                                if (Bukkit.getOnlinePlayers().contains(Bukkit.getPlayer(args[0]))) {
-                                    //get personalposition from player
-                                    positions = new Config(plugin, "positions_" + args[0] + ".yml");
-                                    sender.sendMessage("Personal position from player " + args[0] + ": "
-                                            + WorldUtils.positionMessage(args[1], (Location) positions.get(args[1])));
+                                    Settings.PERSONALPOSITION.getKey("makeAccessibleGlobally"))) {
+                                try {
+                                    if (Objects.requireNonNull(Bukkit.getPlayer(args[0])).isOnline()) {
+                                        //get personalposition from player
+                                        try {
+                                            positions = new Config(plugin, "positions_" + args[0] + ".yml");
+                                            sender.sendMessage("Personal position from player " + args[0] + ": "
+                                                    + WorldUtils.positionMessage(args[1], (Location) positions.get(args[1])));
+                                        } catch (NullPointerException e) {
+                                            WorldUtils.positionNameNotFound(sender);
+                                        }
+                                        return true;
+                                    }
+                                } catch (NullPointerException e) {
+                                    WorldUtils.playerNotFound(sender);
                                     return true;
                                 }
+                            }
                         }
                     }
                 }
