@@ -85,30 +85,13 @@ public record PersonalPositionCommand(WorldUtils plugin) implements CommandExecu
                             return true;
                         }
                         default -> {
-                            if ((Boolean) WorldUtils.config.get(
-                                    Settings.PERSONALPOSITION.getKey("makeAccessibleGlobally"))) {
-                                try {
-                                    if (Objects.requireNonNull(Bukkit.getPlayer(args[0])).isOnline()) {
-                                        //get personalposition from player
-                                        try {
-                                            positions = new Config(plugin, "positions_" + args[0] + ".yml");
-                                            sender.sendMessage("Personal position from player " + args[0] + ": "
-                                                    + WorldUtils.positionMessage(args[1], (Location) positions.get(args[1])));
-                                        } catch (NullPointerException e) {
-                                            WorldUtils.positionNameNotFound(sender);
-                                        }
-                                        return true;
-                                    }
-                                } catch (NullPointerException e) {
-                                    WorldUtils.playerNotFound(sender);
-                                    return true;
-                                }
-                            }
+                            return otherPlayersPosition(sender, args);
                         }
                     }
                 }
             }
         } else {
+            if (args.length == 2) return otherPlayersPosition(sender, args);
             WorldUtils.notConsole(sender);
             return true;
         }
@@ -143,5 +126,35 @@ public record PersonalPositionCommand(WorldUtils plugin) implements CommandExecu
             }
         }
         return completions;
+    }
+
+    /**
+     * Get another player's private position if possible
+     *
+     * @param sender sender of the commands
+     * @param args   used arguments
+     * @return true if correct command syntax used and no errors, false otherwise
+     */
+    private boolean otherPlayersPosition(CommandSender sender, String[] args) {
+        if ((Boolean) WorldUtils.config.get(
+                Settings.PERSONALPOSITION.getKey("makeAccessibleGlobally"))) {
+            try {
+                if (Objects.requireNonNull(Bukkit.getPlayer(args[0])).isOnline()) {
+                    //get personalposition from player
+                    try {
+                        Config positions = new Config(plugin, "positions_" + args[0] + ".yml");
+                        sender.sendMessage("Personal position from player " + args[0] + ": "
+                                + WorldUtils.positionMessage(args[1], (Location) positions.get(args[1])));
+                    } catch (NullPointerException e) {
+                        WorldUtils.positionNameNotFound(sender);
+                    }
+                    return true;
+                }
+            } catch (NullPointerException e) {
+                WorldUtils.playerNotFound(sender);
+                return true;
+            }
+        }
+        return false;
     }
 }
