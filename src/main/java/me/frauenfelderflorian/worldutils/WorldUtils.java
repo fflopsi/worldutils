@@ -61,7 +61,7 @@ public final class WorldUtils extends JavaPlugin {
      * @return String with formatted position
      */
     public static String positionMessage(Location location) {
-        return Objects.requireNonNull(location.getWorld()).getName() + ": "
+        return betterWorld(Objects.requireNonNull(location.getWorld()).getName()) + ": "
                 + location.getBlockX() + "  " + location.getBlockY() + "  " + location.getBlockZ();
     }
 
@@ -73,7 +73,7 @@ public final class WorldUtils extends JavaPlugin {
      * @return String with formatted position
      */
     public static String positionMessage(String name, Location location) {
-        return name + " (" + Objects.requireNonNull(location.getWorld()).getName() + "): "
+        return "§b" + name + "§r (" + betterWorld(Objects.requireNonNull(location.getWorld()).getName()) + "): "
                 + location.getBlockX() + "  " + location.getBlockY() + "  " + location.getBlockZ();
     }
 
@@ -86,7 +86,7 @@ public final class WorldUtils extends JavaPlugin {
      * @return String with formatted position
      */
     public static String positionMessage(String name, String author, Location location) {
-        return name + " from " + author + " (" + Objects.requireNonNull(location.getWorld()).getName() + "): "
+        return "§b" + name + "§r from §b§o" + author + "§r (" + betterWorld(Objects.requireNonNull(location.getWorld()).getName()) + "): "
                 + location.getBlockX() + "  " + location.getBlockY() + "  " + location.getBlockZ();
     }
 
@@ -96,7 +96,7 @@ public final class WorldUtils extends JavaPlugin {
      * @param target the target to whom the message should be sent
      */
     public static void notAllowed(CommandSender target) {
-        target.sendMessage("§4You are not allowed to do this.");
+        target.sendMessage("§4§lYou are not allowed to do this.");
     }
 
     /**
@@ -105,7 +105,7 @@ public final class WorldUtils extends JavaPlugin {
      * @param target the target to whom the message should be sent
      */
     public static void notConsole(CommandSender target) {
-        target.sendMessage("§eThis is not a console command.");
+        target.sendMessage("§e§oThis is not a console command.");
     }
 
     /**
@@ -114,7 +114,7 @@ public final class WorldUtils extends JavaPlugin {
      * @param target the target to whom the message should be sent
      */
     public static void playerNotFound(CommandSender target) {
-        target.sendMessage("§eThe entered name does not belong to an online player.");
+        target.sendMessage("§e§oThe entered name does not belong to an online player.");
     }
 
     /**
@@ -123,6 +123,29 @@ public final class WorldUtils extends JavaPlugin {
      * @param target the target to whom the message should be sent
      */
     public static void positionNameNotFound(CommandSender target) {
-        target.sendMessage("§eThe entered position name cannot be found.");
+        target.sendMessage("§e§oThe entered position name cannot be found.");
+    }
+
+    /**
+     * Get the better world name formatted with an appropriate color:
+     * <p>
+     * world -> overworld
+     * <p>
+     * world_nether -> nether
+     * <p>
+     * world_the_end -> end
+     *
+     * @param world the unformatted world name
+     * @return the better world name if one of the above, else the given String
+     */
+    private static String betterWorld(String world) {
+        String betterName;
+        switch (world) {
+            case "world" -> betterName = "§aoverworld§r";
+            case "world_nether" -> betterName = "§cnether§r";
+            case "world_the_end" -> betterName = "§eend§r";
+            default -> betterName = world;
+        }
+        return betterName;
     }
 }

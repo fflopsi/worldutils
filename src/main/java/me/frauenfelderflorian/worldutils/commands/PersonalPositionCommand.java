@@ -48,7 +48,7 @@ public record PersonalPositionCommand(WorldUtils plugin) implements CommandExecu
                         }
                         case "clear" -> {
                             //remove all positions
-                            sender.sendMessage("Cleared personal positions");
+                            sender.sendMessage("§e§oCleared personal positions");
                             for (String pos : positions.getKeys(false)) positions.remove(pos);
                             return true;
                         }
@@ -60,7 +60,7 @@ public record PersonalPositionCommand(WorldUtils plugin) implements CommandExecu
                             else {
                                 //new position name, save position
                                 positions.set(args[0], ((Player) sender).getLocation());
-                                sender.sendMessage("Added personal position "
+                                sender.sendMessage("§aAdded§r personal position "
                                         + WorldUtils.positionMessage(args[0], (Location) positions.get(args[0])));
                             }
                             return true;
@@ -79,7 +79,7 @@ public record PersonalPositionCommand(WorldUtils plugin) implements CommandExecu
                         }
                         case "del" -> {
                             //delete position
-                            sender.sendMessage("Deleted personal position "
+                            sender.sendMessage("§cDeleted§r personal position "
                                     + WorldUtils.positionMessage(args[1], (Location) positions.get(args[1])));
                             positions.remove(args[1]);
                             return true;

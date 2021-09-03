@@ -51,16 +51,16 @@ public class SettingsCommand implements CommandExecutor, TabCompleter {
                             && Objects.requireNonNull(Settings.get(args[0])).containsSetting(args[1])) {
                         if (args[2].equalsIgnoreCase("true")) {
                             WorldUtils.config.set(Objects.requireNonNull(Settings.get(args[0])).getKey(args[1]), true);
-                            Bukkit.broadcastMessage("Setting " + args[1] + " from command " + args[0] + " set to true");
+                            Bukkit.broadcastMessage("Setting " + args[1] + " from command " + args[0] + " set to §atrue");
                             return true;
                         } else if (args[2].equalsIgnoreCase("false")) {
                             WorldUtils.config.set(Objects.requireNonNull(Settings.get(args[0])).getKey(args[1]), false);
-                            Bukkit.broadcastMessage("Setting " + args[1] + " from command " + args[0] + " set to false");
+                            Bukkit.broadcastMessage("Setting " + args[1] + " from command " + args[0] + " set to §cfalse");
                             return true;
                         } else if (args[2].equals("null")) {
                             WorldUtils.config.remove(Objects.requireNonNull(Settings.get(args[0])).getKey(args[1]));
-                            Bukkit.broadcastMessage("Setting " + args[1] + " from command " + args[0] + " set to null");
-                            Bukkit.broadcastMessage("§4Use with caution: The plugin might not work correctly!");
+                            Bukkit.broadcastMessage("Setting " + args[1] + " from command " + args[0] + " set to §enull");
+                            Bukkit.broadcastMessage("§cUse with caution: §oThe plugin might not work correctly!");
                             return true;
                         }
                     }

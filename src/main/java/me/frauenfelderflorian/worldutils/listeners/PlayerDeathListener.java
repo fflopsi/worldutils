@@ -16,6 +16,6 @@ public class PlayerDeathListener implements Listener {
      */
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
-        event.getEntity().sendMessage("You died at " + WorldUtils.positionMessage(event.getEntity().getLocation()));
+        event.getEntity().sendMessage("You §4died§r at " + WorldUtils.positionMessage(event.getEntity().getLocation()));
     }
 }

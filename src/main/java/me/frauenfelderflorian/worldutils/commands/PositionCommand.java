@@ -48,7 +48,7 @@ public record PositionCommand(WorldUtils plugin) implements CommandExecutor, Tab
                         //remove all positions
                         plugin.getLogger().info("Cleared positions");
                         //Bukkit.getLogger().info("Cleared positions"); //does this work the same?
-                        Bukkit.broadcastMessage("Cleared positions");
+                        Bukkit.broadcastMessage("§e§oCleared positions");
                         for (String pos : WorldUtils.positions.getKeys(false)) WorldUtils.positions.remove(pos);
                         return true;
                     }
@@ -68,7 +68,7 @@ public record PositionCommand(WorldUtils plugin) implements CommandExecutor, Tab
                             WorldUtils.positions.set(args[0], ((Player) sender).getLocation());
                             if ((Boolean) WorldUtils.config.get(Settings.POSITION.getKey("saveAuthor")))
                                 WorldUtils.positions.set("list." + args[0], sender.getName());
-                            Bukkit.broadcastMessage("Added position "
+                            Bukkit.broadcastMessage("§aAdded§r position "
                                     + WorldUtils.positionMessage(args[0], sender.getName(),
                                     (Location) WorldUtils.positions.get(args[0])));
                         } else WorldUtils.notConsole(sender);
@@ -89,7 +89,7 @@ public record PositionCommand(WorldUtils plugin) implements CommandExecutor, Tab
                     }
                     case "del" -> {
                         //delete position
-                        Bukkit.broadcastMessage("Deleted position "
+                        Bukkit.broadcastMessage("§cDeleted§r position "
                                 + WorldUtils.positionMessage(args[1], (Location) WorldUtils.positions.get(args[1])));
                         WorldUtils.positions.remove(args[1]);
                         return true;
