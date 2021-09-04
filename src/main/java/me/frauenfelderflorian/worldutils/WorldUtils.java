@@ -6,6 +6,13 @@ import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -20,9 +27,31 @@ public final class WorldUtils extends JavaPlugin {
      */
     @Override
     public void onLoad() {
+        //load config and set defaults
         config = new Config(this, "config.yml");
         for (String key : Settings.getKeys())
             if (!config.contains(key)) config.set(key, Settings.getDefaultFromKey(key));
+        //reset if needed
+        if ((Boolean) config.get(Settings.RESET.getKey("reset"))) {
+            //reset worlds
+            for (String w : List.of("world", "world_nether", "world_the_end")) {
+                try {
+                    Files.walk(Paths.get(w)).sorted(Comparator.reverseOrder()).map(Path::toFile).forEach(File::delete);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            config.set(Settings.RESET.getKey("reset"), false);
+            //delete positions if needed
+            if ((Boolean) config.get(Settings.RESET.getKey("deletePositions")))
+                for (File file : Objects.requireNonNull(getDataFolder().listFiles()))
+                    if (file.getName().startsWith("positions") && file.getName().endsWith(".yml")) file.delete();
+            //reset Settings if needed
+            if ((Boolean) config.get(Settings.RESET.getKey("resetSettings")))
+                for (String key : Settings.getKeys())
+                    config.set(key, Settings.getDefaultFromKey(key));
+            getLogger().warning("Server reset");
+        }
     }
 
     /**
@@ -30,7 +59,7 @@ public final class WorldUtils extends JavaPlugin {
      */
     @Override
     public void onEnable() {
-        //get positions
+        //load positions
         positions = new Config(this, "positions.yml");
         //set CommandExecutors and TabCompleters
         Objects.requireNonNull(getCommand("position")).setExecutor(new PositionCommand(this));
@@ -39,11 +68,12 @@ public final class WorldUtils extends JavaPlugin {
         Objects.requireNonNull(getCommand("personalposition")).setTabCompleter(new PersonalPositionCommand(this));
         Objects.requireNonNull(getCommand("sendposition")).setExecutor(new SendPositionCommand());
         Objects.requireNonNull(getCommand("sendposition")).setTabCompleter(new SendPositionCommand());
-        Objects.requireNonNull(getCommand("reset")).setExecutor(new ResetCommand());
-        Objects.requireNonNull(getCommand("reset")).setTabCompleter(new ResetCommand());
+        Objects.requireNonNull(getCommand("reset")).setExecutor(new ResetCommand(this));
+        Objects.requireNonNull(getCommand("reset")).setTabCompleter(new ResetCommand(this));
         Objects.requireNonNull(getCommand("settings")).setExecutor(new SettingsCommand());
         Objects.requireNonNull(getCommand("settings")).setTabCompleter(new SettingsCommand());
         getServer().getPluginManager().registerEvents(new PlayerDeathListener(), this);
+        getPlugin(this.getClass());
     }
 
     /**

@@ -12,21 +12,32 @@ public enum Settings {
     /**
      * saveAuthor: save the player that added the position
      */
-    POSITION("position", Map.of("saveAuthor", false)),
+    POSITION("position", Map.of(
+            "saveAuthor", false)),
     /**
      * makeAccessibleGlobally: make all personal positions available with "/personalposition playername positionname"
      */
-    PERSONALPOSITION("personalposition", Map.of("makeAccessibleGlobally", false)),
+    PERSONALPOSITION("personalposition", Map.of(
+            "makeAccessibleGlobally", false)),
     /**
+     * reset: used for resetting on load
+     * <p>
      * needConfirm: command needs confirm as argument to work
      * <p>
-     * restartAfterReset: restart the server automatically after it has been reset
+     * deletePositions: delete all positions and personal positions when resetting
+     * <p>
+     * resetSettings: reset all settings when resetting
      */
-    RESET("reset", Map.of("needConfirm", true, "restartAfterReset", true)),
+    RESET("reset", Map.of(
+            "reset", false,
+            "needConfirm", true,
+            "deletePositions", true,
+            "resetSettings", false)),
     /**
      * needOp: player needs OP rank to change settings
      */
-    SETTINGS("settings", Map.of("needOp", true));
+    SETTINGS("settings", Map.of(
+            "needOp", true));
     private final String command;
     private final Map<String, Boolean> settings;
 
