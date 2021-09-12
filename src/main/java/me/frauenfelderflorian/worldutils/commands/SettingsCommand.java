@@ -1,6 +1,6 @@
 package me.frauenfelderflorian.worldutils.commands;
 
-import me.frauenfelderflorian.worldutils.Settings;
+import me.frauenfelderflorian.worldutils.Setting;
 import me.frauenfelderflorian.worldutils.WorldUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -28,45 +28,27 @@ public class SettingsCommand implements CommandExecutor, TabCompleter {
      */
     @Override
     public boolean onCommand(CommandSender sender, Command command, String alias, String[] args) {
-        if (sender.isOp() || !((Boolean) WorldUtils.config.get(Settings.SETTINGS.getKey("needOp"))))
-            switch (args.length) {
-                case 1 -> {
-                    //only command entered
-                    if (Settings.contains(args[0])) {
-                        sender.sendMessage("Enter a setting for command " + args[0]);
+        if (sender.isOp() || !((Boolean) WorldUtils.config.get(Setting.Settings.NEED_OP))) {
+            if (args.length == 3) {
+                //command, setting and value entered
+                Setting.Command setting = Setting.get(args[0], args[1]);
+                if (setting != null)
+                    if (args[2].equals("true")) {
+                        WorldUtils.config.set(setting, true);
+                        Bukkit.broadcastMessage("Setting " + args[1] + " from command " + args[0] + " set to §atrue");
+                        return true;
+                    } else if (args[2].equals("false")) {
+                        WorldUtils.config.set(setting, false);
+                        Bukkit.broadcastMessage("Setting " + args[1] + " from command " + args[0] + " set to §cfalse");
+                        return true;
+                    } else if (args[2].equals("null")) {
+                        WorldUtils.config.remove(setting);
+                        Bukkit.broadcastMessage("Setting " + args[1] + " from command " + args[0] + " set to §enull");
+                        Bukkit.broadcastMessage("§cUse with caution: §oThe plugin might not work correctly!");
                         return true;
                     }
-                }
-                case 2 -> {
-                    //command and setting entered
-                    if (Settings.contains(args[0])
-                            && Objects.requireNonNull(Settings.get(args[0])).containsSetting(args[1])) {
-                        sender.sendMessage("Enter a value for setting " + args[1] + " from command " + args[0]);
-                        return true;
-                    }
-                }
-                case 3 -> {
-                    //command, setting and value entered
-                    if (Settings.contains(args[0])
-                            && Objects.requireNonNull(Settings.get(args[0])).containsSetting(args[1])) {
-                        if (args[2].equalsIgnoreCase("true")) {
-                            WorldUtils.config.set(Objects.requireNonNull(Settings.get(args[0])).getKey(args[1]), true);
-                            Bukkit.broadcastMessage("Setting " + args[1] + " from command " + args[0] + " set to §atrue");
-                            return true;
-                        } else if (args[2].equalsIgnoreCase("false")) {
-                            WorldUtils.config.set(Objects.requireNonNull(Settings.get(args[0])).getKey(args[1]), false);
-                            Bukkit.broadcastMessage("Setting " + args[1] + " from command " + args[0] + " set to §cfalse");
-                            return true;
-                        } else if (args[2].equals("null")) {
-                            WorldUtils.config.remove(Objects.requireNonNull(Settings.get(args[0])).getKey(args[1]));
-                            Bukkit.broadcastMessage("Setting " + args[1] + " from command " + args[0] + " set to §enull");
-                            Bukkit.broadcastMessage("§cUse with caution: §oThe plugin might not work correctly!");
-                            return true;
-                        }
-                    }
-                }
             }
-        else {
+        } else {
             WorldUtils.notAllowed(sender);
             return true;
         }
@@ -87,17 +69,16 @@ public class SettingsCommand implements CommandExecutor, TabCompleter {
         List<String> completions = new ArrayList<>();
         switch (args.length) {
             case 1 -> //command being entered
-                    StringUtil.copyPartialMatches(args[0], Settings.getCommands(), completions);
+                    StringUtil.copyPartialMatches(args[0], Setting.getCommands(), completions);
             case 2 -> {
                 //setting being entered
-                if (Settings.contains(args[0]))
+                if (Setting.getCommands().contains(args[0]))
                     StringUtil.copyPartialMatches(
-                            args[1], Objects.requireNonNull(Settings.get(args[0])).getSettings().keySet(), completions);
+                            args[1], Objects.requireNonNull(Setting.getSettings(args[0])), completions);
             }
             case 3 -> {
                 //value being entered
-                if (Settings.contains(args[0])
-                        && Objects.requireNonNull(Settings.get(args[0])).containsSetting(args[1]))
+                if (Setting.get(args[0], args[1]) != null)
                     StringUtil.copyPartialMatches(args[2], List.of("true", "false"), completions);
             }
         }

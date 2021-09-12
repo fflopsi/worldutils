@@ -43,7 +43,7 @@ public class Config {
     }
 
     /**
-     * Set a new config value
+     * Set a config value
      *
      * @param path  the path of the new value
      * @param value the value Object to be added
@@ -55,13 +55,33 @@ public class Config {
     }
 
     /**
+     * Set a setting value
+     *
+     * @param setting the setting to be set
+     * @param value   the value Object of the setting
+     */
+    public void set(Setting.Command setting, Object value) {
+        set(setting.getKey(), value);
+    }
+
+    /**
      * Check if the path contains a value
      *
      * @param path the path to be checked
-     * @return true if something is there, false if nothing found
+     * @return true if something is found, false if nothing found
      */
     public boolean contains(String path) {
         return config.contains(path);
+    }
+
+    /**
+     * Check if the setting contains a value
+     *
+     * @param setting the setting to be checked
+     * @return true if something is found, false if not
+     */
+    public boolean contains(Setting.Command setting) {
+        return config.contains(setting.getKey());
     }
 
     /**
@@ -72,6 +92,16 @@ public class Config {
      */
     public Object get(String path) {
         return config.get(path);
+    }
+
+    /**
+     * Get a value from a setting
+     *
+     * @param setting the setting
+     * @return the Object at the setting's path
+     */
+    public Object get(Setting.Command setting) {
+        return get(setting.getKey());
     }
 
     /**
@@ -91,6 +121,15 @@ public class Config {
      */
     public void remove(String path) {
         set(path, null);
+    }
+
+    /**
+     * Remove a setting
+     *
+     * @param setting the setting to be removed
+     */
+    public void remove(Setting.Command setting) {
+        set(setting.getKey(), null);
     }
 
     /**

@@ -1,7 +1,7 @@
 package me.frauenfelderflorian.worldutils.commands;
 
 import me.frauenfelderflorian.worldutils.Config;
-import me.frauenfelderflorian.worldutils.Settings;
+import me.frauenfelderflorian.worldutils.Setting;
 import me.frauenfelderflorian.worldutils.WorldUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -136,8 +136,7 @@ public record PersonalPositionCommand(WorldUtils plugin) implements CommandExecu
      * @return true if correct command syntax used and no errors, false otherwise
      */
     private boolean otherPlayersPosition(CommandSender sender, String[] args) {
-        if ((Boolean) WorldUtils.config.get(
-                Settings.PERSONALPOSITION.getKey("makeAccessibleGlobally"))) {
+        if ((Boolean) WorldUtils.config.get(Setting.PersonalPosition.MAKE_ACCESSIBLE_GLOBALLY))
             try {
                 if (Objects.requireNonNull(Bukkit.getPlayer(args[0])).isOnline()) {
                     //get personalposition from player
@@ -154,7 +153,6 @@ public record PersonalPositionCommand(WorldUtils plugin) implements CommandExecu
                 WorldUtils.playerNotFound(sender);
                 return true;
             }
-        }
         return false;
     }
 }
