@@ -43,7 +43,7 @@ public record PersonalPositionCommand(WorldUtils plugin) implements CommandExecu
                         case "list" -> {
                             //send all position info
                             for (String pos : positions.getKeys(false))
-                                sender.sendMessage(WorldUtils.positionMessage(pos, (Location) positions.get(pos)));
+                                sender.sendMessage(WorldUtils.Messages.positionMessage(pos, (Location) positions.get(pos)));
                             return true;
                         }
                         case "clear" -> {
@@ -56,12 +56,12 @@ public record PersonalPositionCommand(WorldUtils plugin) implements CommandExecu
                             //position name entered
                             if (positions.contains(args[0]))
                                 //existing position, send info
-                                sender.sendMessage(WorldUtils.positionMessage(args[0], (Location) positions.get(args[0])));
+                                sender.sendMessage(WorldUtils.Messages.positionMessage(args[0], (Location) positions.get(args[0])));
                             else {
                                 //new position name, save position
                                 positions.set(args[0], ((Player) sender).getLocation());
                                 sender.sendMessage("§aAdded§r personal position "
-                                        + WorldUtils.positionMessage(args[0], (Location) positions.get(args[0])));
+                                        + WorldUtils.Messages.positionMessage(args[0], (Location) positions.get(args[0])));
                             }
                             return true;
                         }
@@ -74,13 +74,13 @@ public record PersonalPositionCommand(WorldUtils plugin) implements CommandExecu
                             //teleport player to position if OP
                             if (sender.isOp())
                                 ((Player) sender).teleport((Location) positions.get(args[1]));
-                            else WorldUtils.notAllowed(sender);
+                            else WorldUtils.Messages.notAllowed(sender);
                             return true;
                         }
                         case "del" -> {
                             //delete position
                             sender.sendMessage("§cDeleted§r personal position "
-                                    + WorldUtils.positionMessage(args[1], (Location) positions.get(args[1])));
+                                    + WorldUtils.Messages.positionMessage(args[1], (Location) positions.get(args[1])));
                             positions.remove(args[1]);
                             return true;
                         }
@@ -92,7 +92,7 @@ public record PersonalPositionCommand(WorldUtils plugin) implements CommandExecu
             }
         } else {
             if (args.length == 2) return otherPlayersPosition(sender, args);
-            WorldUtils.notConsole(sender);
+            WorldUtils.Messages.notConsole(sender);
             return true;
         }
         return false;
@@ -143,14 +143,14 @@ public record PersonalPositionCommand(WorldUtils plugin) implements CommandExecu
                     try {
                         Config positions = new Config(plugin, "positions_" + args[0] + ".yml");
                         sender.sendMessage("Personal position from player " + args[0] + ": "
-                                + WorldUtils.positionMessage(args[1], (Location) positions.get(args[1])));
+                                + WorldUtils.Messages.positionMessage(args[1], (Location) positions.get(args[1])));
                     } catch (NullPointerException e) {
-                        WorldUtils.positionNameNotFound(sender);
+                        WorldUtils.Messages.positionNameNotFound(sender);
                     }
                     return true;
                 }
             } catch (NullPointerException e) {
-                WorldUtils.playerNotFound(sender);
+                WorldUtils.Messages.playerNotFound(sender);
                 return true;
             }
         return false;

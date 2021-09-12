@@ -49,7 +49,7 @@ public class SettingsCommand implements CommandExecutor, TabCompleter {
                     }
             }
         } else {
-            WorldUtils.notAllowed(sender);
+            WorldUtils.Messages.notAllowed(sender);
             return true;
         }
         return false;

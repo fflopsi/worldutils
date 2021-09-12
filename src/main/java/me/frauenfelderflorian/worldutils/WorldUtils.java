@@ -84,98 +84,102 @@ public final class WorldUtils extends JavaPlugin {
         config.save();
     }
 
-    /**
-     * Get a formatted message with position information
-     *
-     * @param location location of the position
-     * @return String with formatted position
-     */
-    public static String positionMessage(Location location) {
-        return betterWorld(Objects.requireNonNull(location.getWorld()).getName()) + ": "
-                + location.getBlockX() + "  " + location.getBlockY() + "  " + location.getBlockZ();
-    }
+    public enum Messages {
+        ;
 
-    /**
-     * Get a formatted message with position information
-     *
-     * @param name     name of the position
-     * @param location location of the position
-     * @return String with formatted position
-     */
-    public static String positionMessage(String name, Location location) {
-        return "§b" + name + "§r (" + betterWorld(Objects.requireNonNull(location.getWorld()).getName()) + "): "
-                + location.getBlockX() + "  " + location.getBlockY() + "  " + location.getBlockZ();
-    }
-
-    /**
-     * Get a formatted message with position information
-     *
-     * @param name     name  of the position
-     * @param author   who saved the position
-     * @param location location of the position
-     * @return String with formatted position
-     */
-    public static String positionMessage(String name, String author, Location location) {
-        return "§b" + name + "§r from §b§o" + author + "§r (" + betterWorld(Objects.requireNonNull(location.getWorld()).getName()) + "): "
-                + location.getBlockX() + "  " + location.getBlockY() + "  " + location.getBlockZ();
-    }
-
-    /**
-     * Send a message to the target: "You are not allowed to do this."
-     *
-     * @param target the target to whom the message should be sent
-     */
-    public static void notAllowed(CommandSender target) {
-        target.sendMessage("§4§lYou are not allowed to do this.");
-    }
-
-    /**
-     * Send a message to the target: "This is not a console command."
-     *
-     * @param target the target to whom the message should be sent
-     */
-    public static void notConsole(CommandSender target) {
-        target.sendMessage("§e§oThis is not a console command.");
-    }
-
-    /**
-     * Send a message to the target: "The entered name does not belong to an online player."
-     *
-     * @param target the target to whom the message should be sent
-     */
-    public static void playerNotFound(CommandSender target) {
-        target.sendMessage("§e§oThe entered name does not belong to an online player.");
-    }
-
-    /**
-     * Send a message to the target: "The entered position name cannot be found."
-     *
-     * @param target the target to whom the message should be sent
-     */
-    public static void positionNameNotFound(CommandSender target) {
-        target.sendMessage("§e§oThe entered position name cannot be found.");
-    }
-
-    /**
-     * Get the better world name formatted with an appropriate color:
-     * <p>
-     * world -> overworld
-     * <p>
-     * world_nether -> nether
-     * <p>
-     * world_the_end -> end
-     *
-     * @param world the unformatted world name
-     * @return the better world name if one of the above, else the given String
-     */
-    private static String betterWorld(String world) {
-        String betterName;
-        switch (world) {
-            case "world" -> betterName = "§aoverworld§r";
-            case "world_nether" -> betterName = "§cnether§r";
-            case "world_the_end" -> betterName = "§eend§r";
-            default -> betterName = world;
+        /**
+         * Get a formatted message with position information
+         *
+         * @param location location of the position
+         * @return String with formatted position
+         */
+        public static String positionMessage(Location location) {
+            return betterWorld(Objects.requireNonNull(location.getWorld()).getName()) + ": "
+                    + location.getBlockX() + "  " + location.getBlockY() + "  " + location.getBlockZ();
         }
-        return betterName;
+
+        /**
+         * Get a formatted message with position information
+         *
+         * @param name     name of the position
+         * @param location location of the position
+         * @return String with formatted position
+         */
+        public static String positionMessage(String name, Location location) {
+            return "§b" + name + "§r (" + betterWorld(Objects.requireNonNull(location.getWorld()).getName()) + "): "
+                    + location.getBlockX() + "  " + location.getBlockY() + "  " + location.getBlockZ();
+        }
+
+        /**
+         * Get a formatted message with position information
+         *
+         * @param name     name  of the position
+         * @param author   who saved the position
+         * @param location location of the position
+         * @return String with formatted position
+         */
+        public static String positionMessage(String name, String author, Location location) {
+            return "§b" + name + "§r from §b§o" + author + "§r (" + betterWorld(Objects.requireNonNull(location.getWorld()).getName()) + "): "
+                    + location.getBlockX() + "  " + location.getBlockY() + "  " + location.getBlockZ();
+        }
+
+        /**
+         * Send a message to the target: "You are not allowed to do this."
+         *
+         * @param target the target to whom the message should be sent
+         */
+        public static void notAllowed(CommandSender target) {
+            target.sendMessage("§4§lYou are not allowed to do this.");
+        }
+
+        /**
+         * Send a message to the target: "This is not a console command."
+         *
+         * @param target the target to whom the message should be sent
+         */
+        public static void notConsole(CommandSender target) {
+            target.sendMessage("§e§oThis is not a console command.");
+        }
+
+        /**
+         * Send a message to the target: "The entered name does not belong to an online player."
+         *
+         * @param target the target to whom the message should be sent
+         */
+        public static void playerNotFound(CommandSender target) {
+            target.sendMessage("§e§oThe entered name does not belong to an online player.");
+        }
+
+        /**
+         * Send a message to the target: "The entered position name cannot be found."
+         *
+         * @param target the target to whom the message should be sent
+         */
+        public static void positionNameNotFound(CommandSender target) {
+            target.sendMessage("§e§oThe entered position name cannot be found.");
+        }
+
+        /**
+         * Get the better world name formatted with an appropriate color:
+         * <p>
+         * world -> overworld
+         * <p>
+         * world_nether -> nether
+         * <p>
+         * world_the_end -> end
+         *
+         * @param world the unformatted world name
+         * @return the better world name if one of the above, else the given String
+         */
+        private static String betterWorld(String world) {
+            String betterName;
+            switch (world) {
+                case "world" -> betterName = "§aoverworld§r";
+                case "world_nether" -> betterName = "§cnether§r";
+                case "world_the_end" -> betterName = "§eend§r";
+                default -> betterName = world;
+            }
+            return betterName;
+        }
     }
 }

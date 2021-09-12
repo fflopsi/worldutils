@@ -40,7 +40,7 @@ public record PositionCommand(WorldUtils plugin) implements CommandExecutor, Tab
                         //send all position info
                         for (String position : WorldUtils.positions.getKeys(false))
                             if (!position.equals("list"))
-                                sender.sendMessage(WorldUtils.positionMessage(
+                                sender.sendMessage(WorldUtils.Messages.positionMessage(
                                         position, (Location) WorldUtils.positions.get(position)));
                         return true;
                     }
@@ -57,11 +57,11 @@ public record PositionCommand(WorldUtils plugin) implements CommandExecutor, Tab
                         if (WorldUtils.positions.contains(args[0]))
                             //existing position, send info
                             if (WorldUtils.positions.contains("list." + args[0]))
-                                sender.sendMessage(WorldUtils.positionMessage(
+                                sender.sendMessage(WorldUtils.Messages.positionMessage(
                                         args[0], (String) WorldUtils.positions.get("list." + args[0]),
                                         (Location) WorldUtils.positions.get(args[0])));
                             else
-                                sender.sendMessage(WorldUtils.positionMessage(
+                                sender.sendMessage(WorldUtils.Messages.positionMessage(
                                         args[0], (Location) WorldUtils.positions.get(args[0])));
                         else if (sender instanceof Player) {
                             //new position name, save position
@@ -69,9 +69,9 @@ public record PositionCommand(WorldUtils plugin) implements CommandExecutor, Tab
                             if ((Boolean) WorldUtils.config.get(Setting.Position.SAVE_AUTHOR))
                                 WorldUtils.positions.set("list." + args[0], sender.getName());
                             Bukkit.broadcastMessage("§aAdded§r position "
-                                    + WorldUtils.positionMessage(args[0], sender.getName(),
+                                    + WorldUtils.Messages.positionMessage(args[0], sender.getName(),
                                     (Location) WorldUtils.positions.get(args[0])));
-                        } else WorldUtils.notConsole(sender);
+                        } else WorldUtils.Messages.notConsole(sender);
                         return true;
                     }
                 }
@@ -83,14 +83,14 @@ public record PositionCommand(WorldUtils plugin) implements CommandExecutor, Tab
                         //teleport player to position if OP
                         if (sender instanceof Player && sender.isOp())
                             ((Player) sender).teleport((Location) WorldUtils.positions.get(args[1]));
-                        else if (sender instanceof Player) WorldUtils.notAllowed(sender);
-                        else WorldUtils.notConsole(sender);
+                        else if (sender instanceof Player) WorldUtils.Messages.notAllowed(sender);
+                        else WorldUtils.Messages.notConsole(sender);
                         return true;
                     }
                     case "del" -> {
                         //delete position
                         Bukkit.broadcastMessage("§cDeleted§r position "
-                                + WorldUtils.positionMessage(args[1], (Location) WorldUtils.positions.get(args[1])));
+                                + WorldUtils.Messages.positionMessage(args[1], (Location) WorldUtils.positions.get(args[1])));
                         WorldUtils.positions.remove(args[1]);
                         return true;
                     }
