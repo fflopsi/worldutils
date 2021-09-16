@@ -2,6 +2,7 @@ package me.frauenfelderflorian.worldutils.commands;
 
 import me.frauenfelderflorian.worldutils.Settings;
 import me.frauenfelderflorian.worldutils.WorldUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -15,14 +16,44 @@ public class TimerCommand implements CommandExecutor, TabCompleter {
         switch (args.length) {
             case 1 -> {
                 switch (args[0]) {
-                    case "start" -> WorldUtils.timer.run();
-                    case "stop" -> WorldUtils.timer.cancel();
-                    case "reverse" -> WorldUtils.config.set(Settings.TIMER_REVERSE, true);
-                    case "reset" -> WorldUtils.timer.time = 0;
+                    case "start" -> {
+                        WorldUtils.timer.start();
+                        Bukkit.broadcastMessage("§eTimer started.");
+                        return true;
+                    }
+                    case "stop" -> {
+                        WorldUtils.timer.stop();
+                        Bukkit.broadcastMessage("§eTimer stopped.");
+                        return true;
+                    }
+                    case "reverse" -> {
+                        WorldUtils.config.set(Settings.TIMER_REVERSE,
+                                !(Boolean) WorldUtils.config.get(Settings.TIMER_REVERSE));
+                        String reverse = (Boolean) WorldUtils.config.get(Settings.TIMER_REVERSE) ? "reverse" : "normal";
+                        Bukkit.broadcastMessage("§eTimer reversed, now in " + reverse + " mode.");
+                        return true;
+                    }
+                    case "reset" -> {
+                        WorldUtils.timer.set(0);
+                        Bukkit.broadcastMessage("§eTimer set to 0.");
+                        return true;
+                    }
                 }
             }
             case 2 -> {
-                if (args[0].equals("set")) WorldUtils.timer.time = Integer.parseInt(args[1]);
+                switch (args[0]) {
+                    case "set" -> {
+                        WorldUtils.timer.set(Integer.parseInt(args[1]));
+                        Bukkit.broadcastMessage("§eTimer set to " + args[1] + ".");
+                        return true;
+                    }
+                    case "add" -> {
+                        WorldUtils.timer.set(
+                                (int) WorldUtils.config.get(Settings.TIMER_TIME) + Integer.parseInt(args[1]));
+                        Bukkit.broadcastMessage("§eAdded " + args[1] + " to timer.");
+                        return true;
+                    }
+                }
             }
         }
         return false;

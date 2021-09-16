@@ -8,39 +8,49 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class Timer {
-    public boolean running;
     public int time;
-    private final BossBar timerBar;
+    public final BossBar timerBar;
+    private BukkitRunnable runnable;
     private final JavaPlugin plugin;
-    private final BukkitRunnable runnable;
 
     public Timer(WorldUtils plugin) {
         this.plugin = plugin;
-        running = false;
         time = (int) WorldUtils.config.get(Settings.TIMER_TIME);
-        timerBar = Bukkit.createBossBar("Timer: " + formatTime(time), BarColor.YELLOW, BarStyle.SEGMENTED_20);
+        timerBar = Bukkit.createBossBar("Timer: " + formatTime(time), BarColor.YELLOW, BarStyle.SEGMENTED_12);
+        timerBar.setVisible(true);
         runnable = new BukkitRunnable() {
             @Override
             public void run() {
                 update();
             }
         };
-
     }
 
-    public void run() {
+    public void set(int time) {
+        this.time = time;
+        update();
+    }
+
+    public void start() {
         runnable.runTaskTimer(plugin, 20, 20);
     }
 
-    public void cancel() {
+    public void stop() {
         runnable.cancel();
+        runnable = new BukkitRunnable() {
+            @Override
+            public void run() {
+                update();
+            }
+        };
     }
 
     public void update() {
-        if ((Boolean) WorldUtils.config.get(Settings.TIMER_REVERSE)) time--;
+        if ((Boolean) WorldUtils.config.get(Settings.TIMER_REVERSE)) time--; //not like that, remove this
         else time++;
         timerBar.setTitle("Timer: " + formatTime(time));
-        timerBar.setProgress(time % 60);
+        timerBar.setProgress((time % 60) / 60.0);
+        WorldUtils.config.set(Settings.TIMER_TIME, time);
     }
 
     private String formatTime(int time) {
