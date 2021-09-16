@@ -1,6 +1,6 @@
 package me.frauenfelderflorian.worldutils.commands;
 
-import me.frauenfelderflorian.worldutils.Setting;
+import me.frauenfelderflorian.worldutils.Settings;
 import me.frauenfelderflorian.worldutils.WorldUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -66,7 +66,7 @@ public record PositionCommand(WorldUtils plugin) implements CommandExecutor, Tab
                         else if (sender instanceof Player) {
                             //new position name, save position
                             WorldUtils.positions.set(args[0], ((Player) sender).getLocation());
-                            if ((Boolean) WorldUtils.config.get(Setting.Position.SAVE_AUTHOR))
+                            if ((Boolean) WorldUtils.config.get(Settings.POSITION_SAVE_AUTHOR))
                                 WorldUtils.positions.set("list." + args[0], sender.getName());
                             Bukkit.broadcastMessage("§aAdded§r position "
                                     + WorldUtils.Messages.positionMessage(args[0], sender.getName(),

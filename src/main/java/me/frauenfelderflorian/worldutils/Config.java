@@ -60,7 +60,7 @@ public class Config {
      * @param setting the setting to be set
      * @param value   the value Object of the setting
      */
-    public void set(Setting.Command setting, Object value) {
+    public void set(Settings setting, Object value) {
         set(setting.getKey(), value);
     }
 
@@ -80,8 +80,8 @@ public class Config {
      * @param setting the setting to be checked
      * @return true if something is found, false if not
      */
-    public boolean contains(Setting.Command setting) {
-        return config.contains(setting.getKey());
+    public boolean contains(Settings setting) {
+        return contains(setting.getKey());
     }
 
     /**
@@ -100,7 +100,7 @@ public class Config {
      * @param setting the setting
      * @return the Object at the setting's path
      */
-    public Object get(Setting.Command setting) {
+    public Object get(Settings setting) {
         return get(setting.getKey());
     }
 
@@ -128,8 +128,8 @@ public class Config {
      *
      * @param setting the setting to be removed
      */
-    public void remove(Setting.Command setting) {
-        set(setting.getKey(), null);
+    public void remove(Settings setting) {
+        remove(setting.getKey());
     }
 
     /**

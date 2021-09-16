@@ -29,10 +29,10 @@ public final class WorldUtils extends JavaPlugin {
     public void onLoad() {
         //load config and set defaults
         config = new Config(this, "config.yml");
-        for (Setting.Command setting : Setting.getAll())
+        for (Settings setting : Settings.values())
             if (!config.contains(setting)) config.set(setting, setting.getDefault());
         //reset if needed
-        if ((Boolean) config.get(Setting.Reset.RESET)) {
+        if ((Boolean) config.get(Settings.RESET_RESET)) {
             //reset worlds
             for (String w : List.of("world", "world_nether", "world_the_end")) {
                 try {
@@ -41,14 +41,14 @@ public final class WorldUtils extends JavaPlugin {
                     e.printStackTrace();
                 }
             }
-            config.set(Setting.Reset.RESET, false);
+            config.set(Settings.RESET_RESET, false);
             //delete positions if needed
-            if ((Boolean) config.get(Setting.Reset.DELETE_POSITIONS))
+            if ((Boolean) config.get(Settings.RESET_DELETE_POSITIONS))
                 for (File file : Objects.requireNonNull(getDataFolder().listFiles()))
                     if (file.getName().startsWith("positions") && file.getName().endsWith(".yml")) file.delete();
             //reset Settings if needed
-            if ((Boolean) config.get(Setting.Reset.RESET_SETTINGS))
-                for (Setting.Command stg : Setting.getAll())
+            if ((Boolean) config.get(Settings.RESET_RESET_SETTINGS))
+                for (Settings stg : Settings.values())
                     config.set(stg, stg.getDefault());
             getLogger().warning("Server reset");
         }
