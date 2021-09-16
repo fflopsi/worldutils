@@ -20,10 +20,6 @@ public enum Settings {
      */
     TIMER_TIME("timer", "time", 0, false),
     /**
-     * If the timer is running or not (default: false
-     */
-    TIMER_RUNNING("timer", "running", false, false),
-    /**
      * If the timer is running reversed (default: false)
      */
     TIMER_REVERSE("timer", "reverse", false, false),
