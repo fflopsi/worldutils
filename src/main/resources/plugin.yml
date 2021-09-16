@@ -22,8 +22,11 @@ commands:
     aliases:
       - sendpos
       - spos
+  timer:
+    description: an ingame timer for measuring time
+    usage: /<command> (start | stop | reverse | reset | set [[[<d>] <h>] <min>] <s>)
   reset:
-    description: reset the world
+    description: reset the server
     usage: /<command> [confirm]
   settings:
     description: edit settings of this plugin

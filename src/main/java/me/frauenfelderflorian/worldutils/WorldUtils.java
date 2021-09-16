@@ -21,6 +21,7 @@ import java.util.Objects;
 public final class WorldUtils extends JavaPlugin {
     public static Config config;
     public static Config positions;
+    public static Timer timer;
 
     /**
      * Done on plugin load before world loading
@@ -52,6 +53,8 @@ public final class WorldUtils extends JavaPlugin {
                     config.set(stg, stg.getDefault());
             getLogger().warning("Server reset");
         }
+        //set up timer
+        timer = new Timer(this);
     }
 
     /**
@@ -68,6 +71,8 @@ public final class WorldUtils extends JavaPlugin {
         Objects.requireNonNull(getCommand("personalposition")).setTabCompleter(new PersonalPositionCommand(this));
         Objects.requireNonNull(getCommand("sendposition")).setExecutor(new SendPositionCommand());
         Objects.requireNonNull(getCommand("sendposition")).setTabCompleter(new SendPositionCommand());
+        Objects.requireNonNull(getCommand("timer")).setExecutor(new TimerCommand());
+        Objects.requireNonNull(getCommand("timer")).setTabCompleter(new TimerCommand());
         Objects.requireNonNull(getCommand("reset")).setExecutor(new ResetCommand(this));
         Objects.requireNonNull(getCommand("reset")).setTabCompleter(new ResetCommand(this));
         Objects.requireNonNull(getCommand("settings")).setExecutor(new SettingsCommand());
