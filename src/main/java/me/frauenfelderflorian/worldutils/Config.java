@@ -48,7 +48,7 @@ public class Config {
      * @param path  the path of the new value
      * @param value the value Object to be added
      */
-    public void set(String path, Object value) {
+    public void set(String path, Object value) { //add logging parameter
         config.set(path, value);
         plugin.getLogger().info("Set config " + path + " to " + value);
         save();
