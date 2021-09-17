@@ -33,11 +33,11 @@ public class SettingsCommand implements CommandExecutor, TabCompleter {
                 Settings setting = Settings.get(args[0], args[1]);
                 if (setting != null)
                     if (args[2].equals("true")) {
-                        WorldUtils.config.set(setting, true);
+                        WorldUtils.config.set(setting, true, true);
                         Bukkit.broadcastMessage("Setting " + args[1] + " from command " + args[0] + " set to §atrue");
                         return true;
                     } else if (args[2].equals("false")) {
-                        WorldUtils.config.set(setting, false);
+                        WorldUtils.config.set(setting, false, true);
                         Bukkit.broadcastMessage("Setting " + args[1] + " from command " + args[0] + " set to §cfalse");
                         return true;
                     } else if (args[2].equals("null")) {

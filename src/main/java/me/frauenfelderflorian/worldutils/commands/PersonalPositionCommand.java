@@ -56,7 +56,7 @@ public record PersonalPositionCommand(WorldUtils plugin) implements CommandExecu
                                 sender.sendMessage(WorldUtils.Messages.positionMessage(args[0], (Location) positions.get(args[0])));
                             else {
                                 //new position name, save position
-                                positions.set(args[0], ((Player) sender).getLocation());
+                                positions.set(args[0], ((Player) sender).getLocation(), true);
                                 sender.sendMessage("§aAdded§r personal position "
                                         + WorldUtils.Messages.positionMessage(args[0], (Location) positions.get(args[0])));
                             }

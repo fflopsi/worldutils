@@ -62,9 +62,9 @@ public record PositionCommand(WorldUtils plugin) implements CommandExecutor, Tab
                                         args[0], (Location) WorldUtils.positions.get(args[0])));
                         else if (sender instanceof Player) {
                             //new position name, save position
-                            WorldUtils.positions.set(args[0], ((Player) sender).getLocation());
+                            WorldUtils.positions.set(args[0], ((Player) sender).getLocation(), true);
                             if ((Boolean) WorldUtils.config.get(Settings.POSITION_SAVE_AUTHOR))
-                                WorldUtils.positions.set("list." + args[0], sender.getName());
+                                WorldUtils.positions.set("list." + args[0], sender.getName(), true);
                             Bukkit.broadcastMessage("§aAdded§r position "
                                     + WorldUtils.Messages.positionMessage(args[0], sender.getName(),
                                     (Location) WorldUtils.positions.get(args[0])));

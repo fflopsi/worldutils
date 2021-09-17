@@ -31,7 +31,7 @@ public final class WorldUtils extends JavaPlugin {
         //load config and set defaults
         config = new Config(this, "config.yml");
         for (Settings setting : Settings.values())
-            if (!config.contains(setting)) config.set(setting, setting.getDefault());
+            if (!config.contains(setting)) config.set(setting, setting.getDefault(), true);
         //reset if needed
         if ((Boolean) config.get(Settings.RESET_RESET)) {
             //reset worlds
@@ -42,7 +42,7 @@ public final class WorldUtils extends JavaPlugin {
                     e.printStackTrace();
                 }
             }
-            config.set(Settings.RESET_RESET, false);
+            config.set(Settings.RESET_RESET, false, true);
             //delete positions if needed
             if ((Boolean) config.get(Settings.RESET_DELETE_POSITIONS))
                 for (File file : Objects.requireNonNull(getDataFolder().listFiles()))
@@ -50,7 +50,7 @@ public final class WorldUtils extends JavaPlugin {
             //reset Settings if needed
             if ((Boolean) config.get(Settings.RESET_RESET_SETTINGS))
                 for (Settings stg : Settings.values())
-                    config.set(stg, stg.getDefault());
+                    config.set(stg, stg.getDefault(), true);
             getLogger().warning("Server reset");
         }
         //set up timer

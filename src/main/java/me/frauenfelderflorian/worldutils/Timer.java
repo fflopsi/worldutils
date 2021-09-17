@@ -42,7 +42,7 @@ public class Timer {
         }
         timerBar.setTitle("§eTimer: " + formatTime(time));
         timerBar.setProgress((time % 60) / 60.0);
-        WorldUtils.config.set(Settings.TIMER_TIME, time);
+        WorldUtils.config.set(Settings.TIMER_TIME, time, false);
     }
 
     private void setRunnable() {

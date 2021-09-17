@@ -38,7 +38,7 @@ public record ResetCommand(WorldUtils plugin) implements CommandExecutor, TabCom
             }, 200);
             //restart
             Bukkit.getScheduler().runTaskLater(plugin, () -> {
-                WorldUtils.config.set(Settings.RESET_RESET, true);
+                WorldUtils.config.set(Settings.RESET_RESET, true, true);
                 Bukkit.spigot().restart();
             }, 220);
             return true;

@@ -48,7 +48,7 @@ public class Config {
      * @param path  the path of the new value
      * @param value the value Object to be added
      */
-    public void set(String path, Object value) { //add logging parameter
+    public void set(String path, Object value, boolean log) { //add logging parameter
         config.set(path, value);
         plugin.getLogger().info("Set config " + path + " to " + value);
         save();
@@ -60,8 +60,8 @@ public class Config {
      * @param setting the setting to be set
      * @param value   the value Object of the setting
      */
-    public void set(Settings setting, Object value) {
-        set(setting.getKey(), value);
+    public void set(Settings setting, Object value, boolean log) {
+        set(setting.getKey(), value, log);
     }
 
     /**
@@ -120,7 +120,7 @@ public class Config {
      * @param path the path to the value to be removed
      */
     public void remove(String path) {
-        set(path, null);
+        set(path, null, true);
     }
 
     /**

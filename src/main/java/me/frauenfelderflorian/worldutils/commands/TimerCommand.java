@@ -31,7 +31,7 @@ public class TimerCommand implements CommandExecutor, TabCompleter {
                     }
                     case "reverse" -> {
                         WorldUtils.config.set(Settings.TIMER_REVERSE,
-                                !(Boolean) WorldUtils.config.get(Settings.TIMER_REVERSE));
+                                !(Boolean) WorldUtils.config.get(Settings.TIMER_REVERSE), true);
                         String reverse = (Boolean) WorldUtils.config.get(Settings.TIMER_REVERSE) ? "reverse" : "normal";
                         Bukkit.broadcastMessage("§eTimer reversed, now in " + reverse + " mode.");
                         return true;
