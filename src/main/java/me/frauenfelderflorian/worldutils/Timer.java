@@ -18,17 +18,12 @@ public class Timer {
         time = (int) WorldUtils.config.get(Settings.TIMER_TIME);
         timerBar = Bukkit.createBossBar("Timer: " + formatTime(time), BarColor.YELLOW, BarStyle.SEGMENTED_12);
         timerBar.setVisible(true);
-        runnable = new BukkitRunnable() {
-            @Override
-            public void run() {
-                update();
-            }
-        };
+        setRunnable();
     }
 
     public void set(int time) {
         this.time = time;
-        update();
+        update(false);
     }
 
     public void start() {
@@ -37,23 +32,29 @@ public class Timer {
 
     public void stop() {
         runnable.cancel();
-        runnable = new BukkitRunnable() {
-            @Override
-            public void run() {
-                update();
-            }
-        };
+        setRunnable();
     }
 
-    public void update() {
-        if ((Boolean) WorldUtils.config.get(Settings.TIMER_REVERSE)) time--; //not like that, remove this
-        else time++;
-        timerBar.setTitle("Timer: " + formatTime(time));
+    private void update(boolean updateTime) {
+        if (updateTime) {
+            if ((Boolean) WorldUtils.config.get(Settings.TIMER_REVERSE)) time--;
+            else time++;
+        }
+        timerBar.setTitle("§eTimer: " + formatTime(time));
         timerBar.setProgress((time % 60) / 60.0);
         WorldUtils.config.set(Settings.TIMER_TIME, time);
     }
 
-    private String formatTime(int time) {
+    private void setRunnable() {
+        runnable = new BukkitRunnable() {
+            @Override
+            public void run() {
+                update(true);
+            }
+        };
+    }
+
+    public static String formatTime(int time) {
         int d, h, min, s;
         d = Math.floorDiv(time, 86400);
         time %= 86400;
