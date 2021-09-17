@@ -20,9 +20,6 @@ import java.util.Objects;
  * CommandExecutor and TabCompleter for command personalposition
  */
 public record PersonalPositionCommand(WorldUtils plugin) implements CommandExecutor, TabCompleter {
-    private static final List<String> SOLO_COMMANDS = new ArrayList<>(List.of("list", "clear"));
-    private static final List<String> NAME_COMMANDS = new ArrayList<>(List.of("tp", "del"));
-
     /**
      * Done when command sent
      *
@@ -114,15 +111,13 @@ public record PersonalPositionCommand(WorldUtils plugin) implements CommandExecu
         switch (args.length) {
             case 1 -> {
                 //command or position name being entered
-                StringUtil.copyPartialMatches(args[0], SOLO_COMMANDS, completions);
-                StringUtil.copyPartialMatches(args[0], NAME_COMMANDS, completions);
+                StringUtil.copyPartialMatches(args[0], List.of("list", "clear", "tp", "del"), completions);
                 StringUtil.copyPartialMatches(args[0], positions.getKeys(false), completions);
             }
             case 2 -> {
                 //position name being entered
-                for (String cmd : NAME_COMMANDS)
-                    if (args[0].equals(cmd))
-                        StringUtil.copyPartialMatches(args[1], positions.getKeys(false), completions);
+                if (List.of("tp", "del").contains(args[0]))
+                    StringUtil.copyPartialMatches(args[1], positions.getKeys(false), completions);
             }
         }
         return completions;
