@@ -147,6 +147,24 @@ public final class WorldUtils extends JavaPlugin {
         }
 
         /**
+         * Send a message to the target: "Wrong argument(s) entered for this command."
+         *
+         * @param target the target to whom the message should be sent
+         */
+        public static void wrongArguments(CommandSender target) {
+            target.sendMessage("§e§oWrong argument(s) entered for this command.");
+        }
+
+        /**
+         * Send a message to the target: "A wrong number of arguments was entered for this command."
+         *
+         * @param target the target to whom the message should be sent
+         */
+        public static void wrongArgumentNumber(CommandSender target) {
+            target.sendMessage("§e§oA wrong number of arguments was entered for this command.");
+        }
+
+        /**
          * Send a message to the target: "The entered name does not belong to an online player."
          *
          * @param target the target to whom the message should be sent
