@@ -24,7 +24,7 @@ commands:
       - spos
   timer:
     description: an ingame timer for measuring time
-    usage: /<command> (show | hide | start | stop | reverse | reset | [set | add] [[[<d>] <h>] <min>] <s>)
+    usage: /<command> (join | leave | show | hide | start | stop | reverse | reset | (set | add) [[[<d>] <h>] <min>] <s>)
   reset:
     description: reset the server
     usage: /<command> [confirm]
