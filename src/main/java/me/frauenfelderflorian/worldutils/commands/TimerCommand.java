@@ -47,8 +47,9 @@ public class TimerCommand implements CommandExecutor, TabCompleter {
                         //change reverse status
                         WorldUtils.config.set(Settings.TIMER_REVERSE,
                                 !(Boolean) WorldUtils.config.get(Settings.TIMER_REVERSE), true);
-                        String reverse = (Boolean) WorldUtils.config.get(Settings.TIMER_REVERSE) ? "reverse" : "normal";
-                        Bukkit.broadcastMessage("§eTimer reversed, now in " + reverse + " mode.");
+                        Bukkit.broadcastMessage("§eTimer reversed, now in "
+                                + ((Boolean) WorldUtils.config.get(Settings.TIMER_REVERSE) ? "reverse" : "normal")
+                                + " mode.");
                         return true;
                     }
                     case "reset" -> {
@@ -63,15 +64,27 @@ public class TimerCommand implements CommandExecutor, TabCompleter {
                 switch (args[0]) {
                     case "set" -> {
                         //set time to input values
-                        WorldUtils.timer.set(getTime(args));
+                        try {
+                            WorldUtils.timer.set(getTime(args));
+                        } catch (IllegalStateException e) {
+                            WorldUtils.Messages.wrongArgumentNumber(sender);
+                        } catch (NumberFormatException e) {
+                            WorldUtils.Messages.wrongArguments(sender);
+                        }
                         Bukkit.broadcastMessage("§eTimer set to §b"
                                 + Timer.formatTime((int) WorldUtils.config.get(Settings.TIMER_TIME)));
                         return true;
                     }
                     case "add" -> {
                         //add input values to current time
-                        WorldUtils.timer.set(
-                                (int) WorldUtils.config.get(Settings.TIMER_TIME) + getTime(args));
+                        try {
+                            WorldUtils.timer.set(
+                                    (int) WorldUtils.config.get(Settings.TIMER_TIME) + getTime(args));
+                        } catch (IllegalStateException e) {
+                            WorldUtils.Messages.wrongArgumentNumber(sender);
+                        } catch (NumberFormatException e) {
+                            WorldUtils.Messages.wrongArguments(sender);
+                        }
                         Bukkit.broadcastMessage("§eAdded §b" + Timer.formatTime(getTime(args)) + " §eto timer");
                         return true;
                     }
