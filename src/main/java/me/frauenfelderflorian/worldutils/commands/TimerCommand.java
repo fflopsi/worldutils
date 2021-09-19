@@ -8,6 +8,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
 
 import java.util.ArrayList;
@@ -31,6 +32,16 @@ public class TimerCommand implements CommandExecutor, TabCompleter {
         switch (args.length) {
             case 1 -> {
                 switch (args[0]) {
+                    case "join" -> {
+                        if (sender instanceof Player) WorldUtils.timer.timerBar.addPlayer((Player) sender);
+                        else WorldUtils.Messages.notConsole(sender);
+                        return true;
+                    }
+                    case "leave" -> {
+                        if (sender instanceof Player) WorldUtils.timer.timerBar.removePlayer((Player) sender);
+                        else WorldUtils.Messages.notConsole(sender);
+                        return true;
+                    }
                     case "show" -> {
                         WorldUtils.timer.timerBar.setVisible(true);
                         return true;
@@ -115,8 +126,8 @@ public class TimerCommand implements CommandExecutor, TabCompleter {
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         List<String> completions = new ArrayList<>();
         switch (args.length) {
-            case 1 -> StringUtil.copyPartialMatches(args[0],
-                    List.of("show", "hide", "start", "stop", "reverse", "reset", "set", "add"), completions);
+            case 1 -> StringUtil.copyPartialMatches(args[0], List.of("join", "leave", "show", "hide", "start", "stop",
+                    "reverse", "reset", "set", "add"), completions);
             case 2, 3, 4, 5 -> {
                 if (List.of("set", "add").contains(args[0])) completions.add("<time>");
             }
