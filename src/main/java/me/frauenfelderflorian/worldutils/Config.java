@@ -50,8 +50,8 @@ public class Config {
      */
     public void set(String path, Object value, boolean log) { //add logging parameter
         config.set(path, value);
-        plugin.getLogger().info("Set config " + path + " to " + value);
-        save();
+        if (log) plugin.getLogger().info("Set config " + path + " to " + value);
+        save(log);
     }
 
     /**
@@ -135,10 +135,10 @@ public class Config {
     /**
      * Save the config file
      */
-    public void save() {
+    public void save(boolean log) {
         try {
             config.save(file);
-            plugin.getLogger().info("Saved config to " + file.getName());
+            if (log) plugin.getLogger().info("Saved config to " + file.getName());
         } catch (IOException e) {
             plugin.getLogger().severe("Could not save config to " + file.getName());
             plugin.getLogger().info(config.saveToString());

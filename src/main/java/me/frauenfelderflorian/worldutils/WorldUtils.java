@@ -86,7 +86,7 @@ public final class WorldUtils extends JavaPlugin {
      */
     @Override
     public void onDisable() {
-        config.save();
+        config.save(true);
     }
 
     public enum Messages {
