@@ -178,7 +178,7 @@ public final class WorldUtils extends JavaPlugin {
          *
          * @param target the target to whom the message should be sent
          */
-        public static void positionNameNotFound(CommandSender target) {
+        public static void positionNotFound(CommandSender target) {
             target.sendMessage("§e§oThe entered position name cannot be found.");
         }
 

@@ -140,7 +140,7 @@ public record PersonalPositionCommand(WorldUtils plugin) implements CommandExecu
                         sender.sendMessage("Personal position from player " + args[0] + ": "
                                 + WorldUtils.Messages.positionMessage(args[1], (Location) positions.get(args[1])));
                     } catch (NullPointerException e) {
-                        WorldUtils.Messages.positionNameNotFound(sender);
+                        WorldUtils.Messages.positionNotFound(sender);
                     }
                     return true;
                 }
