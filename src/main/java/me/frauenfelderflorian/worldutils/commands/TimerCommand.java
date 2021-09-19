@@ -31,6 +31,14 @@ public class TimerCommand implements CommandExecutor, TabCompleter {
         switch (args.length) {
             case 1 -> {
                 switch (args[0]) {
+                    case "show" -> {
+                        WorldUtils.timer.timerBar.setVisible(true);
+                        return true;
+                    }
+                    case "hide" -> {
+                        WorldUtils.timer.timerBar.setVisible(false);
+                        return true;
+                    }
                     case "start" -> {
                         //start or resume timer
                         WorldUtils.timer.start();
@@ -108,7 +116,7 @@ public class TimerCommand implements CommandExecutor, TabCompleter {
         List<String> completions = new ArrayList<>();
         switch (args.length) {
             case 1 -> StringUtil.copyPartialMatches(args[0],
-                    List.of("start", "stop", "reverse", "reset", "set", "add"), completions);
+                    List.of("show", "hide", "start", "stop", "reverse", "reset", "set", "add"), completions);
             case 2, 3, 4, 5 -> {
                 if (List.of("set", "add").contains(args[0])) completions.add("<time>");
             }
