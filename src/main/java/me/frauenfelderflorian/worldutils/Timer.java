@@ -7,6 +7,9 @@ import org.bukkit.boss.BossBar;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+/**
+ * Class used for controlling the timer
+ */
 public class Timer {
     public int time;
     public final BossBar timerBar;
@@ -21,39 +24,37 @@ public class Timer {
         setRunnable();
     }
 
+    /**
+     * Set the timer to a new value
+     *
+     * @param time int of seconds for new timer value
+     */
     public void set(int time) {
         this.time = time;
         update(false);
     }
 
+    /**
+     * Start or resume the timer
+     */
     public void start() {
         runnable.runTaskTimer(plugin, 20, 20);
     }
 
+    /**
+     * Stop or pause the timer
+     */
     public void stop() {
         runnable.cancel();
         setRunnable();
     }
 
-    private void update(boolean updateTime) {
-        if (updateTime) {
-            if ((Boolean) WorldUtils.config.get(Settings.TIMER_REVERSE)) time--;
-            else time++;
-        }
-        timerBar.setTitle("§eTimer: " + formatTime(time));
-        timerBar.setProgress((time % 60) / 60.0);
-        WorldUtils.config.set(Settings.TIMER_TIME, time, false);
-    }
-
-    private void setRunnable() {
-        runnable = new BukkitRunnable() {
-            @Override
-            public void run() {
-                update(true);
-            }
-        };
-    }
-
+    /**
+     * Format the input time
+     *
+     * @param time int input time in seconds
+     * @return String with formatted time in format <[[[~d]  ~~h] ~~'] ~~">
+     */
     public static String formatTime(int time) {
         int d, h, min, s;
         d = Math.floorDiv(time, 86400);
@@ -70,5 +71,32 @@ public class Timer {
                                 min + "'  " + s + "\"" :
                         h + "h  " + min + "'  " + s + "\"" :
                 d + "d  " + h + "h  " + min + "'  " + s + "\"";
+    }
+
+    /**
+     * Update the timer with the new time value
+     *
+     * @param updateTime boolean if the time itself should be updated accordingly to reverse status
+     */
+    private void update(boolean updateTime) {
+        if (updateTime) {
+            if ((Boolean) WorldUtils.config.get(Settings.TIMER_REVERSE)) time--;
+            else time++;
+        }
+        timerBar.setTitle("§eTimer: " + formatTime(time));
+        timerBar.setProgress((time % 60) / 60.0);
+        WorldUtils.config.set(Settings.TIMER_TIME, time, false);
+    }
+
+    /**
+     * Set the runnable for the timer to run
+     */
+    private void setRunnable() {
+        runnable = new BukkitRunnable() {
+            @Override
+            public void run() {
+                update(true);
+            }
+        };
     }
 }

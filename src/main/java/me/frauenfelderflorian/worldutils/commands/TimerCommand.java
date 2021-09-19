@@ -13,23 +13,38 @@ import org.bukkit.util.StringUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * CommandExecutor and TabCompleter for command timer
+ */
 public class TimerCommand implements CommandExecutor, TabCompleter {
+    /**
+     * Done when command sent
+     *
+     * @param sender  sender of the command
+     * @param command sent command
+     * @param alias   used alias
+     * @param args    used arguments
+     * @return true if correct command syntax used and no errors, false otherwise
+     */
     @Override
     public boolean onCommand(CommandSender sender, Command command, String alias, String[] args) {
         switch (args.length) {
             case 1 -> {
                 switch (args[0]) {
                     case "start" -> {
+                        //start or resume timer
                         WorldUtils.timer.start();
                         Bukkit.broadcastMessage("§eTimer started.");
                         return true;
                     }
                     case "stop" -> {
+                        //stop or pause timer
                         WorldUtils.timer.stop();
                         Bukkit.broadcastMessage("§eTimer stopped.");
                         return true;
                     }
                     case "reverse" -> {
+                        //change reverse status
                         WorldUtils.config.set(Settings.TIMER_REVERSE,
                                 !(Boolean) WorldUtils.config.get(Settings.TIMER_REVERSE), true);
                         String reverse = (Boolean) WorldUtils.config.get(Settings.TIMER_REVERSE) ? "reverse" : "normal";
@@ -37,6 +52,7 @@ public class TimerCommand implements CommandExecutor, TabCompleter {
                         return true;
                     }
                     case "reset" -> {
+                        //set timer to 0
                         WorldUtils.timer.set(0);
                         Bukkit.broadcastMessage("§eTimer set to 0.");
                         return true;
@@ -46,12 +62,14 @@ public class TimerCommand implements CommandExecutor, TabCompleter {
             case 2, 3, 4, 5 -> {
                 switch (args[0]) {
                     case "set" -> {
+                        //set time to input values
                         WorldUtils.timer.set(getTime(args));
                         Bukkit.broadcastMessage("§eTimer set to §b"
                                 + Timer.formatTime((int) WorldUtils.config.get(Settings.TIMER_TIME)));
                         return true;
                     }
                     case "add" -> {
+                        //add input values to current time
                         WorldUtils.timer.set(
                                 (int) WorldUtils.config.get(Settings.TIMER_TIME) + getTime(args));
                         Bukkit.broadcastMessage("§eAdded §b" + Timer.formatTime(getTime(args)) + " §eto timer");
@@ -63,6 +81,15 @@ public class TimerCommand implements CommandExecutor, TabCompleter {
         return false;
     }
 
+    /**
+     * Done while entering command
+     *
+     * @param sender  sender of the command
+     * @param command sent command
+     * @param alias   used alias
+     * @param args    used arguments
+     * @return List of Strings for tab completion
+     */
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         List<String> completions = new ArrayList<>();
@@ -76,26 +103,26 @@ public class TimerCommand implements CommandExecutor, TabCompleter {
         return completions;
     }
 
+    /**
+     * Get the time from input
+     *
+     * @param args String array containing all input arguments (length 2 - 5)
+     * @return int of time in seconds
+     */
     private int getTime(String[] args) {
         int time;
-        try {
-            time = 86400 * Integer.parseInt(args[1])
+        switch (args.length) {
+            case 2 -> time = Integer.parseInt(args[1]);
+            case 3 -> time = 60 * Integer.parseInt(args[1])
+                    + Integer.parseInt(args[2]);
+            case 4 -> time = 3600 * Integer.parseInt(args[1])
+                    + 60 * Integer.parseInt(args[2])
+                    + Integer.parseInt(args[3]);
+            case 5 -> time = 86400 * Integer.parseInt(args[1])
                     + 3600 * Integer.parseInt(args[2])
                     + 60 * Integer.parseInt(args[3])
                     + Integer.parseInt(args[4]);
-        } catch (ArrayIndexOutOfBoundsException e) {
-            try {
-                time = 3600 * Integer.parseInt(args[1])
-                        + 60 * Integer.parseInt(args[2])
-                        + Integer.parseInt(args[3]);
-            } catch (ArrayIndexOutOfBoundsException e1) {
-                try {
-                    time = 60 * Integer.parseInt(args[1])
-                            + Integer.parseInt(args[2]);
-                } catch (ArrayIndexOutOfBoundsException e2) {
-                    time = Integer.parseInt(args[1]);
-                }
-            }
+            default -> throw new IllegalStateException("Array length must be >= 2 and <= 5");
         }
         return time;
     }
