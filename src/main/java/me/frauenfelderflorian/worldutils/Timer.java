@@ -11,11 +11,16 @@ import org.bukkit.scheduler.BukkitRunnable;
  * Class used for controlling the timer
  */
 public class Timer {
-    public int time;
     public final BossBar timerBar;
+    private int time;
     private BukkitRunnable runnable;
     private final JavaPlugin plugin;
 
+    /**
+     * Create a new Timer
+     *
+     * @param plugin the plugin for which the timer should be created
+     */
     public Timer(WorldUtils plugin) {
         this.plugin = plugin;
         time = (int) WorldUtils.config.get(Settings.TIMER_TIME);
@@ -64,12 +69,10 @@ public class Timer {
         min = Math.floorDiv(time, 60);
         time %= 60;
         s = time;
-        return d == 0 ?
-                h == 0 ?
-                        min == 0 ?
-                                s + "\"" :
-                                min + "'  " + s + "\"" :
-                        h + "h  " + min + "'  " + s + "\"" :
+        return d == 0 ? h == 0 ? min == 0 ?
+                s + "\"" :
+                min + "'  " + s + "\"" :
+                h + "h  " + min + "'  " + s + "\"" :
                 d + "d  " + h + "h  " + min + "'  " + s + "\"";
     }
 
