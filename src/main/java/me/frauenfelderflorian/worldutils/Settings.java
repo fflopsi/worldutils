@@ -16,6 +16,10 @@ public enum Settings {
      */
     PERSONALPOSITION_ACCESS_GLOBAL("personalposition", "makeAccessibleGlobally", false, true),
     /**
+     * Add a player to the timer automatically when joining (default: true)
+     */
+    TIMER_ADD_PLAYER_ON_JOIN("timer", "addPlayerOnJoin", true, true),
+    /**
      * The current time on the timer (default: 0.0.0)
      */
     TIMER_TIME("timer", "time", 0, false),

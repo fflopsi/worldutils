@@ -1,7 +1,7 @@
 package me.frauenfelderflorian.worldutils.listeners;
 
+import me.frauenfelderflorian.worldutils.Settings;
 import me.frauenfelderflorian.worldutils.WorldUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -23,7 +23,8 @@ public class WorldUtilsListener implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        WorldUtils.timer.timerBar.addPlayer(event.getPlayer());
         event.getPlayer().sendMessage("Hello " + event.getPlayer().getName() + ", nice to meet you!");
+        if ((Boolean) WorldUtils.config.get(Settings.TIMER_ADD_PLAYER_ON_JOIN))
+            WorldUtils.timer.timerBar.addPlayer(event.getPlayer());
     }
 }
