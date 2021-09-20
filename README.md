@@ -41,8 +41,10 @@ issue
 
 ## Credits
 
-creds
+This project was created after the plugin(s) German steamer and YouTuber BastiGHG is using in his Minecraft challenges.
+[This project](https://github.com/IlluminatiDreieck/Challenges) was also used for (very limited) inspiration on how to
+structure my own work.
 
 ## License
 
-mit
+This project is licensed under the MIT license. For more information, read [this file](LICENSE.md).
