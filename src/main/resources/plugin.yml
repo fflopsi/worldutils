@@ -18,12 +18,12 @@ commands:
       - ppos
   sendposition:
     description: send your position to other players
-    usage: /<command> <playername>
+    usage: /<command> [<playername>]
     aliases:
       - sendpos
       - spos
   timer:
-    description: an ingame timer for measuring time
+    description: control the ingame timer
     usage: /<command> (join | leave | show | hide | start | stop | reverse | reset | (set | add) [[[<d>] <h>] <min>] <s>)
   reset:
     description: reset the server
