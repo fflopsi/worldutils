@@ -5,11 +5,15 @@ sending your own position, setting up a timer, resetting the server and managing
 
 ## Table of Contents
 
-toc
+- [Installation](#installation)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [Credits](#credits)
+- [License](#license)
 
 ## Installation
 
-To install the plugin, simply place the .jar file in the folder "plugins" of your server. The server must run at least
+To install the plugin, simply place the *.jar* file in the folder *plugins* of your server. The server must run at least
 Spigot, Paper is also fine (CraftBukkit does not work). On the next server (re)start, the plugin should be initialized
 and can be run correctly.
 
@@ -22,7 +26,7 @@ The commands and their respective syntax are:
 
 - ```/position <name> | (<option> [<name>])```
 - ```/personalposition <name> | (<option> [<name>])```
-- ```/sendposition <playername>```
+- ```/sendposition [<playername>]```
 - ```/timer (join | leave | show | hide | start | stop | reverse | reset | (set | add) [[[<d>] <h>] <min>] <s>)```
 - ```/reset [confirm]```
 - ```/settings <commandname> <setting> (true | false)```
@@ -35,13 +39,20 @@ input. These aliases are:
 - ```sendposition```: ```sendpos```, ```spos```
 - ```settings```: ```stg```
 
+For further information on how this all works in detail and more, visit [the wiki](https://github.com/flopsif/world-utils/wiki).
+
 ## Contributing
 
-issue
+If you are willing to contribute to this project and know how to use GitHub issues, feel free
+to [open one](https://github.com/flopsif/world-utils/issues/new/choose).
+
+You are also welcome to fork this repository and improve it via
+a [pull request](https://github.com/flopsif/world-utils/compare).
 
 ## Credits
 
-This project was created after the plugin(s) German steamer and YouTuber BastiGHG is using in his Minecraft challenges.
+This project was created after the plugin(s) German [streamer](https://www.twitch.tv/BastiGHG)
+and [YouTuber](https://www.youtube.com/user/kompetenzGHG) BastiGHG is using in his Minecraft challenges.
 [This project](https://github.com/IlluminatiDreieck/Challenges) was also used for (very limited) inspiration on how to
 structure my own work.
 
