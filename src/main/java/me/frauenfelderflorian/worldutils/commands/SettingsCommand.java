@@ -3,7 +3,9 @@ package me.frauenfelderflorian.worldutils.commands;
 import me.frauenfelderflorian.worldutils.Settings;
 import me.frauenfelderflorian.worldutils.WorldUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.command.*;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.util.StringUtil;
 
 import java.util.ArrayList;
@@ -31,15 +33,15 @@ public class SettingsCommand implements TabExecutor {
                 if (setting != null)
                     if (args[2].equals("true")) {
                         WorldUtils.config.set(setting, true, true);
-                        Bukkit.broadcastMessage("Setting " + args[1] + " from command " + args[0] + " set to §atrue");
+                        Bukkit.broadcastMessage("Setting §b" + args[1] + "§r from command §b" + args[0] + "§r set to §atrue");
                         return true;
                     } else if (args[2].equals("false")) {
                         WorldUtils.config.set(setting, false, true);
-                        Bukkit.broadcastMessage("Setting " + args[1] + " from command " + args[0] + " set to §cfalse");
+                        Bukkit.broadcastMessage("Setting §b" + args[1] + "§r from command §b" + args[0] + "§r set to §cfalse");
                         return true;
                     } else if (args[2].equals("null")) {
                         WorldUtils.config.remove(setting);
-                        Bukkit.broadcastMessage("Setting " + args[1] + " from command " + args[0] + " set to §enull");
+                        Bukkit.broadcastMessage("Setting §b" + args[1] + "§r from command §b" + args[0] + "§r set to §enull");
                         Bukkit.broadcastMessage("§cUse with caution: §oThe plugin might not work correctly!");
                         return true;
                     }

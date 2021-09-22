@@ -64,8 +64,8 @@ public final class WorldUtils extends JavaPlugin {
         //load positions
         positions = new Config(this, "positions.yml");
         //set CommandExecutors and TabCompleters
-        Objects.requireNonNull(getCommand("position")).setExecutor(new PositionCommand(this));
-        Objects.requireNonNull(getCommand("position")).setTabCompleter(new PositionCommand(this));
+        Objects.requireNonNull(getCommand("position")).setExecutor(new PositionCommand());
+        Objects.requireNonNull(getCommand("position")).setTabCompleter(new PositionCommand());
         Objects.requireNonNull(getCommand("personalposition")).setExecutor(new PersonalPositionCommand(this));
         Objects.requireNonNull(getCommand("personalposition")).setTabCompleter(new PersonalPositionCommand(this));
         Objects.requireNonNull(getCommand("sendposition")).setExecutor(new SendPositionCommand());
@@ -77,7 +77,6 @@ public final class WorldUtils extends JavaPlugin {
         Objects.requireNonNull(getCommand("settings")).setExecutor(new SettingsCommand());
         Objects.requireNonNull(getCommand("settings")).setTabCompleter(new SettingsCommand());
         getServer().getPluginManager().registerEvents(new Listeners(), this);
-        getPlugin(this.getClass());
     }
 
     /**

@@ -5,8 +5,11 @@ import me.frauenfelderflorian.worldutils.Settings;
 import me.frauenfelderflorian.worldutils.WorldUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.command.*;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.StringUtil;
 
 import java.util.ArrayList;
@@ -16,7 +19,7 @@ import java.util.Objects;
 /**
  * CommandExecutor and TabCompleter for command personalposition
  */
-public record PersonalPositionCommand(WorldUtils plugin) implements TabExecutor {
+public record PersonalPositionCommand(JavaPlugin plugin) implements TabExecutor {
     /**
      * Done when command sent
      *

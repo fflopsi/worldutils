@@ -4,7 +4,9 @@ import me.frauenfelderflorian.worldutils.Settings;
 import me.frauenfelderflorian.worldutils.WorldUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.command.*;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
 
@@ -14,7 +16,7 @@ import java.util.List;
 /**
  * CommandExecutor and TabCompleter for command position
  */
-public record PositionCommand(WorldUtils plugin) implements TabExecutor {
+public class PositionCommand implements TabExecutor {
     /**
      * Done when command sent
      *
@@ -40,8 +42,6 @@ public record PositionCommand(WorldUtils plugin) implements TabExecutor {
                     }
                     case "clear" -> {
                         //remove all positions
-                        plugin.getLogger().info("Cleared positions");
-                        //Bukkit.getLogger().info("Cleared positions"); //does this work the same?
                         Bukkit.broadcastMessage("§e§oCleared positions");
                         for (String pos : WorldUtils.positions.getKeys(false)) WorldUtils.positions.remove(pos);
                         return true;
