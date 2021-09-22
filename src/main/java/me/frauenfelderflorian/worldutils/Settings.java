@@ -20,6 +20,10 @@ public enum Settings {
      */
     TIMER_ADD_PLAYER_ON_JOIN("timer", "addPlayerOnJoin", true, true),
     /**
+     * Make the timer visible automatically on server startup (default: false)
+     */
+    TIMER_VISIBLE_ON_START("timer", "visibleOnStart", false, true),
+    /**
      * The current time on the timer (default: 0.0.0)
      */
     TIMER_TIME("timer", "time", 0, false),

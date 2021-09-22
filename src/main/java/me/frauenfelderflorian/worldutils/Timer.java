@@ -25,7 +25,7 @@ public class Timer {
         this.plugin = plugin;
         time = (int) WorldUtils.config.get(Settings.TIMER_TIME);
         timerBar = Bukkit.createBossBar("Timer: " + formatTime(time), BarColor.YELLOW, BarStyle.SEGMENTED_12);
-        timerBar.setVisible(false);
+        timerBar.setVisible((Boolean) WorldUtils.config.get(Settings.TIMER_VISIBLE_ON_START));
         setRunnable();
     }
 
