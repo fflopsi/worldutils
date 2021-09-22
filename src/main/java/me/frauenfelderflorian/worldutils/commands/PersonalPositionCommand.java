@@ -5,10 +5,7 @@ import me.frauenfelderflorian.worldutils.Settings;
 import me.frauenfelderflorian.worldutils.WorldUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
+import org.bukkit.command.*;
 import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
 
@@ -19,7 +16,7 @@ import java.util.Objects;
 /**
  * CommandExecutor and TabCompleter for command personalposition
  */
-public record PersonalPositionCommand(WorldUtils plugin) implements CommandExecutor, TabCompleter {
+public record PersonalPositionCommand(WorldUtils plugin) implements TabExecutor {
     /**
      * Done when command sent
      *

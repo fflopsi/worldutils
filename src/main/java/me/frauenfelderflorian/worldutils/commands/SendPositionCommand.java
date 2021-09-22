@@ -2,10 +2,7 @@ package me.frauenfelderflorian.worldutils.commands;
 
 import me.frauenfelderflorian.worldutils.WorldUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
+import org.bukkit.command.*;
 import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
 
@@ -16,7 +13,7 @@ import java.util.Objects;
 /**
  * CommandExecutor and TabCompleter for command sendposition
  */
-public class SendPositionCommand implements CommandExecutor, TabCompleter {
+public class SendPositionCommand implements TabExecutor {
     /**
      * Done when command sent
      *

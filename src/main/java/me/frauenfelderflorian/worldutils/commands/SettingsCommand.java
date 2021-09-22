@@ -3,10 +3,7 @@ package me.frauenfelderflorian.worldutils.commands;
 import me.frauenfelderflorian.worldutils.Settings;
 import me.frauenfelderflorian.worldutils.WorldUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
+import org.bukkit.command.*;
 import org.bukkit.util.StringUtil;
 
 import java.util.ArrayList;
@@ -15,7 +12,7 @@ import java.util.List;
 /**
  * CommandExecutor and TabCompleter for command settings
  */
-public class SettingsCommand implements CommandExecutor, TabCompleter {
+public class SettingsCommand implements TabExecutor {
     /**
      * Done when command sent
      *

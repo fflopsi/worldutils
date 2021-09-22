@@ -1,7 +1,5 @@
-package me.frauenfelderflorian.worldutils.listeners;
+package me.frauenfelderflorian.worldutils;
 
-import me.frauenfelderflorian.worldutils.Settings;
-import me.frauenfelderflorian.worldutils.WorldUtils;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -10,7 +8,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 /**
  * Listener for PlayerDeathEvents
  */
-public class WorldUtilsListener implements Listener {
+public class Listeners implements Listener {
     /**
      * Executed when a player dies
      *
