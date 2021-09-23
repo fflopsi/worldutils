@@ -12,9 +12,7 @@ import org.bukkit.scheduler.BukkitRunnable;
  */
 public class Timer {
     public final BossBar timerBar;
-    private int time;
-    private BukkitRunnable runnable;
-    private final JavaPlugin plugin;
+    private int time; //direct access to TIMER_TIME
 
     /**
      * Create a new Timer
@@ -22,11 +20,16 @@ public class Timer {
      * @param plugin the plugin for which the timer should be created
      */
     public Timer(WorldUtils plugin) {
-        this.plugin = plugin;
         time = (int) WorldUtils.config.get(Settings.TIMER_TIME);
         timerBar = Bukkit.createBossBar("Timer: " + formatTime(time), BarColor.YELLOW, BarStyle.SEGMENTED_12);
-        timerBar.setVisible((Boolean) WorldUtils.config.get(Settings.TIMER_VISIBLE_ON_START));
-        setRunnable();
+        timerBar.setVisible(true);
+        BukkitRunnable runnable = new BukkitRunnable() {
+            @Override
+            public void run() {
+                if ((Boolean) WorldUtils.config.get(Settings.TIMER_RUNNING)) update(true);
+            }
+        };
+        runnable.runTaskTimer(plugin, 20, 20);
     }
 
     /**
@@ -37,21 +40,6 @@ public class Timer {
     public void set(int time) {
         this.time = time;
         update(false);
-    }
-
-    /**
-     * Start or resume the timer
-     */
-    public void start() {
-        runnable.runTaskTimer(plugin, 20, 20);
-    }
-
-    /**
-     * Stop or pause the timer
-     */
-    public void stop() {
-        runnable.cancel();
-        setRunnable();
     }
 
     /**
@@ -89,17 +77,5 @@ public class Timer {
         timerBar.setTitle("§eTimer: " + formatTime(time));
         timerBar.setProgress((time % 60) / 60.0);
         WorldUtils.config.set(Settings.TIMER_TIME, time, false);
-    }
-
-    /**
-     * Set the runnable for the timer to run
-     */
-    private void setRunnable() {
-        runnable = new BukkitRunnable() {
-            @Override
-            public void run() {
-                update(true);
-            }
-        };
     }
 }

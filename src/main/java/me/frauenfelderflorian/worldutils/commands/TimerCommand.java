@@ -30,48 +30,40 @@ public class TimerCommand implements TabExecutor {
     public boolean onCommand(CommandSender sender, Command command, String alias, String[] args) {
         switch (args.length) {
             case 1 -> {
-                switch (args[0]) {
-                    case "join" -> {
-                        if (sender instanceof Player) WorldUtils.timer.timerBar.addPlayer((Player) sender);
-                        else WorldUtils.Messages.notConsole(sender);
+                switch (args[0]) { //only allow commands when player has joined timer
+                    case "visible" -> {
+                        //add or remove player: changes visibility status for one single player
+                        if (sender instanceof Player) {
+                            if (WorldUtils.timer.timerBar.getPlayers().contains((Player) sender))
+                                WorldUtils.timer.timerBar.removePlayer((Player) sender);
+                            else WorldUtils.timer.timerBar.addPlayer((Player) sender);
+                            sender.sendMessage("§eTimer set to " +
+                                    (WorldUtils.timer.timerBar.getPlayers().contains((Player) sender)
+                                            ? "visible." : "invisible."));
+                        } else WorldUtils.Messages.notConsole(sender);
                         return true;
                     }
-                    case "leave" -> {
-                        if (sender instanceof Player) WorldUtils.timer.timerBar.removePlayer((Player) sender);
-                        else WorldUtils.Messages.notConsole(sender);
-                        return true;
-                    }
-                    case "show" -> {
-                        WorldUtils.timer.timerBar.setVisible(true);
-                        return true;
-                    }
-                    case "hide" -> {
-                        WorldUtils.timer.timerBar.setVisible(false);
-                        return true;
-                    }
-                    case "start" -> {
-                        //start or resume timer
-                        WorldUtils.timer.start();
-                        Bukkit.broadcastMessage("§eTimer started.");
-                        return true;
-                    }
-                    case "stop" -> {
-                        //stop or pause timer
-                        WorldUtils.timer.stop();
-                        Bukkit.broadcastMessage("§eTimer stopped.");
+                    case "running" -> {
+                        //change running status
+                        WorldUtils.config.set(Settings.TIMER_RUNNING,
+                                !(Boolean) WorldUtils.config.get(Settings.TIMER_RUNNING), true);
+                        Bukkit.broadcastMessage("§eTimer "
+                                + ((Boolean) WorldUtils.config.get(Settings.TIMER_RUNNING)
+                                ? "started." : "stopped."));
                         return true;
                     }
                     case "reverse" -> {
                         //change reverse status
                         WorldUtils.config.set(Settings.TIMER_REVERSE,
                                 !(Boolean) WorldUtils.config.get(Settings.TIMER_REVERSE), true);
-                        Bukkit.broadcastMessage("§eTimer reversed, now in "
+                        Bukkit.broadcastMessage("§eTimer reversed, now in §b"
                                 + ((Boolean) WorldUtils.config.get(Settings.TIMER_REVERSE) ? "reverse" : "normal")
-                                + " mode.");
+                                + "§e mode.");
                         return true;
                     }
                     case "reset" -> {
                         //set timer to 0
+                        WorldUtils.config.set(Settings.TIMER_RUNNING, false, true);
                         WorldUtils.timer.set(0);
                         Bukkit.broadcastMessage("§eTimer set to 0.");
                         return true;
@@ -125,8 +117,8 @@ public class TimerCommand implements TabExecutor {
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         List<String> completions = new ArrayList<>();
         switch (args.length) {
-            case 1 -> StringUtil.copyPartialMatches(args[0], List.of("join", "leave", "show", "hide", "start", "stop",
-                    "reverse", "reset", "set", "add"), completions);
+            case 1 -> StringUtil.copyPartialMatches(args[0],
+                    List.of("visible", "running", "reverse", "reset", "set", "add"), completions);
             case 2, 3, 4, 5 -> {
                 if (List.of("set", "add").contains(args[0])) completions.add("<time>");
             }
