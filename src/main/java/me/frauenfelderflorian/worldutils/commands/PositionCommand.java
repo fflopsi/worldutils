@@ -86,6 +86,8 @@ public class PositionCommand implements TabExecutor {
                         Bukkit.broadcastMessage("§cDeleted§r position "
                                 + WorldUtils.Messages.positionMessage(args[1], (Location) WorldUtils.positions.get(args[1])));
                         WorldUtils.positions.remove(args[1]);
+                        if (WorldUtils.positions.contains("list." + args[1]))
+                            WorldUtils.positions.remove("list." + args[1]);
                         return true;
                     }
                 }
