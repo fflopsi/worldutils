@@ -28,79 +28,81 @@ public class TimerCommand implements TabExecutor {
      */
     @Override
     public boolean onCommand(CommandSender sender, Command command, String alias, String[] args) {
-        switch (args.length) {
-            case 1 -> {
-                switch (args[0]) { //only allow commands when player has joined timer
-                    case "visible" -> {
-                        //add or remove player: changes visibility status for one single player
-                        if (sender instanceof Player) {
-                            if (WorldUtils.timer.timerBar.getPlayers().contains((Player) sender))
-                                WorldUtils.timer.timerBar.removePlayer((Player) sender);
-                            else WorldUtils.timer.timerBar.addPlayer((Player) sender);
-                            sender.sendMessage("§eTimer set to " +
-                                    (WorldUtils.timer.timerBar.getPlayers().contains((Player) sender)
-                                            ? "visible." : "invisible."));
-                        } else WorldUtils.Messages.notConsole(sender);
-                        return true;
+        if (sender.isOp() || WorldUtils.timer.timerBar.getPlayers().contains((Player) sender))
+            switch (args.length) {
+                case 1 -> {
+                    switch (args[0]) { //only allow commands when player has joined timer
+                        case "visible" -> {
+                            //add or remove player: changes visibility status for one single player
+                            if (sender instanceof Player) {
+                                if (WorldUtils.timer.timerBar.getPlayers().contains((Player) sender))
+                                    WorldUtils.timer.timerBar.removePlayer((Player) sender);
+                                else WorldUtils.timer.timerBar.addPlayer((Player) sender);
+                                sender.sendMessage("§eTimer set to " +
+                                        (WorldUtils.timer.timerBar.getPlayers().contains((Player) sender)
+                                                ? "visible." : "invisible."));
+                            } else WorldUtils.Messages.notConsole(sender);
+                            return true;
+                        }
+                        case "running" -> {
+                            //change running status
+                            WorldUtils.config.set(Settings.TIMER_RUNNING,
+                                    !(Boolean) WorldUtils.config.get(Settings.TIMER_RUNNING), true);
+                            Bukkit.broadcastMessage("§eTimer "
+                                    + ((Boolean) WorldUtils.config.get(Settings.TIMER_RUNNING)
+                                    ? "started." : "stopped."));
+                            return true;
+                        }
+                        case "reverse" -> {
+                            //change reverse status
+                            WorldUtils.config.set(Settings.TIMER_REVERSE,
+                                    !(Boolean) WorldUtils.config.get(Settings.TIMER_REVERSE), true);
+                            Bukkit.broadcastMessage("§eTimer reversed, now in §b"
+                                    + ((Boolean) WorldUtils.config.get(Settings.TIMER_REVERSE) ? "reverse" : "normal")
+                                    + "§e mode.");
+                            return true;
+                        }
+                        case "reset" -> {
+                            //set timer to 0
+                            WorldUtils.config.set(Settings.TIMER_RUNNING, false, true);
+                            WorldUtils.timer.set(0);
+                            Bukkit.broadcastMessage("§eTimer set to 0.");
+                            return true;
+                        }
                     }
-                    case "running" -> {
-                        //change running status
-                        WorldUtils.config.set(Settings.TIMER_RUNNING,
-                                !(Boolean) WorldUtils.config.get(Settings.TIMER_RUNNING), true);
-                        Bukkit.broadcastMessage("§eTimer "
-                                + ((Boolean) WorldUtils.config.get(Settings.TIMER_RUNNING)
-                                ? "started." : "stopped."));
-                        return true;
-                    }
-                    case "reverse" -> {
-                        //change reverse status
-                        WorldUtils.config.set(Settings.TIMER_REVERSE,
-                                !(Boolean) WorldUtils.config.get(Settings.TIMER_REVERSE), true);
-                        Bukkit.broadcastMessage("§eTimer reversed, now in §b"
-                                + ((Boolean) WorldUtils.config.get(Settings.TIMER_REVERSE) ? "reverse" : "normal")
-                                + "§e mode.");
-                        return true;
-                    }
-                    case "reset" -> {
-                        //set timer to 0
-                        WorldUtils.config.set(Settings.TIMER_RUNNING, false, true);
-                        WorldUtils.timer.set(0);
-                        Bukkit.broadcastMessage("§eTimer set to 0.");
-                        return true;
+                }
+                case 2, 3, 4, 5 -> {
+                    switch (args[0]) {
+                        case "set" -> {
+                            //set time to input values
+                            try {
+                                WorldUtils.timer.set(getTime(args));
+                            } catch (IllegalStateException e) {
+                                WorldUtils.Messages.wrongArgumentNumber(sender);
+                            } catch (NumberFormatException e) {
+                                WorldUtils.Messages.wrongArguments(sender);
+                            }
+                            Bukkit.broadcastMessage("§eTimer set to §b"
+                                    + Timer.formatTime((int) WorldUtils.config.get(Settings.TIMER_TIME)));
+                            return true;
+                        }
+                        case "add" -> {
+                            //add input values to current time
+                            try {
+                                WorldUtils.timer.set(
+                                        (int) WorldUtils.config.get(Settings.TIMER_TIME) + getTime(args));
+                            } catch (IllegalStateException e) {
+                                WorldUtils.Messages.wrongArgumentNumber(sender);
+                            } catch (NumberFormatException e) {
+                                WorldUtils.Messages.wrongArguments(sender);
+                            }
+                            Bukkit.broadcastMessage("§eAdded §b" + Timer.formatTime(getTime(args)) + " §eto timer");
+                            return true;
+                        }
                     }
                 }
             }
-            case 2, 3, 4, 5 -> {
-                switch (args[0]) {
-                    case "set" -> {
-                        //set time to input values
-                        try {
-                            WorldUtils.timer.set(getTime(args));
-                        } catch (IllegalStateException e) {
-                            WorldUtils.Messages.wrongArgumentNumber(sender);
-                        } catch (NumberFormatException e) {
-                            WorldUtils.Messages.wrongArguments(sender);
-                        }
-                        Bukkit.broadcastMessage("§eTimer set to §b"
-                                + Timer.formatTime((int) WorldUtils.config.get(Settings.TIMER_TIME)));
-                        return true;
-                    }
-                    case "add" -> {
-                        //add input values to current time
-                        try {
-                            WorldUtils.timer.set(
-                                    (int) WorldUtils.config.get(Settings.TIMER_TIME) + getTime(args));
-                        } catch (IllegalStateException e) {
-                            WorldUtils.Messages.wrongArgumentNumber(sender);
-                        } catch (NumberFormatException e) {
-                            WorldUtils.Messages.wrongArguments(sender);
-                        }
-                        Bukkit.broadcastMessage("§eAdded §b" + Timer.formatTime(getTime(args)) + " §eto timer");
-                        return true;
-                    }
-                }
-            }
-        }
+        else if (args.length == 1 && args[0].equals("visible")) WorldUtils.timer.timerBar.addPlayer((Player) sender);
         return false;
     }
 
