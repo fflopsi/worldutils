@@ -4,7 +4,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 /**
@@ -76,7 +75,8 @@ public class Timer {
             else time++;
         }
         timerBar.setTitle("§eTimer: " + formatTime(time));
-        timerBar.setProgress((time % 3600) / 3600.0);
+        if ((Boolean) WorldUtils.config.get(Settings.TIMER_PROGRESS_MINUTE)) timerBar.setProgress((time % 60) / 60.0);
+        else timerBar.setProgress((time % 3600) / 3600.0);
         WorldUtils.config.set(Settings.TIMER_TIME, time, false);
     }
 }

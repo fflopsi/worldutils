@@ -16,10 +16,6 @@ public enum Settings {
      */
     PERSONALPOSITION_ACCESS_GLOBAL("personalposition", "makeAccessibleGlobally", false, true),
     /**
-     * Add a player to the timer automatically when joining (default: true)
-     */
-    TIMER_ADD_PLAYER_ON_JOIN("timer", "addPlayerOnJoin", false, true),
-    /**
      * Make the timer visible automatically on server startup (default: false)
      */
     TIMER_TIME("timer", "time", 0, false),
@@ -31,6 +27,14 @@ public enum Settings {
      * If the timer is running reversed (default: false)
      */
     TIMER_REVERSE("timer", "reverse", false, false),
+    /**
+     * Add a player to the timer automatically when joining (default: true)
+     */
+    TIMER_ADD_PLAYER_ON_JOIN("timer", "addPlayerOnJoin", false, true),
+    /**
+     * Timer progress bar displays the progress of the current minute instead of hour (default: false)
+     */
+    TIMER_PROGRESS_MINUTE("timer", "progressMinute", false, true),
     /**
      * If the world is going to be reset on next load (default: false)
      */
