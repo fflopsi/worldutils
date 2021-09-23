@@ -21,8 +21,9 @@ public class Timer {
      */
     public Timer(WorldUtils plugin) {
         time = (int) WorldUtils.config.get(Settings.TIMER_TIME);
-        timerBar = Bukkit.createBossBar("Timer: " + formatTime(time), BarColor.YELLOW, BarStyle.SEGMENTED_12);
+        timerBar = Bukkit.createBossBar("§eTimer: " + formatTime(time), BarColor.YELLOW, BarStyle.SEGMENTED_12);
         timerBar.setVisible(true);
+        update(false);
         BukkitRunnable runnable = new BukkitRunnable() {
             @Override
             public void run() {
@@ -75,7 +76,7 @@ public class Timer {
             else time++;
         }
         timerBar.setTitle("§eTimer: " + formatTime(time));
-        timerBar.setProgress((time % 60) / 60.0);
+        timerBar.setProgress((time % 3600) / 3600.0);
         WorldUtils.config.set(Settings.TIMER_TIME, time, false);
     }
 }
