@@ -52,8 +52,6 @@ public final class WorldUtils extends JavaPlugin {
                     config.set(stg, stg.getDefault(), true);
             getLogger().warning("Server reset");
         }
-        //set up timer
-        timer = new Timer(this);
     }
 
     /**
@@ -77,6 +75,8 @@ public final class WorldUtils extends JavaPlugin {
         Objects.requireNonNull(getCommand("settings")).setExecutor(new SettingsCommand());
         Objects.requireNonNull(getCommand("settings")).setTabCompleter(new SettingsCommand());
         getServer().getPluginManager().registerEvents(new Listeners(), this);
+        //set up timer
+        timer = new Timer(this);
     }
 
     /**
@@ -84,6 +84,7 @@ public final class WorldUtils extends JavaPlugin {
      */
     @Override
     public void onDisable() {
+        config.set(Settings.TIMER_RUNNING, false, true);
         config.save(true);
     }
 
