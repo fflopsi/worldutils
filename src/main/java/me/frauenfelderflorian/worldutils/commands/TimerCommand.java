@@ -31,7 +31,7 @@ public class TimerCommand implements TabExecutor {
         if (sender.isOp() || WorldUtils.timer.timerBar.getPlayers().contains((Player) sender))
             switch (args.length) {
                 case 1 -> {
-                    switch (args[0]) { //only allow commands when player has joined timer
+                    switch (args[0]) {
                         case "visible" -> {
                             //add or remove player: changes visibility status for one single player
                             if (sender instanceof Player) {
