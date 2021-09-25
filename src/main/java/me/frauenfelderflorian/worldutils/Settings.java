@@ -36,6 +36,10 @@ public enum Settings {
      */
     TIMER_PROGRESS_MINUTE("timer", "progressMinute", false, true),
     /**
+     * Timer stops when the dragon defeated (default: true)
+     */
+    TIMER_STOP_ON_DRAGON_DEATH("timer", "stopOnDragonDeath", true, true),
+    /**
      * If the world is going to be reset on next load (default: false)
      */
     RESET_RESET("reset", "reset", false, false),
