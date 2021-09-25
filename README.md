@@ -27,7 +27,7 @@ The commands and their respective syntax are:
 - ```/position <name> | (<option> [<name>])```
 - ```/personalposition <name> | (<option> [<name>])```
 - ```/sendposition [<playername>]```
-- ```/timer (join | leave | show | hide | start | stop | reverse | reset | (set | add) [[[<d>] <h>] <min>] <s>)```
+- ```/timer (visible | running | reverse | reset | (set | add) [[[<d>] <h>] <min>] <s>)```
 - ```/reset [confirm]```
 - ```/settings <commandname> <setting> (true | false)```
 
