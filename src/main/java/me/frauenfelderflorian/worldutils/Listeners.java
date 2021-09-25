@@ -1,26 +1,20 @@
 package me.frauenfelderflorian.worldutils;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.EnderDragon;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
+import java.util.Objects;
+
 /**
- * Listener for PlayerDeathEvents
+ * Listener class for triggered Events
  */
 public class Listeners implements Listener {
-    /**
-     * Executed when a player dies: Send a death message with the death coordinates
-     *
-     * @param event the triggered PlayerDeathEvent
-     */
-    @EventHandler
-    public void onPlayerDeath(PlayerDeathEvent event) {
-        event.getEntity().sendMessage("You §4died§r at " + WorldUtils.Messages.positionMessage(event.getEntity().getLocation()));
-    }
-
     /**
      * Executed when a player joins: Send a welcome message and add player to timer if configured so
      *
@@ -43,4 +37,42 @@ public class Listeners implements Listener {
         if (Bukkit.getServer().getOnlinePlayers().size() == 1)
             WorldUtils.config.set(Settings.TIMER_RUNNING, false, true);
     }
+
+    /**
+     * Executed when a player dies: Send a death message with the death coordinates
+     *
+     * @param event the triggered PlayerDeathEvent
+     */
+    @EventHandler
+    public void onPlayerDeath(PlayerDeathEvent event) {
+        event.getEntity().sendMessage("You §4died§r at " + WorldUtils.Messages.positionMessage(event.getEntity().getLocation()));
+    }
+
+    /**
+     * Executed when an entity dies: If it is the Ender Dragon, stop the timer
+     *
+     * @param event the triggered EntityDeathEvent
+     */
+    @EventHandler
+    public void onDragonDeath(EntityDeathEvent event) {
+        if (event.getEntity() instanceof EnderDragon) {
+            WorldUtils.config.set(Settings.TIMER_RUNNING, false, true);
+            Objects.requireNonNull(event.getEntity().getKiller())
+                    .sendMessage("§bCongratulations, you killed the Ender Dragon!");
+            Bukkit.broadcastMessage("§bCongratulations, you just won the game!");
+        }
+    }
+
+    /*
+     * Events to cancel when occurring during paused timer (how to do this?):
+     * Every event where the player interacts with the world (blocks, entities, damage etc.)
+     * blockbreak, blockplace
+     */
+
+/* Method to use for cancelling events
+    private void cancel(Event event) {
+        if (!((Boolean) WorldUtils.config.get(Settings.TIMER_RUNNING)))
+            if (event instanceof Cancellable) ((Cancellable) event).setCancelled(true);
+    }
+*/
 }
