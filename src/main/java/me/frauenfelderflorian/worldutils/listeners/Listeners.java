@@ -1,5 +1,7 @@
-package me.frauenfelderflorian.worldutils;
+package me.frauenfelderflorian.worldutils.listeners;
 
+import me.frauenfelderflorian.worldutils.Settings;
+import me.frauenfelderflorian.worldutils.WorldUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.EnderDragon;
 import org.bukkit.event.EventHandler;
@@ -63,85 +65,4 @@ public class Listeners implements Listener {
             Bukkit.broadcastMessage("§bCongratulations, you just won the game!");
         }
     }
-
-    /*
-     * Events to cancel when occurring during paused timer (how to do this?):
-     * Every event where the player interacts with the world (blocks, entities, damage etc.)
-AreaEffectCloudApplyEvent
-BlockBreakEvent
-BlockDropItemEvent
-BlockFertilizeEvent
-BlockIgniteEvent
-BlockPlaceEvent
-EnchantItemEvent
-EntityAirChangeEvent getEntity
-EntityChangeBlockEvent getEntity
-EntityDamageEvent getEntity
-EntityDismountEvent
-EntityEnterLoveModeEvent
-EntityExhaustionEvent
-EntityInteractEvent
-EntityMountEvent
-EntityPickupItemEvent getEntity
-EntityPlaceEvent
-EntityPotionEffectEvent getEntity
-EntityRegainHealthEvent getEntity
-EntityShootBowEvent getEntity
-EntityTameEvent getOwner
-EntityToggleGlideEvent
-EntityToggleSwimEvent
-FoodLevelChangeEvent
-HangingBreakByEntityEvent getRemover
-HangingPlaceEvent
-InventoryClickEvent not creative
-InventoryDragEvent
-InventoryOpenEvent
-ItemDespawnEvent
-PiglinBarterEvent
-PlayerBedEnterEvent
-PlayerBedLeaveEvent
-PlayerBucketEmptyEvent
-PlayerBucketEntityEvent
-PlayerBucketFillEvent
-PlayerDropItemEvent
-PlayerEditBookEvent
-PlayerFishEvent
-PlayerHarvestBlockEvent
-PlayerInteractEntityEvent
-PlayerInteractEvent
-PlayerItemConsumeEvent
-PlayerItemDamageEvent
-PlayerItemMendEvent
-PlayerLeashEntityEvent
-PlayerMoveEvent for fun
-PlayerPortalEvent
-PlayerShearEntityEvent
-PlayerSwapHandItemsEvent
-PlayerTakeLecternBookEvent
-PlayerToggleFlightEvent elytra???
-(PlayerToggleSneakEvent)
-(PlayerToggleSprintEvent)
-PlayerUnleashEntityEvent
-PortalCreateEvent
-PrepareItemEnchantEvent
-ProjectileHitEvent getHitEntity
-ProjectileLaunchEvent
-RaidTriggerEvent
-SheepDyeWoolEvent
-SignChangeEvent
-StructureGrowEvent isFromBonemeal
-TradeSelectEvent
-VehicleCreateEvent
-VehicleDamageEvent
-VehicleDestroyEvent
-VehicleEnterEvent getEntered
-VehicleExitEvent getExited
-     */
-
-/* Method to use for cancelling events
-    private void cancel(Event event) {
-        if (!((Boolean) WorldUtils.config.get(Settings.TIMER_RUNNING)))
-            if (event instanceof Cancellable) ((Cancellable) event).setCancelled(true);
-    }
-*/
 }

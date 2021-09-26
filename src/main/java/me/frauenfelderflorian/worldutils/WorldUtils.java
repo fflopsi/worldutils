@@ -1,6 +1,8 @@
 package me.frauenfelderflorian.worldutils;
 
 import me.frauenfelderflorian.worldutils.commands.*;
+import me.frauenfelderflorian.worldutils.listeners.Listeners;
+import me.frauenfelderflorian.worldutils.listeners.ListenersTimerPaused;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -75,6 +77,7 @@ public final class WorldUtils extends JavaPlugin {
         Objects.requireNonNull(getCommand("settings")).setExecutor(new SettingsCommand());
         Objects.requireNonNull(getCommand("settings")).setTabCompleter(new SettingsCommand());
         getServer().getPluginManager().registerEvents(new Listeners(), this);
+        getServer().getPluginManager().registerEvents(new ListenersTimerPaused(), this);
         //set up timer
         timer = new Timer(this);
     }
