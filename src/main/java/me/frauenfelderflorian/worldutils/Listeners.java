@@ -67,7 +67,75 @@ public class Listeners implements Listener {
     /*
      * Events to cancel when occurring during paused timer (how to do this?):
      * Every event where the player interacts with the world (blocks, entities, damage etc.)
-     * blockbreak, blockplace
+AreaEffectCloudApplyEvent
+BlockBreakEvent
+BlockDropItemEvent
+BlockFertilizeEvent
+BlockIgniteEvent
+BlockPlaceEvent
+EnchantItemEvent
+EntityAirChangeEvent getEntity
+EntityChangeBlockEvent getEntity
+EntityDamageEvent getEntity
+EntityDismountEvent
+EntityEnterLoveModeEvent
+EntityExhaustionEvent
+EntityInteractEvent
+EntityMountEvent
+EntityPickupItemEvent getEntity
+EntityPlaceEvent
+EntityPotionEffectEvent getEntity
+EntityRegainHealthEvent getEntity
+EntityShootBowEvent getEntity
+EntityTameEvent getOwner
+EntityToggleGlideEvent
+EntityToggleSwimEvent
+FoodLevelChangeEvent
+HangingBreakByEntityEvent getRemover
+HangingPlaceEvent
+InventoryClickEvent not creative
+InventoryDragEvent
+InventoryOpenEvent
+ItemDespawnEvent
+PiglinBarterEvent
+PlayerBedEnterEvent
+PlayerBedLeaveEvent
+PlayerBucketEmptyEvent
+PlayerBucketEntityEvent
+PlayerBucketFillEvent
+PlayerDropItemEvent
+PlayerEditBookEvent
+PlayerFishEvent
+PlayerHarvestBlockEvent
+PlayerInteractEntityEvent
+PlayerInteractEvent
+PlayerItemConsumeEvent
+PlayerItemDamageEvent
+PlayerItemMendEvent
+PlayerLeashEntityEvent
+PlayerMoveEvent for fun
+PlayerPortalEvent
+PlayerShearEntityEvent
+PlayerSwapHandItemsEvent
+PlayerTakeLecternBookEvent
+PlayerToggleFlightEvent elytra???
+(PlayerToggleSneakEvent)
+(PlayerToggleSprintEvent)
+PlayerUnleashEntityEvent
+PortalCreateEvent
+PrepareItemEnchantEvent
+ProjectileHitEvent getHitEntity
+ProjectileLaunchEvent
+RaidTriggerEvent
+SheepDyeWoolEvent
+SignChangeEvent
+StructureGrowEvent isFromBonemeal
+TradeSelectEvent
+VehicleCreateEvent
+VehicleDamageEvent
+VehicleDestroyEvent
+VehicleEnterEvent getEntered
+VehicleExitEvent getExited
      */
 
 /* Method to use for cancelling events
