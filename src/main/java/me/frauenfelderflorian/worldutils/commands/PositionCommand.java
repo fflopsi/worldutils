@@ -17,6 +17,8 @@ import java.util.List;
  * CommandExecutor and TabCompleter for command position
  */
 public class PositionCommand implements TabExecutor {
+    public static final String command = "position";
+
     /**
      * Done when command sent
      *
@@ -54,9 +56,8 @@ public class PositionCommand implements TabExecutor {
                                 sender.sendMessage(WorldUtils.Messages.positionMessage(
                                         args[0], (String) WorldUtils.positions.get("list." + args[0]),
                                         (Location) WorldUtils.positions.get(args[0])));
-                            else
-                                sender.sendMessage(WorldUtils.Messages.positionMessage(
-                                        args[0], (Location) WorldUtils.positions.get(args[0])));
+                            else sender.sendMessage(WorldUtils.Messages.positionMessage(
+                                    args[0], (Location) WorldUtils.positions.get(args[0])));
                         else if (sender instanceof Player) {
                             //new position name, save position
                             WorldUtils.positions.set(args[0], ((Player) sender).getLocation(), true);

@@ -17,6 +17,8 @@ import java.util.List;
  * CommandExecutor and TabCompleter for command timer
  */
 public class TimerCommand implements TabExecutor {
+    public static final String command = "timer";
+
     /**
      * Done when command sent
      *

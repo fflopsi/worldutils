@@ -24,22 +24,18 @@ public class Config {
     public Config(JavaPlugin plugin, String filename) {
         this.plugin = plugin;
         //set config file, create if not exists
-        if (!plugin.getDataFolder().exists()) {
-            boolean dirsCreated = plugin.getDataFolder().mkdirs();
-            if (dirsCreated) plugin.getLogger().info("Created " + plugin.getName() + " folder");
-        }
+        if (!plugin.getDataFolder().exists() && plugin.getDataFolder().mkdirs())
+            plugin.getLogger().info("Created " + plugin.getName() + " folder");
         file = new File(plugin.getDataFolder(), filename);
         if (!file.exists()) {
             try {
-                boolean fileCreated = file.createNewFile();
-                if (fileCreated) plugin.getLogger().info("Created " + file.getName());
+                if (file.createNewFile()) plugin.getLogger().info("Created " + file.getName());
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
         config = YamlConfiguration.loadConfiguration(file);
         plugin.getLogger().info("Loaded config from " + file.getName());
-
     }
 
     /**
@@ -47,6 +43,7 @@ public class Config {
      *
      * @param path  the path of the new value
      * @param value the value Object to be added
+     * @param log   true if logging messages should be sent
      */
     public void set(String path, Object value, boolean log) {
         config.set(path, value);
@@ -59,6 +56,7 @@ public class Config {
      *
      * @param setting the setting to be set
      * @param value   the value Object of the setting
+     * @param log     true if logging messages should be sent
      */
     public void set(Settings setting, Object value, boolean log) {
         set(setting.getKey(), value, log);
@@ -134,6 +132,8 @@ public class Config {
 
     /**
      * Save the config file
+     *
+     * @param log true if logging messages should be sent
      */
     public void save(boolean log) {
         try {

@@ -17,6 +17,8 @@ import java.util.List;
  * CommandExecutor and TabCompleter for command reset
  */
 public record ResetCommand(JavaPlugin plugin) implements TabExecutor {
+    public static final String command = "reset";
+
     /**
      * Done when command sent
      *

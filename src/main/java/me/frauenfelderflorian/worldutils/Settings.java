@@ -93,8 +93,7 @@ public enum Settings {
      */
     public static List<String> getCommands() {
         List<String> commands = new ArrayList<>();
-        for (Settings setting : values())
-            if (!commands.contains(setting.command)) commands.add(setting.command);
+        for (Settings setting : values()) if (!commands.contains(setting.command)) commands.add(setting.command);
         return commands;
     }
 
@@ -106,8 +105,7 @@ public enum Settings {
      */
     public static List<String> getSettings(String command) {
         List<String> settings = new ArrayList<>();
-        for (Settings stg : values())
-            if (command.equals(stg.command) && stg.settable) settings.add(stg.subKey);
+        for (Settings stg : values()) if (command.equals(stg.command) && stg.settable) settings.add(stg.subKey);
         return settings;
     }
 

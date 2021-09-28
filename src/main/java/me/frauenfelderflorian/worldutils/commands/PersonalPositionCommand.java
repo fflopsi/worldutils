@@ -20,6 +20,8 @@ import java.util.Objects;
  * CommandExecutor and TabCompleter for command personalposition
  */
 public record PersonalPositionCommand(JavaPlugin plugin) implements TabExecutor {
+    public static final String command = "personalposition";
+
     /**
      * Done when command sent
      *
@@ -40,7 +42,8 @@ public record PersonalPositionCommand(JavaPlugin plugin) implements TabExecutor 
                         case "list" -> {
                             //send all position info
                             for (String pos : positions.getKeys(false))
-                                sender.sendMessage(WorldUtils.Messages.positionMessage(pos, (Location) positions.get(pos)));
+                                sender.sendMessage(WorldUtils.Messages.positionMessage(
+                                        pos, (Location) positions.get(pos)));
                             return true;
                         }
                         case "clear" -> {
@@ -53,12 +56,14 @@ public record PersonalPositionCommand(JavaPlugin plugin) implements TabExecutor 
                             //position name entered
                             if (positions.contains(args[0]))
                                 //existing position, send info
-                                sender.sendMessage(WorldUtils.Messages.positionMessage(args[0], (Location) positions.get(args[0])));
+                                sender.sendMessage(WorldUtils.Messages.positionMessage(
+                                        args[0], (Location) positions.get(args[0])));
                             else {
                                 //new position name, save position
                                 positions.set(args[0], ((Player) sender).getLocation(), true);
                                 sender.sendMessage("§aAdded§r personal position "
-                                        + WorldUtils.Messages.positionMessage(args[0], (Location) positions.get(args[0])));
+                                        + WorldUtils.Messages.positionMessage(
+                                        args[0], (Location) positions.get(args[0])));
                             }
                             return true;
                         }
@@ -69,8 +74,7 @@ public record PersonalPositionCommand(JavaPlugin plugin) implements TabExecutor 
                     switch (args[0]) {
                         case "tp" -> {
                             //teleport player to position if OP
-                            if (sender.isOp())
-                                ((Player) sender).teleport((Location) positions.get(args[1]));
+                            if (sender.isOp()) ((Player) sender).teleport((Location) positions.get(args[1]));
                             else WorldUtils.Messages.notAllowed(sender);
                             return true;
                         }

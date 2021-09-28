@@ -50,8 +50,7 @@ public final class WorldUtils extends JavaPlugin {
                     if (file.getName().startsWith("positions") && file.getName().endsWith(".yml")) file.delete();
             //reset Settings if needed
             if ((Boolean) config.get(Settings.RESET_RESET_SETTINGS))
-                for (Settings stg : Settings.values())
-                    config.set(stg, stg.getDefault(), true);
+                for (Settings stg : Settings.values()) config.set(stg, stg.getDefault(), true);
             getLogger().warning("Server reset");
         }
     }
@@ -64,18 +63,20 @@ public final class WorldUtils extends JavaPlugin {
         //load positions
         positions = new Config(this, "positions.yml");
         //set CommandExecutors and TabCompleters
-        Objects.requireNonNull(getCommand("position")).setExecutor(new PositionCommand());
-        Objects.requireNonNull(getCommand("position")).setTabCompleter(new PositionCommand());
-        Objects.requireNonNull(getCommand("personalposition")).setExecutor(new PersonalPositionCommand(this));
-        Objects.requireNonNull(getCommand("personalposition")).setTabCompleter(new PersonalPositionCommand(this));
-        Objects.requireNonNull(getCommand("sendposition")).setExecutor(new SendPositionCommand());
-        Objects.requireNonNull(getCommand("sendposition")).setTabCompleter(new SendPositionCommand());
-        Objects.requireNonNull(getCommand("timer")).setExecutor(new TimerCommand());
-        Objects.requireNonNull(getCommand("timer")).setTabCompleter(new TimerCommand());
-        Objects.requireNonNull(getCommand("reset")).setExecutor(new ResetCommand(this));
-        Objects.requireNonNull(getCommand("reset")).setTabCompleter(new ResetCommand(this));
-        Objects.requireNonNull(getCommand("settings")).setExecutor(new SettingsCommand());
-        Objects.requireNonNull(getCommand("settings")).setTabCompleter(new SettingsCommand());
+        Objects.requireNonNull(getCommand(PositionCommand.command)).setExecutor(new PositionCommand());
+        Objects.requireNonNull(getCommand(PositionCommand.command)).setTabCompleter(new PositionCommand());
+        Objects.requireNonNull(getCommand(PersonalPositionCommand.command))
+                .setExecutor(new PersonalPositionCommand(this));
+        Objects.requireNonNull(getCommand(PersonalPositionCommand.command))
+                .setTabCompleter(new PersonalPositionCommand(this));
+        Objects.requireNonNull(getCommand(SendPositionCommand.command)).setExecutor(new SendPositionCommand());
+        Objects.requireNonNull(getCommand(SendPositionCommand.command)).setTabCompleter(new SendPositionCommand());
+        Objects.requireNonNull(getCommand(TimerCommand.command)).setExecutor(new TimerCommand());
+        Objects.requireNonNull(getCommand(TimerCommand.command)).setTabCompleter(new TimerCommand());
+        Objects.requireNonNull(getCommand(ResetCommand.command)).setExecutor(new ResetCommand(this));
+        Objects.requireNonNull(getCommand(ResetCommand.command)).setTabCompleter(new ResetCommand(this));
+        Objects.requireNonNull(getCommand(SettingsCommand.command)).setExecutor(new SettingsCommand());
+        Objects.requireNonNull(getCommand(SettingsCommand.command)).setTabCompleter(new SettingsCommand());
         getServer().getPluginManager().registerEvents(new Listeners(), this);
         getServer().getPluginManager().registerEvents(new ListenersTimerPaused(), this);
         //set up timer
@@ -126,7 +127,8 @@ public final class WorldUtils extends JavaPlugin {
          * @return String with formatted position
          */
         public static String positionMessage(String name, String author, Location location) {
-            return "§b" + name + "§r from §b§o" + author + "§r (" + betterWorld(Objects.requireNonNull(location.getWorld()).getName()) + "): "
+            return "§b" + name + "§r from §b§o" + author
+                    + "§r (" + betterWorld(Objects.requireNonNull(location.getWorld()).getName()) + "): "
                     + location.getBlockX() + "  " + location.getBlockY() + "  " + location.getBlockZ();
         }
 

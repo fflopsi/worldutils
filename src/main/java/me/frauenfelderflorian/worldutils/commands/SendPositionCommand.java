@@ -16,6 +16,8 @@ import java.util.Objects;
  * CommandExecutor and TabCompleter for command sendposition
  */
 public class SendPositionCommand implements TabExecutor {
+    public static final String command = "sendposition";
+
     /**
      * Done when command sent
      *

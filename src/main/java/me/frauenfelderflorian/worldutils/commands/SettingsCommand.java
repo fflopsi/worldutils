@@ -15,6 +15,8 @@ import java.util.List;
  * CommandExecutor and TabCompleter for command settings
  */
 public class SettingsCommand implements TabExecutor {
+    public static final String command = "settings";
+
     /**
      * Done when command sent
      *
