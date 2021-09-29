@@ -21,6 +21,8 @@ import java.util.Objects;
  */
 public record PersonalPositionCommand(JavaPlugin plugin) implements TabExecutor {
     public static final String command = "personalposition";
+    private static String name = "";
+    private static Config positions;
 
     /**
      * Done when command sent
@@ -34,7 +36,10 @@ public record PersonalPositionCommand(JavaPlugin plugin) implements TabExecutor 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String alias, String[] args) {
         if (sender instanceof Player) {
-            Config positions = new Config(plugin, "positions_" + sender.getName() + ".yml");
+            if (!name.equals(sender.getName())) {
+                name = sender.getName();
+                positions = new Config(plugin, "positions_" + name + ".yml");
+            }
             switch (args.length) {
                 case 1 -> {
                     //command or position name entered
@@ -110,7 +115,10 @@ public record PersonalPositionCommand(JavaPlugin plugin) implements TabExecutor 
      */
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-        Config positions = new Config(plugin, "positions_" + sender.getName() + ".yml");
+        if (!name.equals(sender.getName())) {
+            name = sender.getName();
+            positions = new Config(plugin, "positions_" + name + ".yml");
+        }
         List<String> completions = new ArrayList<>();
         switch (args.length) {
             case 1 -> {
