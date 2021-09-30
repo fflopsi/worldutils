@@ -28,21 +28,21 @@ public class SettingsCommand implements TabExecutor {
      */
     @Override
     public boolean onCommand(CommandSender sender, Command command, String alias, String[] args) {
-        if (sender.isOp() || !((Boolean) WorldUtils.config.get(Settings.SETTINGS_NEED_OP))) {
+        if (sender.isOp() || !((Boolean) WorldUtils.prefs.get(Settings.SETTINGS_NEED_OP))) {
             if (args.length == 3) {
                 //command, setting and value entered
                 Settings setting = Settings.get(args[0], args[1]);
                 if (setting != null)
                     if (args[2].equals("true")) {
-                        WorldUtils.config.set(setting, true, true);
+                        WorldUtils.prefs.set(setting, true, true);
                         Bukkit.broadcastMessage("Setting §b" + args[1] + "§r from command §b" + args[0] + "§r set to §atrue");
                         return true;
                     } else if (args[2].equals("false")) {
-                        WorldUtils.config.set(setting, false, true);
+                        WorldUtils.prefs.set(setting, false, true);
                         Bukkit.broadcastMessage("Setting §b" + args[1] + "§r from command §b" + args[0] + "§r set to §cfalse");
                         return true;
                     } else if (args[2].equals("null")) {
-                        WorldUtils.config.remove(setting);
+                        WorldUtils.prefs.remove(setting);
                         Bukkit.broadcastMessage("Setting §b" + args[1] + "§r from command §b" + args[0] + "§r set to §enull");
                         Bukkit.broadcastMessage("§cUse with caution: §oThe plugin might not work correctly!");
                         return true;

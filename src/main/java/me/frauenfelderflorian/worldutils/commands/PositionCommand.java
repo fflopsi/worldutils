@@ -36,16 +36,15 @@ public class PositionCommand implements TabExecutor {
                 switch (args[0]) {
                     case "list" -> {
                         //send all position info
-                        for (String position : WorldUtils.positions.getKeys(false))
-                            if (!position.equals("list"))
-                                sender.sendMessage(WorldUtils.Messages.positionMessage(
-                                        position, (Location) WorldUtils.positions.get(position)));
+                        for (String position : WorldUtils.positions.getPositions())
+                            sender.sendMessage(WorldUtils.Messages.positionMessage(
+                                    position, (Location) WorldUtils.positions.get(position)));
                         return true;
                     }
                     case "clear" -> {
                         //remove all positions
                         Bukkit.broadcastMessage("§e§oCleared positions");
-                        for (String pos : WorldUtils.positions.getKeys(false)) WorldUtils.positions.remove(pos);
+                        for (String pos : WorldUtils.positions.getPositions()) WorldUtils.positions.remove(pos);
                         return true;
                     }
                     default -> {
@@ -61,7 +60,7 @@ public class PositionCommand implements TabExecutor {
                         else if (sender instanceof Player) {
                             //new position name, save position
                             WorldUtils.positions.set(args[0], ((Player) sender).getLocation(), true);
-                            if ((Boolean) WorldUtils.config.get(Settings.POSITION_SAVE_AUTHOR))
+                            if ((Boolean) WorldUtils.prefs.get(Settings.POSITION_SAVE_AUTHOR))
                                 WorldUtils.positions.set("list." + args[0], sender.getName(), true);
                             Bukkit.broadcastMessage("§aAdded§r position "
                                     + WorldUtils.Messages.positionMessage(args[0], sender.getName(),
@@ -113,12 +112,12 @@ public class PositionCommand implements TabExecutor {
             case 1 -> {
                 //command or position name being entered
                 StringUtil.copyPartialMatches(args[0], List.of("list", "clear", "tp", "del"), completions);
-                StringUtil.copyPartialMatches(args[0], WorldUtils.positions.getKeys(false), completions);
+                StringUtil.copyPartialMatches(args[0], WorldUtils.positions.getPositions(), completions);
             }
             case 2 -> {
                 //position name being entered
                 if (List.of("tp", "del").contains(args[0]))
-                    StringUtil.copyPartialMatches(args[1], WorldUtils.positions.getKeys(false), completions);
+                    StringUtil.copyPartialMatches(args[1], WorldUtils.positions.getPositions(), completions);
             }
         }
         return completions;

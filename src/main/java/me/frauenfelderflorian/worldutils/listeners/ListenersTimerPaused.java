@@ -365,7 +365,7 @@ public class ListenersTimerPaused implements Listener {
     }
 
     private void cancelEvent(Event event) {
-        if (!((Boolean) WorldUtils.config.get(Settings.TIMER_RUNNING))
+        if (!((Boolean) WorldUtils.prefs.get(Settings.TIMER_RUNNING))
                 && event instanceof Cancellable
                 && !((Cancellable) event).isCancelled()) {
             ((Cancellable) event).setCancelled(true);

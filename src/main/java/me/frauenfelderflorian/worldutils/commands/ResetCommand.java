@@ -30,7 +30,7 @@ public record ResetCommand(JavaPlugin plugin) implements TabExecutor {
      */
     @Override
     public boolean onCommand(CommandSender sender, Command command, String alias, String[] args) {
-        if (!(Boolean) WorldUtils.config.get(Settings.RESET_NEED_CONFIRM)
+        if (!(Boolean) WorldUtils.prefs.get(Settings.RESET_NEED_CONFIRM)
                 || args.length == 1 && args[0].equalsIgnoreCase("confirm")) {
             Bukkit.broadcastMessage("§e§oResetting server in 10 seconds.");
             //kick players 2 seconds before restarting
@@ -40,7 +40,7 @@ public record ResetCommand(JavaPlugin plugin) implements TabExecutor {
             }, 200);
             //restart
             Bukkit.getScheduler().runTaskLater(plugin, () -> {
-                WorldUtils.config.set(Settings.RESET_RESET, true, true);
+                WorldUtils.prefs.set(Settings.RESET_RESET, true, true);
                 Bukkit.spigot().restart();
             }, 220);
             return true;
@@ -60,7 +60,7 @@ public record ResetCommand(JavaPlugin plugin) implements TabExecutor {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         List<String> completions = new ArrayList<>();
-        if ((Boolean) WorldUtils.config.get(Settings.RESET_NEED_CONFIRM) && args.length == 1)
+        if ((Boolean) WorldUtils.prefs.get(Settings.RESET_NEED_CONFIRM) && args.length == 1)
             StringUtil.copyPartialMatches(args[0], List.of("confirm"), completions);
         return completions;
     }

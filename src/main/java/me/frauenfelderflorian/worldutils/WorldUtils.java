@@ -1,6 +1,8 @@
 package me.frauenfelderflorian.worldutils;
 
 import me.frauenfelderflorian.worldutils.commands.*;
+import me.frauenfelderflorian.worldutils.config.Positions;
+import me.frauenfelderflorian.worldutils.config.Prefs;
 import me.frauenfelderflorian.worldutils.listeners.Listeners;
 import me.frauenfelderflorian.worldutils.listeners.ListenersTimerPaused;
 import org.bukkit.Location;
@@ -20,8 +22,8 @@ import java.util.Objects;
  * Main plugin class
  */
 public final class WorldUtils extends JavaPlugin {
-    public static Config config;
-    public static Config positions;
+    public static Prefs prefs;
+    public static Positions positions;
     public static Timer timer;
 
     /**
@@ -30,11 +32,11 @@ public final class WorldUtils extends JavaPlugin {
     @Override
     public void onLoad() {
         //load config and set defaults
-        config = new Config(this, "config.yml");
+        prefs = new Prefs(this, "config.yml");
         for (Settings setting : Settings.values())
-            if (!config.contains(setting)) config.set(setting, setting.getDefault(), true);
+            if (!prefs.contains(setting)) prefs.set(setting, setting.getDefault(), true);
         //reset if needed
-        if ((Boolean) config.get(Settings.RESET_RESET)) {
+        if ((Boolean) prefs.get(Settings.RESET_RESET)) {
             //reset worlds
             for (String w : List.of("world", "world_nether", "world_the_end")) {
                 try {
@@ -43,14 +45,14 @@ public final class WorldUtils extends JavaPlugin {
                     e.printStackTrace();
                 }
             }
-            config.set(Settings.RESET_RESET, false, true);
+            prefs.set(Settings.RESET_RESET, false, true);
             //delete positions if needed
-            if ((Boolean) config.get(Settings.RESET_DELETE_POSITIONS))
+            if ((Boolean) prefs.get(Settings.RESET_DELETE_POSITIONS))
                 for (File file : Objects.requireNonNull(getDataFolder().listFiles()))
                     if (file.getName().startsWith("positions") && file.getName().endsWith(".yml")) file.delete();
             //reset Settings if needed
-            if ((Boolean) config.get(Settings.RESET_RESET_SETTINGS))
-                for (Settings stg : Settings.values()) config.set(stg, stg.getDefault(), true);
+            if ((Boolean) prefs.get(Settings.RESET_RESET_SETTINGS))
+                for (Settings stg : Settings.values()) prefs.set(stg, stg.getDefault(), true);
             getLogger().warning("Server reset");
         }
     }
@@ -61,7 +63,7 @@ public final class WorldUtils extends JavaPlugin {
     @Override
     public void onEnable() {
         //load positions
-        positions = new Config(this, "positions.yml");
+        positions = new Positions(this, "positions.yml");
         //set CommandExecutors and TabCompleters
         Objects.requireNonNull(getCommand(PositionCommand.command)).setExecutor(new PositionCommand());
         Objects.requireNonNull(getCommand(PositionCommand.command)).setTabCompleter(new PositionCommand());
@@ -88,8 +90,8 @@ public final class WorldUtils extends JavaPlugin {
      */
     @Override
     public void onDisable() {
-        config.set(Settings.TIMER_RUNNING, false, true);
-        config.save(true);
+        prefs.set(Settings.TIMER_RUNNING, false, true);
+        prefs.save(true);
     }
 
     public enum Messages {

@@ -1,8 +1,9 @@
 package me.frauenfelderflorian.worldutils.commands;
 
-import me.frauenfelderflorian.worldutils.Config;
 import me.frauenfelderflorian.worldutils.Settings;
 import me.frauenfelderflorian.worldutils.WorldUtils;
+import me.frauenfelderflorian.worldutils.config.Positions;
+import me.frauenfelderflorian.worldutils.config.Prefs;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -22,7 +23,7 @@ import java.util.Objects;
 public record PersonalPositionCommand(JavaPlugin plugin) implements TabExecutor {
     public static final String command = "personalposition";
     private static String name = "";
-    private static Config positions;
+    private static Positions positions;
 
     /**
      * Done when command sent
@@ -38,7 +39,7 @@ public record PersonalPositionCommand(JavaPlugin plugin) implements TabExecutor 
         if (sender instanceof Player) {
             if (!name.equals(sender.getName())) {
                 name = sender.getName();
-                positions = new Config(plugin, "positions_" + name + ".yml");
+                positions = new Positions(plugin, "positions_" + name + ".yml");
             }
             switch (args.length) {
                 case 1 -> {
@@ -46,7 +47,7 @@ public record PersonalPositionCommand(JavaPlugin plugin) implements TabExecutor 
                     switch (args[0]) {
                         case "list" -> {
                             //send all position info
-                            for (String pos : positions.getKeys(false))
+                            for (String pos : positions.getPositions())
                                 sender.sendMessage(WorldUtils.Messages.positionMessage(
                                         pos, (Location) positions.get(pos)));
                             return true;
@@ -54,7 +55,7 @@ public record PersonalPositionCommand(JavaPlugin plugin) implements TabExecutor 
                         case "clear" -> {
                             //remove all positions
                             sender.sendMessage("§e§oCleared personal positions");
-                            for (String pos : positions.getKeys(false)) positions.remove(pos);
+                            for (String pos : positions.getPositions()) positions.remove(pos);
                             return true;
                         }
                         default -> {
@@ -117,19 +118,19 @@ public record PersonalPositionCommand(JavaPlugin plugin) implements TabExecutor 
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         if (!name.equals(sender.getName())) {
             name = sender.getName();
-            positions = new Config(plugin, "positions_" + name + ".yml");
+            positions = new Positions(plugin, "positions_" + name + ".yml");
         }
         List<String> completions = new ArrayList<>();
         switch (args.length) {
             case 1 -> {
                 //command or position name being entered
                 StringUtil.copyPartialMatches(args[0], List.of("list", "clear", "tp", "del"), completions);
-                StringUtil.copyPartialMatches(args[0], positions.getKeys(false), completions);
+                StringUtil.copyPartialMatches(args[0], positions.getPositions(), completions);
             }
             case 2 -> {
                 //position name being entered
                 if (List.of("tp", "del").contains(args[0]))
-                    StringUtil.copyPartialMatches(args[1], positions.getKeys(false), completions);
+                    StringUtil.copyPartialMatches(args[1], positions.getPositions(), completions);
             }
         }
         return completions;
@@ -143,12 +144,12 @@ public record PersonalPositionCommand(JavaPlugin plugin) implements TabExecutor 
      * @return true if correct command syntax used and no errors, false otherwise
      */
     private boolean otherPlayersPosition(CommandSender sender, String[] args) {
-        if ((Boolean) WorldUtils.config.get(Settings.PERSONALPOSITION_ACCESS_GLOBAL))
+        if ((Boolean) WorldUtils.prefs.get(Settings.PERSONALPOSITION_ACCESS_GLOBAL))
             try {
                 if (Objects.requireNonNull(Bukkit.getPlayer(args[0])).isOnline()) {
                     //get personalposition from player
                     try {
-                        Config positions = new Config(plugin, "positions_" + args[0] + ".yml");
+                        Prefs positions = new Prefs(plugin, "positions_" + args[0] + ".yml");
                         sender.sendMessage("Personal position from player " + args[0] + ": "
                                 + WorldUtils.Messages.positionMessage(args[1], (Location) positions.get(args[1])));
                     } catch (NullPointerException e) {
