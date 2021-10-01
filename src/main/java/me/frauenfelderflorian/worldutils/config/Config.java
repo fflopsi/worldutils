@@ -6,6 +6,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Abstract wrapper class for configuration file
+ */
 public abstract class Config {
     protected final JavaPlugin plugin;
     protected final File file;

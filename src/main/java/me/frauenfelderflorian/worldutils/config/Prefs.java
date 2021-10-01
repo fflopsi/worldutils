@@ -1,6 +1,6 @@
 package me.frauenfelderflorian.worldutils.config;
 
-import me.frauenfelderflorian.worldutils.Settings;
+import me.frauenfelderflorian.worldutils.Options;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -10,11 +10,10 @@ public class Prefs extends Config {
     /**
      * Load the config file or create a new one if none is found
      *
-     * @param plugin   the plugin to whom the Config belongs
-     * @param filename the filename of the config file
+     * @param plugin the plugin to whom the Config belongs
      */
-    public Prefs(JavaPlugin plugin, String filename) {
-        super(plugin, filename);
+    public Prefs(JavaPlugin plugin) {
+        super(plugin, "config.yml");
     }
 
     /**
@@ -24,7 +23,7 @@ public class Prefs extends Config {
      * @param value   the value Object of the setting
      * @param log     true if logging messages should be sent
      */
-    public void set(Settings setting, Object value, boolean log) {
+    public void set(Options setting, Object value, boolean log) {
         set(setting.getKey(), value, log);
     }
 
@@ -34,7 +33,7 @@ public class Prefs extends Config {
      * @param setting the setting to be checked
      * @return true if something is found, false if not
      */
-    public boolean contains(Settings setting) {
+    public boolean contains(Options setting) {
         return contains(setting.getKey());
     }
 
@@ -44,7 +43,7 @@ public class Prefs extends Config {
      * @param setting the setting
      * @return the Object at the setting's path
      */
-    public Object get(Settings setting) {
+    public Object get(Options setting) {
         return get(setting.getKey());
     }
 
@@ -53,7 +52,7 @@ public class Prefs extends Config {
      *
      * @param setting the setting to be removed
      */
-    public void remove(Settings setting) {
+    public void remove(Options setting) {
         remove(setting.getKey());
     }
 }

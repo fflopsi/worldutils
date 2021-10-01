@@ -1,6 +1,6 @@
 package me.frauenfelderflorian.worldutils.commands;
 
-import me.frauenfelderflorian.worldutils.Settings;
+import me.frauenfelderflorian.worldutils.Options;
 import me.frauenfelderflorian.worldutils.WorldUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -28,10 +28,10 @@ public class SettingsCommand implements TabExecutor {
      */
     @Override
     public boolean onCommand(CommandSender sender, Command command, String alias, String[] args) {
-        if (sender.isOp() || !((Boolean) WorldUtils.prefs.get(Settings.SETTINGS_NEED_OP))) {
+        if (sender.isOp() || !((Boolean) WorldUtils.prefs.get(Options.SETTINGS_NEED_OP))) {
             if (args.length == 3) {
                 //command, setting and value entered
-                Settings setting = Settings.get(args[0], args[1]);
+                Options setting = Options.get(args[0], args[1]);
                 if (setting != null)
                     if (args[2].equals("true")) {
                         WorldUtils.prefs.set(setting, true, true);
@@ -69,16 +69,16 @@ public class SettingsCommand implements TabExecutor {
         List<String> completions = new ArrayList<>();
         switch (args.length) {
             case 1 -> //command being entered
-                    StringUtil.copyPartialMatches(args[0], Settings.getCommands(), completions);
+                    StringUtil.copyPartialMatches(args[0], Options.getCommands(), completions);
             case 2 -> {
                 //setting being entered
-                if (Settings.getCommands().contains(args[0]))
+                if (Options.getCommands().contains(args[0]))
                     StringUtil.copyPartialMatches(
-                            args[1], Settings.getSettings(args[0]), completions);
+                            args[1], Options.getSettings(args[0]), completions);
             }
             case 3 -> {
                 //value being entered
-                if (Settings.get(args[0], args[1]) != null)
+                if (Options.get(args[0], args[1]) != null)
                     StringUtil.copyPartialMatches(args[2], List.of("true", "false"), completions);
             }
         }

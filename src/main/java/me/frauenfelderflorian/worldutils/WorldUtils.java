@@ -32,11 +32,11 @@ public final class WorldUtils extends JavaPlugin {
     @Override
     public void onLoad() {
         //load config and set defaults
-        prefs = new Prefs(this, "config.yml");
-        for (Settings setting : Settings.values())
+        prefs = new Prefs(this);
+        for (Options setting : Options.values())
             if (!prefs.contains(setting)) prefs.set(setting, setting.getDefault(), true);
         //reset if needed
-        if ((Boolean) prefs.get(Settings.RESET_RESET)) {
+        if ((Boolean) prefs.get(Options.RESET_RESET)) {
             //reset worlds
             for (String w : List.of("world", "world_nether", "world_the_end")) {
                 try {
@@ -45,14 +45,14 @@ public final class WorldUtils extends JavaPlugin {
                     e.printStackTrace();
                 }
             }
-            prefs.set(Settings.RESET_RESET, false, true);
+            prefs.set(Options.RESET_RESET, false, true);
             //delete positions if needed
-            if ((Boolean) prefs.get(Settings.RESET_DELETE_POSITIONS))
+            if ((Boolean) prefs.get(Options.RESET_DELETE_POSITIONS))
                 for (File file : Objects.requireNonNull(getDataFolder().listFiles()))
                     if (file.getName().startsWith("positions") && file.getName().endsWith(".yml")) file.delete();
             //reset Settings if needed
-            if ((Boolean) prefs.get(Settings.RESET_RESET_SETTINGS))
-                for (Settings stg : Settings.values()) prefs.set(stg, stg.getDefault(), true);
+            if ((Boolean) prefs.get(Options.RESET_RESET_SETTINGS))
+                for (Options stg : Options.values()) prefs.set(stg, stg.getDefault(), true);
             getLogger().warning("Server reset");
         }
     }
@@ -90,7 +90,7 @@ public final class WorldUtils extends JavaPlugin {
      */
     @Override
     public void onDisable() {
-        prefs.set(Settings.TIMER_RUNNING, false, true);
+        prefs.set(Options.TIMER_RUNNING, false, true);
         prefs.save(true);
     }
 

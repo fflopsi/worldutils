@@ -1,6 +1,6 @@
 package me.frauenfelderflorian.worldutils.listeners;
 
-import me.frauenfelderflorian.worldutils.Settings;
+import me.frauenfelderflorian.worldutils.Options;
 import me.frauenfelderflorian.worldutils.WorldUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -365,7 +365,7 @@ public class ListenersTimerPaused implements Listener {
     }
 
     private void cancelEvent(Event event) {
-        if (!((Boolean) WorldUtils.prefs.get(Settings.TIMER_RUNNING))
+        if (!((Boolean) WorldUtils.prefs.get(Options.TIMER_RUNNING))
                 && event instanceof Cancellable
                 && !((Cancellable) event).isCancelled()) {
             ((Cancellable) event).setCancelled(true);

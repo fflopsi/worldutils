@@ -1,6 +1,6 @@
 package me.frauenfelderflorian.worldutils.commands;
 
-import me.frauenfelderflorian.worldutils.Settings;
+import me.frauenfelderflorian.worldutils.Options;
 import me.frauenfelderflorian.worldutils.Timer;
 import me.frauenfelderflorian.worldutils.WorldUtils;
 import org.bukkit.Bukkit;
@@ -48,25 +48,25 @@ public class TimerCommand implements TabExecutor {
                         }
                         case "running" -> {
                             //change running status
-                            WorldUtils.prefs.set(Settings.TIMER_RUNNING,
-                                    !(Boolean) WorldUtils.prefs.get(Settings.TIMER_RUNNING), true);
+                            WorldUtils.prefs.set(Options.TIMER_RUNNING,
+                                    !(Boolean) WorldUtils.prefs.get(Options.TIMER_RUNNING), true);
                             Bukkit.broadcastMessage("§eTimer "
-                                    + ((Boolean) WorldUtils.prefs.get(Settings.TIMER_RUNNING)
+                                    + ((Boolean) WorldUtils.prefs.get(Options.TIMER_RUNNING)
                                     ? "started." : "stopped."));
                             return true;
                         }
                         case "reverse" -> {
                             //change reverse status
-                            WorldUtils.prefs.set(Settings.TIMER_REVERSE,
-                                    !(Boolean) WorldUtils.prefs.get(Settings.TIMER_REVERSE), true);
+                            WorldUtils.prefs.set(Options.TIMER_REVERSE,
+                                    !(Boolean) WorldUtils.prefs.get(Options.TIMER_REVERSE), true);
                             Bukkit.broadcastMessage("§eTimer reversed, now in §b"
-                                    + ((Boolean) WorldUtils.prefs.get(Settings.TIMER_REVERSE) ? "reverse" : "normal")
+                                    + ((Boolean) WorldUtils.prefs.get(Options.TIMER_REVERSE) ? "reverse" : "normal")
                                     + "§e mode.");
                             return true;
                         }
                         case "reset" -> {
                             //set timer to 0
-                            WorldUtils.prefs.set(Settings.TIMER_RUNNING, false, true);
+                            WorldUtils.prefs.set(Options.TIMER_RUNNING, false, true);
                             WorldUtils.timer.set(0);
                             Bukkit.broadcastMessage("§eTimer set to 0.");
                             return true;
@@ -85,14 +85,14 @@ public class TimerCommand implements TabExecutor {
                                 WorldUtils.Messages.wrongArguments(sender);
                             }
                             Bukkit.broadcastMessage("§eTimer set to §b"
-                                    + Timer.formatTime((int) WorldUtils.prefs.get(Settings.TIMER_TIME)));
+                                    + Timer.formatTime((int) WorldUtils.prefs.get(Options.TIMER_TIME)));
                             return true;
                         }
                         case "add" -> {
                             //add input values to current time
                             try {
                                 WorldUtils.timer.set(
-                                        (int) WorldUtils.prefs.get(Settings.TIMER_TIME) + getTime(args));
+                                        (int) WorldUtils.prefs.get(Options.TIMER_TIME) + getTime(args));
                             } catch (IllegalStateException e) {
                                 WorldUtils.Messages.wrongArgumentNumber(sender);
                             } catch (NumberFormatException e) {

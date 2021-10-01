@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Enum used for plugin settings
  */
-public enum Settings {
+public enum Options {
     /**
      * Saves the author of a position on creation (default: false)
      */
@@ -66,7 +66,7 @@ public enum Settings {
     private final Object defaultValue;
     private final boolean settable;
 
-    Settings(String command, String subKey, Object defaultValue, boolean settable) {
+    Options(String command, String subKey, Object defaultValue, boolean settable) {
         this.command = command;
         this.subKey = subKey;
         this.defaultValue = defaultValue;
@@ -80,8 +80,8 @@ public enum Settings {
      * @param subKey  sub-key of setting
      * @return Settings object if found, else null
      */
-    public static Settings get(String command, String subKey) {
-        for (Settings setting : values())
+    public static Options get(String command, String subKey) {
+        for (Options setting : values())
             if (command.equals(setting.command) && subKey.equals(setting.subKey)) return setting;
         return null;
     }
@@ -93,7 +93,7 @@ public enum Settings {
      */
     public static List<String> getCommands() {
         List<String> commands = new ArrayList<>();
-        for (Settings setting : values()) if (!commands.contains(setting.command)) commands.add(setting.command);
+        for (Options setting : values()) if (!commands.contains(setting.command)) commands.add(setting.command);
         return commands;
     }
 
@@ -105,7 +105,7 @@ public enum Settings {
      */
     public static List<String> getSettings(String command) {
         List<String> settings = new ArrayList<>();
-        for (Settings stg : values()) if (command.equals(stg.command) && stg.settable) settings.add(stg.subKey);
+        for (Options stg : values()) if (command.equals(stg.command) && stg.settable) settings.add(stg.subKey);
         return settings;
     }
 

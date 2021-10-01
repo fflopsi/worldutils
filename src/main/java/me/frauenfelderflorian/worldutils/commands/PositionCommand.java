@@ -1,6 +1,6 @@
 package me.frauenfelderflorian.worldutils.commands;
 
-import me.frauenfelderflorian.worldutils.Settings;
+import me.frauenfelderflorian.worldutils.Options;
 import me.frauenfelderflorian.worldutils.WorldUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -60,7 +60,7 @@ public class PositionCommand implements TabExecutor {
                         else if (sender instanceof Player) {
                             //new position name, save position
                             WorldUtils.positions.set(args[0], ((Player) sender).getLocation(), true);
-                            if ((Boolean) WorldUtils.prefs.get(Settings.POSITION_SAVE_AUTHOR))
+                            if ((Boolean) WorldUtils.prefs.get(Options.POSITION_SAVE_AUTHOR))
                                 WorldUtils.positions.set("list." + args[0], sender.getName(), true);
                             Bukkit.broadcastMessage("§aAdded§r position "
                                     + WorldUtils.Messages.positionMessage(args[0], sender.getName(),
