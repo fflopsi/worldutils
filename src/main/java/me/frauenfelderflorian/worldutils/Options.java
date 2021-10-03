@@ -36,6 +36,14 @@ public enum Options {
      */
     TIMER_PROGRESS_MINUTE("timer", "progressMinute", false, true),
     /**
+     * Disables player interactions when timer is paused (default: true)
+     */
+    TIMER_DISABLE_ACTIONS_ON_PAUSE("timer", "disableInteractionsOnPause", true, true),
+    /**
+     * Disables player movement when timer is paused (default: false)
+     */
+    TIMER_DISABLE_MOVEMENT_ON_PAUSE("timer", "disableMovementOnPause", false, true),
+    /**
      * Timer stops when the dragon defeated (default: true)
      */
     TIMER_STOP_ON_DRAGON_DEATH("timer", "stopOnDragonDeath", true, true),
