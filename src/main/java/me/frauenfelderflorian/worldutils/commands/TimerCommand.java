@@ -104,7 +104,10 @@ public class TimerCommand implements TabExecutor {
                     }
                 }
             }
-        else if (args.length == 1 && args[0].equals("visible")) WorldUtils.timer.timerBar.addPlayer((Player) sender);
+        else if (args.length == 1 && args[0].equals("visible")) {
+            WorldUtils.timer.timerBar.addPlayer((Player) sender);
+            return true;
+        }
         return false;
     }
 
