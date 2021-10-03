@@ -123,13 +123,15 @@ public class TimerCommand implements TabExecutor {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         List<String> completions = new ArrayList<>();
-        switch (args.length) {
-            case 1 -> StringUtil.copyPartialMatches(args[0],
-                    List.of("visible", "running", "reverse", "reset", "set", "add"), completions);
-            case 2, 3, 4, 5 -> {
-                if (List.of("set", "add").contains(args[0])) completions.add("<time>");
+        if (sender.isOp() || WorldUtils.timer.timerBar.getPlayers().contains((Player) sender))
+            switch (args.length) {
+                case 1 -> StringUtil.copyPartialMatches(args[0],
+                        List.of("visible", "running", "reverse", "reset", "set", "add"), completions);
+                case 2, 3, 4, 5 -> {
+                    if (List.of("set", "add").contains(args[0])) completions.add("<time>");
+                }
             }
-        }
+        else if (args.length == 1) StringUtil.copyPartialMatches(args[0], List.of("visible"), completions);
         return completions;
     }
 
