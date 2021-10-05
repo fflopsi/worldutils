@@ -94,6 +94,9 @@ public final class WorldUtils extends JavaPlugin {
         prefs.save(true);
     }
 
+    /**
+     * Class containing messaging methods
+     */
     public enum Messages {
         ;
 
@@ -135,16 +138,18 @@ public final class WorldUtils extends JavaPlugin {
         }
 
         /**
-         * Send a message to the target: "You are not allowed to do this."
+         * Send a message to the target:
+         * "<span style="color:red; font-weight:bold">You are not allowed to do this.</span>"
          *
          * @param target the target to whom the message should be sent
          */
         public static void notAllowed(CommandSender target) {
-            target.sendMessage("§4§lYou are not allowed to do this.");
+            target.sendMessage("§c§lYou are not allowed to do this.");
         }
 
         /**
-         * Send a message to the target: "This is not a console command."
+         * Send a message to the target:
+         * "<span style="color:yellow; font-style:italic">This is not a console command.</span>"
          *
          * @param target the target to whom the message should be sent
          */
@@ -153,7 +158,8 @@ public final class WorldUtils extends JavaPlugin {
         }
 
         /**
-         * Send a message to the target: "Wrong argument(s) entered for this command."
+         * Send a message to the target:
+         * "<span style="color:yellow; font-style:italic">Wrong argument(s) entered for this command.</span>"
          *
          * @param target the target to whom the message should be sent
          */
@@ -162,7 +168,8 @@ public final class WorldUtils extends JavaPlugin {
         }
 
         /**
-         * Send a message to the target: "A wrong number of arguments was entered for this command."
+         * Send a message to the target:
+         * "<span style="color:yellow; font-style:italic">A wrong number of arguments was entered for this command.</span>"
          *
          * @param target the target to whom the message should be sent
          */
@@ -171,7 +178,8 @@ public final class WorldUtils extends JavaPlugin {
         }
 
         /**
-         * Send a message to the target: "The entered name does not belong to an online player."
+         * Send a message to the target:
+         * "<span style="color:yellow; font-style:italic">The entered name does not belong to an online player.</span>"
          *
          * @param target the target to whom the message should be sent
          */
@@ -180,7 +188,8 @@ public final class WorldUtils extends JavaPlugin {
         }
 
         /**
-         * Send a message to the target: "The entered position name cannot be found."
+         * Send a message to the target:
+         * "<span style="color:yellow; font-style:italic">The entered position name cannot be found.</span>"
          *
          * @param target the target to whom the message should be sent
          */
@@ -191,11 +200,11 @@ public final class WorldUtils extends JavaPlugin {
         /**
          * Get the better world name formatted with an appropriate color:
          * <p>
-         * world -> overworld
+         * world -> <span style="color:green">overworld</span>
          * <p>
-         * world_nether -> nether
+         * world_nether -> <span style="color:red">nether</span>
          * <p>
-         * world_the_end -> end
+         * world_the_end -> <span style="color:yellow">end</span>
          *
          * @param world the unformatted world name
          * @return the better world name if one of the above, else the given String

@@ -19,6 +19,11 @@ import org.bukkit.event.raid.RaidTriggerEvent;
 import org.bukkit.event.vehicle.VehicleDamageEvent;
 import org.bukkit.event.vehicle.VehicleExitEvent;
 
+/**
+ * Listener class for triggered events / interactions of the player and the world
+ * <p>
+ * If the timer is paused and the respective settings are set to true, all these events are canceled
+ */
 public class ListenersTimerPaused implements Listener {
     @EventHandler
     public void onPlayerMoveEvent(PlayerMoveEvent event) {
@@ -195,6 +200,13 @@ public class ListenersTimerPaused implements Listener {
         if (event.getExited() instanceof Player) cancelEvent(event, false);
     }
 
+    /**
+     * Cancel given event if timer is paused, respective setting is set to true and event can be and is not yet canceled
+     *
+     * @param event   the Event to be canceled
+     * @param message true if this message should be broadcast: "<span style="color:red">Timer is paused.</span>
+     *                <span style="color:yellow">Interaction not possible.</span>"
+     */
     private void cancelEvent(Event event, boolean message) {
         if ((Boolean) WorldUtils.prefs.get(Options.TIMER_DISABLE_ACTIONS_ON_PAUSE)
                 && !((Boolean) WorldUtils.prefs.get(Options.TIMER_RUNNING))
@@ -204,6 +216,14 @@ public class ListenersTimerPaused implements Listener {
         }
     }
 
+    /**
+     * Cancel given entity event if involved entity is a player, timer is paused,
+     * respective setting is set to true and event is not yet canceled
+     *
+     * @param event   the EntityEvent to be canceled
+     * @param message true if this message should be broadcast: "<span style="color:red">Timer is paused.</span>
+     *                <span style="color:yellow">Interaction not possible.</span>"
+     */
     private void cancelEntityEvent(EntityEvent event, boolean message) {
         if (event.getEntity() instanceof Player) cancelEvent(event, message);
     }
