@@ -52,7 +52,7 @@ public class TimerCommand implements TabExecutor {
                                     !(Boolean) WorldUtils.prefs.get(Options.TIMER_RUNNING), true);
                             Bukkit.broadcastMessage("§eTimer "
                                     + ((Boolean) WorldUtils.prefs.get(Options.TIMER_RUNNING)
-                                    ? "started." : "stopped."));
+                                    ? "started." : "paused."));
                             return true;
                         }
                         case "reverse" -> {
