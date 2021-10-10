@@ -7,11 +7,11 @@ description: a Minecraft Spigot plugin with some general handy commands
 commands:
   position:
     description: save, view, delete positions
-    usage: /<command> <name> | (<option> [<name>])
+    usage: /<command> <name> | list | clear | (tp | del <name>)
     aliases: pos
   personalposition:
     description: save, view, delete personal positions
-    usage: /<command> <name> | (<option> [<name>])
+    usage: /<command> <name> | list | clear | (tp | del <name>)
     aliases:
       - personalpos
       - perspos
@@ -24,12 +24,12 @@ commands:
       - spos
   timer:
     description: control the ingame timer
-    usage: /<command> (visible | running | reverse | reset | (set | add) [[[<d>] <h>] <min>] <s>)
+    usage: /<command> visible | running | reverse | reset | (set | add [[[<d>] <h>] <min>] <s>)
     aliases: tmr
   reset:
     description: reset the server
     usage: /<command> [confirm]
   settings:
     description: edit settings of this plugin
-    usage: /<command> <commandname> <setting> (true | false)
+    usage: /<command> <commandname> <setting> true | false
     aliases: stg
