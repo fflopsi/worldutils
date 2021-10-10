@@ -53,10 +53,10 @@ a [pull request](https://github.com/flopsif/world-utils/compare).
 
 ## Credits
 
-This project was created after the plugin(s) German [streamer](https://www.twitch.tv/BastiGHG)
-and [YouTuber](https://www.youtube.com/user/kompetenzGHG) BastiGHG is using in his Minecraft challenges.
-[This project](https://github.com/IlluminatiDreieck/Challenges) was also used for (very limited) inspiration on how to
-structure my own work.
+I created this project after the plugin(s) German [streamer](https://www.twitch.tv/BastiGHG)
+and [YouTuber](https://www.youtube.com/user/kompetenzGHG) *BastiGHG* is using in his Minecraft challenges. I also
+used [this project](https://github.com/IlluminatiDreieck/Challenges) for (very limited) inspiration on how to structure
+my own work.
 
 ## License
 
