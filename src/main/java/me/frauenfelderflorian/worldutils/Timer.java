@@ -26,6 +26,12 @@ public class Timer {
         BukkitRunnable runnable = new BukkitRunnable() {
             @Override
             public void run() {
+                //stop timer if time is over
+                if ((Boolean) WorldUtils.prefs.get(Options.TIMER_REVERSE) && time == 0) {
+                    WorldUtils.prefs.set(Options.TIMER_RUNNING, false, true);
+                    Bukkit.broadcastMessage("§cTime is over. §eTimer paused.");
+                }
+                //update timer
                 if ((Boolean) WorldUtils.prefs.get(Options.TIMER_RUNNING)) update(true);
             }
         };
