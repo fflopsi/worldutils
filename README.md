@@ -24,12 +24,12 @@ positions of other players), so you do not need to know the exact syntax when ty
 
 The commands and their respective syntax are:
 
-- ```/position <name> | (<option> [<name>])```
-- ```/personalposition <name> | (<option> [<name>])```
+- ```/position <name> | list | clear | (tp | del <name>)```
+- ```/personalposition <name> | list | clear | (tp | del <name>)```
 - ```/sendposition [<playername>]```
-- ```/timer (visible | running | reverse | reset | (set | add) [[[<d>] <h>] <min>] <s>)```
+- ```/timer visible | running | reverse | reset | (set | add [[[<d>] <h>] <min>] <s>)```
 - ```/reset [confirm]```
-- ```/settings <commandname> <setting> (true | false)```
+- ```/settings <commandname> <setting> true | false```
 
 Some of these commands also have aliases that can be used instead of the full command names and allow for faster command
 input. These aliases are:
