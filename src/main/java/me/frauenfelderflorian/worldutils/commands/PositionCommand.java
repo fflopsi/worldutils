@@ -12,6 +12,7 @@ import org.bukkit.util.StringUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * CommandExecutor and TabCompleter for command position
@@ -59,12 +60,15 @@ public class PositionCommand implements TabExecutor {
                                     args[0], (Location) WorldUtils.positions.get(args[0])));
                         else if (sender instanceof Player) {
                             //new position name, save position
-                            WorldUtils.positions.set(args[0], ((Player) sender).getLocation(), true);
-                            if ((Boolean) WorldUtils.prefs.get(Options.POSITION_SAVE_AUTHOR))
-                                WorldUtils.positions.set("list." + args[0], sender.getName(), true);
-                            Bukkit.broadcastMessage("§aAdded§r position "
-                                    + WorldUtils.Messages.positionMessage(args[0], sender.getName(),
-                                    (Location) WorldUtils.positions.get(args[0])));
+                            if (!Pattern.matches("\\w+", args[0])) WorldUtils.Messages.wrongArguments(sender);
+                            else {
+                                WorldUtils.positions.set(args[0], ((Player) sender).getLocation(), true);
+                                if ((Boolean) WorldUtils.prefs.get(Options.POSITION_SAVE_AUTHOR))
+                                    WorldUtils.positions.set("list." + args[0], sender.getName(), true);
+                                Bukkit.broadcastMessage("§aAdded§r position "
+                                        + WorldUtils.Messages.positionMessage(args[0], sender.getName(),
+                                        (Location) WorldUtils.positions.get(args[0])));
+                            }
                         } else WorldUtils.Messages.notConsole(sender);
                         return true;
                     }
@@ -111,7 +115,7 @@ public class PositionCommand implements TabExecutor {
         switch (args.length) {
             case 1 -> {
                 //command or position name being entered
-                StringUtil.copyPartialMatches(args[0], List.of("list", "clear", "tp", "del"), completions);
+                StringUtil.copyPartialMatches(args[0], List.of("list", "clear", "tp", "del"), completions); //tp only if sender.isOp()
                 StringUtil.copyPartialMatches(args[0], WorldUtils.positions.getPositions(), completions);
             }
             case 2 -> {
