@@ -25,6 +25,7 @@ commands:
   timer:
     description: control the ingame timer
     usage: /<command> (visible | running | reverse | reset | (set | add) [[[<d>] <h>] <min>] <s>)
+    aliases: tmr
   reset:
     description: reset the server
     usage: /<command> [confirm]

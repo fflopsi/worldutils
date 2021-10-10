@@ -37,9 +37,11 @@ input. These aliases are:
 - ```position```: ```pos```
 - ```personalposition```: ```personalpos```, ```perspos```, ```ppos```
 - ```sendposition```: ```sendpos```, ```spos```
+- ```timer```: ```tmr```
 - ```settings```: ```stg```
 
-For further information on how this all works in detail and more, visit [the wiki](https://github.com/flopsif/world-utils/wiki).
+For further information on how this all works in detail and more,
+visit [the wiki](https://github.com/flopsif/world-utils/wiki).
 
 ## Contributing
 
