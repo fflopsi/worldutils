@@ -1,6 +1,5 @@
 package me.frauenfelderflorian.worldutils.config;
 
-import me.frauenfelderflorian.worldutils.Options;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -23,7 +22,7 @@ public class Prefs extends Config {
      * @param value   the value Object of the setting
      * @param log     true if logging messages should be sent
      */
-    public void set(Options setting, Object value, boolean log) {
+    public void set(Option setting, Object value, boolean log) {
         set(setting.getKey(), value, log);
     }
 
@@ -33,7 +32,7 @@ public class Prefs extends Config {
      * @param setting the setting to be checked
      * @return true if something is found, false if not
      */
-    public boolean contains(Options setting) {
+    public boolean contains(Option setting) {
         return contains(setting.getKey());
     }
 
@@ -43,7 +42,7 @@ public class Prefs extends Config {
      * @param setting the setting
      * @return the Object at the setting's path
      */
-    public Object get(Options setting) {
+    public Object get(Option setting) {
         return get(setting.getKey());
     }
 
@@ -52,7 +51,7 @@ public class Prefs extends Config {
      *
      * @param setting the setting to be removed
      */
-    public void remove(Options setting) {
+    public void remove(Option setting) {
         remove(setting.getKey());
     }
 }

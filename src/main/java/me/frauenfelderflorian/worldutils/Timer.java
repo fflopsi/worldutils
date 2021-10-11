@@ -1,5 +1,6 @@
 package me.frauenfelderflorian.worldutils;
 
+import me.frauenfelderflorian.worldutils.config.Option;
 import org.bukkit.Bukkit;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
@@ -19,7 +20,7 @@ public class Timer {
      * @param plugin the plugin for which the timer should be created
      */
     public Timer(WorldUtils plugin) {
-        time = (int) WorldUtils.prefs.get(Options.TIMER_TIME);
+        time = (int) WorldUtils.prefs.get(Option.TIMER_TIME);
         timerBar = Bukkit.createBossBar("§eTimer: " + formatTime(time), BarColor.YELLOW, BarStyle.SEGMENTED_12);
         timerBar.setVisible(true);
         update(false);
@@ -27,17 +28,17 @@ public class Timer {
             @Override
             public void run() {
                 //stop timer if time is over
-                if ((Boolean) WorldUtils.prefs.get(Options.TIMER_REVERSE) && time == 0) {
+                if ((Boolean) WorldUtils.prefs.get(Option.TIMER_REVERSE) && time == 0) {
                     Bukkit.broadcastMessage("§cTime is over.");
-                    if ((Boolean) WorldUtils.prefs.get(Options.TIMER_ALLOW_BELOW_ZERO))
+                    if ((Boolean) WorldUtils.prefs.get(Option.TIMER_ALLOW_BELOW_ZERO))
                         Bukkit.broadcastMessage("§e§oTimer is running with negative time.");
                     else {
-                        WorldUtils.prefs.set(Options.TIMER_RUNNING, false, true);
+                        WorldUtils.prefs.set(Option.TIMER_RUNNING, false, true);
                         Bukkit.broadcastMessage("§eTimer paused.");
                     }
                 }
                 //update timer
-                if ((Boolean) WorldUtils.prefs.get(Options.TIMER_RUNNING)) update(true);
+                if ((Boolean) WorldUtils.prefs.get(Option.TIMER_RUNNING)) update(true);
             }
         };
         runnable.runTaskTimer(plugin, 20, 20);
@@ -87,13 +88,13 @@ public class Timer {
      */
     private void update(boolean updateTime) {
         if (updateTime) {
-            if ((Boolean) WorldUtils.prefs.get(Options.TIMER_REVERSE)) time--;
+            if ((Boolean) WorldUtils.prefs.get(Option.TIMER_REVERSE)) time--;
             else time++;
         }
         timerBar.setTitle("§eTimer: " + formatTime(time));
-        if ((Boolean) WorldUtils.prefs.get(Options.TIMER_PROGRESS_MINUTE))
+        if ((Boolean) WorldUtils.prefs.get(Option.TIMER_PROGRESS_MINUTE))
             timerBar.setProgress((Math.abs(time) % 60) / 60.0);
         else timerBar.setProgress((Math.abs(time) % 3600) / 3600.0);
-        WorldUtils.prefs.set(Options.TIMER_TIME, time, false);
+        WorldUtils.prefs.set(Option.TIMER_TIME, time, false);
     }
 }

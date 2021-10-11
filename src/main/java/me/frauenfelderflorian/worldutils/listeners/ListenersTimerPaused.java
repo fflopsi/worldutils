@@ -1,6 +1,6 @@
 package me.frauenfelderflorian.worldutils.listeners;
 
-import me.frauenfelderflorian.worldutils.Options;
+import me.frauenfelderflorian.worldutils.config.Option;
 import me.frauenfelderflorian.worldutils.WorldUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -27,7 +27,7 @@ import org.bukkit.event.vehicle.VehicleExitEvent;
 public class ListenersTimerPaused implements Listener {
     @EventHandler
     public void onPlayerMoveEvent(PlayerMoveEvent event) {
-        if ((Boolean) WorldUtils.prefs.get(Options.TIMER_DISABLE_MOVEMENT_ON_PAUSE)) cancelEvent(event, false);
+        if ((Boolean) WorldUtils.prefs.get(Option.TIMER_DISABLE_MOVEMENT_ON_PAUSE)) cancelEvent(event, false);
     }
 
     @EventHandler
@@ -208,8 +208,8 @@ public class ListenersTimerPaused implements Listener {
      *                <span style="color:yellow">Interaction not possible.</span>"
      */
     private void cancelEvent(Event event, boolean message) {
-        if ((Boolean) WorldUtils.prefs.get(Options.TIMER_DISABLE_ACTIONS_ON_PAUSE)
-                && !((Boolean) WorldUtils.prefs.get(Options.TIMER_RUNNING))
+        if ((Boolean) WorldUtils.prefs.get(Option.TIMER_DISABLE_ACTIONS_ON_PAUSE)
+                && !((Boolean) WorldUtils.prefs.get(Option.TIMER_RUNNING))
                 && event instanceof Cancellable && !((Cancellable) event).isCancelled()) {
             ((Cancellable) event).setCancelled(true);
             if (message) Bukkit.broadcastMessage("§cTimer is paused. §eInteraction not possible.");

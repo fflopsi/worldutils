@@ -1,6 +1,7 @@
 package me.frauenfelderflorian.worldutils;
 
 import me.frauenfelderflorian.worldutils.commands.*;
+import me.frauenfelderflorian.worldutils.config.Option;
 import me.frauenfelderflorian.worldutils.config.Positions;
 import me.frauenfelderflorian.worldutils.config.Prefs;
 import me.frauenfelderflorian.worldutils.listeners.Listeners;
@@ -33,10 +34,10 @@ public final class WorldUtils extends JavaPlugin {
     public void onLoad() {
         //load config and set defaults
         prefs = new Prefs(this);
-        for (Options setting : Options.values())
+        for (Option setting : Option.values())
             if (!prefs.contains(setting)) prefs.set(setting, setting.getDefault(), true);
         //reset if needed
-        if ((Boolean) prefs.get(Options.RESET_RESET)) {
+        if ((Boolean) prefs.get(Option.RESET_RESET)) {
             //reset worlds
             for (String w : List.of("world", "world_nether", "world_the_end")) {
                 try {
@@ -45,14 +46,14 @@ public final class WorldUtils extends JavaPlugin {
                     e.printStackTrace();
                 }
             }
-            prefs.set(Options.RESET_RESET, false, true);
+            prefs.set(Option.RESET_RESET, false, true);
             //delete positions if needed
-            if ((Boolean) prefs.get(Options.RESET_DELETE_POSITIONS))
+            if ((Boolean) prefs.get(Option.RESET_DELETE_POSITIONS))
                 for (File file : Objects.requireNonNull(getDataFolder().listFiles()))
                     if (file.getName().startsWith("positions") && file.getName().endsWith(".yml")) file.delete();
             //reset Settings if needed
-            if ((Boolean) prefs.get(Options.RESET_RESET_SETTINGS))
-                for (Options stg : Options.values()) prefs.set(stg, stg.getDefault(), true);
+            if ((Boolean) prefs.get(Option.RESET_RESET_SETTINGS))
+                for (Option stg : Option.values()) prefs.set(stg, stg.getDefault(), true);
             getLogger().warning("Server reset");
         }
     }
@@ -90,7 +91,7 @@ public final class WorldUtils extends JavaPlugin {
      */
     @Override
     public void onDisable() {
-        prefs.set(Options.TIMER_RUNNING, false, true);
+        prefs.set(Option.TIMER_RUNNING, false, true);
         prefs.save(true);
     }
 

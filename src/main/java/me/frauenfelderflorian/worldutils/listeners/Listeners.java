@@ -1,6 +1,6 @@
 package me.frauenfelderflorian.worldutils.listeners;
 
-import me.frauenfelderflorian.worldutils.Options;
+import me.frauenfelderflorian.worldutils.config.Option;
 import me.frauenfelderflorian.worldutils.WorldUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.EnderDragon;
@@ -25,7 +25,7 @@ public class Listeners implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         event.getPlayer().sendMessage("Hello " + event.getPlayer().getName() + ", nice to meet you!");
-        if ((Boolean) WorldUtils.prefs.get(Options.TIMER_ADD_PLAYER_ON_JOIN))
+        if ((Boolean) WorldUtils.prefs.get(Option.TIMER_ADD_PLAYER_ON_JOIN))
             WorldUtils.timer.timerBar.addPlayer(event.getPlayer());
     }
 
@@ -37,7 +37,7 @@ public class Listeners implements Listener {
     @EventHandler
     public void onPlayerLeave(PlayerQuitEvent event) {
         if (Bukkit.getServer().getOnlinePlayers().size() == 1)
-            WorldUtils.prefs.set(Options.TIMER_RUNNING, false, true);
+            WorldUtils.prefs.set(Option.TIMER_RUNNING, false, true);
     }
 
     /**
@@ -59,8 +59,8 @@ public class Listeners implements Listener {
     @EventHandler
     public void onDragonDeath(EntityDeathEvent event) {
         if (event.getEntity() instanceof EnderDragon) {
-            if ((Boolean) WorldUtils.prefs.get(Options.TIMER_PAUSE_ON_DRAGON_DEATH))
-                WorldUtils.prefs.set(Options.TIMER_RUNNING, false, true);
+            if ((Boolean) WorldUtils.prefs.get(Option.TIMER_PAUSE_ON_DRAGON_DEATH))
+                WorldUtils.prefs.set(Option.TIMER_RUNNING, false, true);
             Objects.requireNonNull(event.getEntity().getKiller())
                     .sendMessage("§bCongratulations, you defeated the Ender Dragon!");
             Bukkit.broadcastMessage("§bCongratulations, you just won the game!");

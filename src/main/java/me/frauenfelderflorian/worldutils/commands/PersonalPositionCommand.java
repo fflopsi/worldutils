@@ -1,6 +1,6 @@
 package me.frauenfelderflorian.worldutils.commands;
 
-import me.frauenfelderflorian.worldutils.Options;
+import me.frauenfelderflorian.worldutils.config.Option;
 import me.frauenfelderflorian.worldutils.WorldUtils;
 import me.frauenfelderflorian.worldutils.config.Positions;
 import org.bukkit.Bukkit;
@@ -145,7 +145,7 @@ public record PersonalPositionCommand(JavaPlugin plugin) implements TabExecutor 
      * @return true if correct command syntax used and no errors, false otherwise
      */
     private boolean otherPlayersPosition(CommandSender sender, String[] args) {
-        if ((Boolean) WorldUtils.prefs.get(Options.PERSONALPOSITION_ACCESS_GLOBAL))
+        if ((Boolean) WorldUtils.prefs.get(Option.PERSONALPOSITION_ACCESS_GLOBAL))
             try {
                 if (Objects.requireNonNull(Bukkit.getPlayer(args[0])).isOnline()) {
                     //get personalposition from player

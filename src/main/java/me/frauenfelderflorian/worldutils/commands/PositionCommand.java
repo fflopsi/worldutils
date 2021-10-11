@@ -1,6 +1,6 @@
 package me.frauenfelderflorian.worldutils.commands;
 
-import me.frauenfelderflorian.worldutils.Options;
+import me.frauenfelderflorian.worldutils.config.Option;
 import me.frauenfelderflorian.worldutils.WorldUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -12,7 +12,6 @@ import org.bukkit.util.StringUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.regex.Pattern;
 
 /**
@@ -64,7 +63,7 @@ public class PositionCommand implements TabExecutor {
                             if (!Pattern.matches("\\w+", args[0])) WorldUtils.Messages.wrongArguments(sender);
                             else {
                                 WorldUtils.positions.set(args[0], ((Player) sender).getLocation(), true);
-                                if ((Boolean) WorldUtils.prefs.get(Options.POSITION_SAVE_AUTHOR))
+                                if ((Boolean) WorldUtils.prefs.get(Option.POSITION_SAVE_AUTHOR))
                                     WorldUtils.positions.set("list." + args[0], sender.getName(), true);
                                 Bukkit.broadcastMessage("§aAdded§r position "
                                         + WorldUtils.Messages.positionMessage(args[0], sender.getName(),
