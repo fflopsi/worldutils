@@ -64,6 +64,10 @@ public enum Options {
      */
     RESET_RESET_SETTINGS("reset", "resetSettings", false, true),
     /**
+     * Restarts the server after the reset command has been entered (default: true)
+     */
+    RESET_RESTART_AFTER_RESET("reset", "restartAfterReset", true, true),
+    /**
      * Player needs OP to be able to change settings (default: true)
      */
     SETTINGS_NEED_OP("settings", "needOp", true, true),

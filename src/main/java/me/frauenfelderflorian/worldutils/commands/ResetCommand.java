@@ -31,15 +31,16 @@ public record ResetCommand(JavaPlugin plugin) implements TabExecutor {
         if (!(Boolean) WorldUtils.prefs.get(Options.RESET_NEED_CONFIRM)
                 || args.length == 1 && args[0].equalsIgnoreCase("confirm")) {
             Bukkit.broadcastMessage("§e§oResetting server in 10 seconds.");
-            //kick players 2 seconds before restarting
+            //kick players 2 seconds before restarting or shutting down
             Bukkit.getScheduler().runTaskLater(plugin, () -> {
                 for (Player player : Bukkit.getOnlinePlayers())
                     player.kickPlayer("§e§oResetting server.§r You can rejoin in a few moments.");
             }, 200);
-            //restart
+            //restart or shut down
             Bukkit.getScheduler().runTaskLater(plugin, () -> {
                 WorldUtils.prefs.set(Options.RESET_RESET, true, true);
-                Bukkit.spigot().restart();
+                if ((Boolean) WorldUtils.prefs.get(Options.RESET_RESTART_AFTER_RESET)) Bukkit.spigot().restart();
+                else Bukkit.shutdown();
             }, 220);
             return true;
         }
