@@ -67,21 +67,22 @@ public class SettingsCommand implements TabExecutor {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         List<String> completions = new ArrayList<>();
-        switch (args.length) {
-            case 1 -> //command being entered
-                    StringUtil.copyPartialMatches(args[0], Options.getCommands(), completions);
-            case 2 -> {
-                //setting being entered
-                if (Options.getCommands().contains(args[0]))
-                    StringUtil.copyPartialMatches(
-                            args[1], Options.getSettings(args[0]), completions);
+        if (sender.isOp() || !((Boolean) WorldUtils.prefs.get(Options.SETTINGS_NEED_OP)))
+            switch (args.length) {
+                case 1 -> //command being entered
+                        StringUtil.copyPartialMatches(args[0], Options.getCommands(), completions);
+                case 2 -> {
+                    //setting being entered
+                    if (Options.getCommands().contains(args[0]))
+                        StringUtil.copyPartialMatches(
+                                args[1], Options.getSettings(args[0]), completions);
+                }
+                case 3 -> {
+                    //value being entered
+                    if (Options.get(args[0], args[1]) != null)
+                        StringUtil.copyPartialMatches(args[2], List.of("true", "false"), completions);
+                }
             }
-            case 3 -> {
-                //value being entered
-                if (Options.get(args[0], args[1]) != null)
-                    StringUtil.copyPartialMatches(args[2], List.of("true", "false"), completions);
-            }
-        }
         return completions;
     }
 }
