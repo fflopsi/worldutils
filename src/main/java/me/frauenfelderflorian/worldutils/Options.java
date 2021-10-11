@@ -16,7 +16,7 @@ public enum Options {
      */
     PERSONALPOSITION_ACCESS_GLOBAL("personalposition", "makeAccessibleGlobally", false, true),
     /**
-     * Make the timer visible automatically on server startup (default: false)
+     * The current time of the timer (default: 0)
      */
     TIMER_TIME("timer", "time", 0, false),
     /**
