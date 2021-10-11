@@ -24,21 +24,21 @@ positions of other players), so you do not need to know the exact syntax when ty
 
 The commands and their respective syntax are:
 
-- ```/position <name> | list | clear | (tp | del <name>)```
-- ```/personalposition <name> | list | clear | (tp | del <name>)```
-- ```/sendposition [<playername>]```
-- ```/timer visible | running | reverse | reset | (set | add [[[<d>] <h>] <min>] <s>)```
-- ```/reset [confirm]```
-- ```/settings <commandname> <setting> true | false```
+- `/position <name> | list | clear | (tp | del <name>)`
+- `/personalposition <name> | list | clear | (tp | del <name>)`
+- `/sendposition [<playername>]`
+- `/timer visible | running | reverse | reset | (set | add [[[<d>] <h>] <min>] <s>)`
+- `/reset [confirm]`
+- `/settings <commandname> <setting> true | false`
 
 Some of these commands also have aliases that can be used instead of the full command names and allow for faster command
 input. These aliases are:
 
-- ```position```: ```pos```
-- ```personalposition```: ```personalpos```, ```perspos```, ```ppos```
-- ```sendposition```: ```sendpos```, ```spos```
-- ```timer```: ```tmr```
-- ```settings```: ```stg```
+- `position`: `pos`
+- `personalposition`: `personalpos`, `perspos`, `ppos`
+- `sendposition`: `sendpos`, `spos`
+- `timer`: `tmr`
+- `settings`: `stg`
 
 For further information on how this all works in detail and more,
 visit [the wiki](https://github.com/flopsif/world-utils/wiki).
