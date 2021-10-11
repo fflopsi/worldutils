@@ -123,12 +123,14 @@ public record PersonalPositionCommand(JavaPlugin plugin) implements TabExecutor 
         switch (args.length) {
             case 1 -> {
                 //command or position name being entered
-                StringUtil.copyPartialMatches(args[0], List.of("list", "clear", "tp", "del"), completions);
+                StringUtil.copyPartialMatches(args[0], List.of("list", "clear", "del"), completions);
+                if (sender instanceof Player && sender.isOp())
+                    StringUtil.copyPartialMatches(args[0], List.of("tp"), completions);
                 StringUtil.copyPartialMatches(args[0], positions.getPositions(), completions);
             }
             case 2 -> {
                 //position name being entered
-                if (List.of("tp", "del").contains(args[0]))
+                if (args[0].equals("del") || sender instanceof Player && sender.isOp() && args[0].equals("tp"))
                     StringUtil.copyPartialMatches(args[1], positions.getPositions(), completions);
             }
         }
