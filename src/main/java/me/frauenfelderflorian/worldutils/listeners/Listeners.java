@@ -59,7 +59,7 @@ public class Listeners implements Listener {
     @EventHandler
     public void onDragonDeath(EntityDeathEvent event) {
         if (event.getEntity() instanceof EnderDragon) {
-            if ((Boolean) WorldUtils.prefs.get(Options.TIMER_STOP_ON_DRAGON_DEATH))
+            if ((Boolean) WorldUtils.prefs.get(Options.TIMER_PAUSE_ON_DRAGON_DEATH))
                 WorldUtils.prefs.set(Options.TIMER_RUNNING, false, true);
             Objects.requireNonNull(event.getEntity().getKiller())
                     .sendMessage("§bCongratulations, you defeated the Ender Dragon!");
