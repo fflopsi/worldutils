@@ -28,8 +28,13 @@ public class Timer {
             public void run() {
                 //stop timer if time is over
                 if ((Boolean) WorldUtils.prefs.get(Options.TIMER_REVERSE) && time == 0) {
-                    WorldUtils.prefs.set(Options.TIMER_RUNNING, false, true);
-                    Bukkit.broadcastMessage("§cTime is over. §eTimer paused.");
+                    Bukkit.broadcastMessage("§cTime is over.");
+                    if ((Boolean) WorldUtils.prefs.get(Options.TIMER_ALLOW_BELOW_ZERO))
+                        Bukkit.broadcastMessage("§e§oTimer is running with negative time.");
+                    else {
+                        WorldUtils.prefs.set(Options.TIMER_RUNNING, false, true);
+                        Bukkit.broadcastMessage("§eTimer paused.");
+                    }
                 }
                 //update timer
                 if ((Boolean) WorldUtils.prefs.get(Options.TIMER_RUNNING)) update(true);
@@ -56,6 +61,11 @@ public class Timer {
      */
     public static String formatTime(int time) {
         int d, h, min, s;
+        boolean negative = false;
+        if (time < 0) {
+            negative = true;
+            time *= -1;
+        }
         d = Math.floorDiv(time, 86400);
         time %= 86400;
         h = Math.floorDiv(time, 3600);
@@ -63,11 +73,11 @@ public class Timer {
         min = Math.floorDiv(time, 60);
         time %= 60;
         s = time;
-        return d == 0 ? h == 0 ? min == 0 ?
+        return negative ? "\u2212 " : "" + (d == 0 ? h == 0 ? min == 0 ?
                 s + "\"" :
                 min + "'  " + s + "\"" :
                 h + "h  " + min + "'  " + s + "\"" :
-                d + "d  " + h + "h  " + min + "'  " + s + "\"";
+                d + "d  " + h + "h  " + min + "'  " + s + "\"");
     }
 
     /**
@@ -81,8 +91,9 @@ public class Timer {
             else time++;
         }
         timerBar.setTitle("§eTimer: " + formatTime(time));
-        if ((Boolean) WorldUtils.prefs.get(Options.TIMER_PROGRESS_MINUTE)) timerBar.setProgress((time % 60) / 60.0);
-        else timerBar.setProgress((time % 3600) / 3600.0);
+        if ((Boolean) WorldUtils.prefs.get(Options.TIMER_PROGRESS_MINUTE))
+            timerBar.setProgress((Math.abs(time) % 60) / 60.0);
+        else timerBar.setProgress((Math.abs(time) % 3600) / 3600.0);
         WorldUtils.prefs.set(Options.TIMER_TIME, time, false);
     }
 }

@@ -36,6 +36,10 @@ public enum Options {
      */
     TIMER_PROGRESS_MINUTE("timer", "progressMinute", false, true),
     /**
+     * Allows the timer to go below zero into negative values (default: false)
+     */
+    TIMER_ALLOW_BELOW_ZERO("timer", "allowBelowZero", false, true),
+    /**
      * Disables player interactions when timer is paused (default: true)
      */
     TIMER_DISABLE_ACTIONS_ON_PAUSE("timer", "disableInteractionsOnPause", true, true),
