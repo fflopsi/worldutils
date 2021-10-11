@@ -32,11 +32,13 @@ public class SendPositionCommand implements TabExecutor {
         if (sender instanceof Player)
             switch (args.length) {
                 case 0 -> {
+                    //send to all players
                     Bukkit.broadcastMessage(WorldUtils.Messages.positionMessage(
                             sender.getName(), ((Player) sender).getLocation()));
                     return true;
                 }
                 case 1 -> {
+                    //send to one player
                     try {
                         Objects.requireNonNull(Bukkit.getPlayer(args[0])).sendMessage(WorldUtils.Messages.positionMessage(
                                 sender.getName(), ((Player) sender).getLocation()));
