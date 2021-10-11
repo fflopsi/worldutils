@@ -48,9 +48,9 @@ public enum Options {
      */
     TIMER_DISABLE_MOVEMENT_ON_PAUSE("timer", "disableMovementOnPause", false, true),
     /**
-     * Timer stops when the dragon defeated (default: true)
+     * Timer pauses when the dragon is defeated (default: true)
      */
-    TIMER_STOP_ON_DRAGON_DEATH("timer", "stopOnDragonDeath", true, true),
+    TIMER_PAUSE_ON_DRAGON_DEATH("timer", "pauseOnDragonDeath", true, true),
     /**
      * If the world is going to be reset on next load (default: false)
      */
