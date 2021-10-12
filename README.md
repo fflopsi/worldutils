@@ -41,7 +41,7 @@ input. These aliases are:
 - `settings`: `stg`
 
 For further information on how this all works in detail and more,
-visit [the wiki](https://github.com/flopsif/world-utils/wiki).
+visit [the wiki](https://github.com/flopsif/world-utils/wiki/Usage).
 
 ## Contributing
 
