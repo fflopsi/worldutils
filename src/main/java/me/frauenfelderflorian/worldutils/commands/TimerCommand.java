@@ -1,8 +1,8 @@
 package me.frauenfelderflorian.worldutils.commands;
 
-import me.frauenfelderflorian.worldutils.config.Option;
 import me.frauenfelderflorian.worldutils.Timer;
 import me.frauenfelderflorian.worldutils.WorldUtils;
+import me.frauenfelderflorian.worldutils.config.Option;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;

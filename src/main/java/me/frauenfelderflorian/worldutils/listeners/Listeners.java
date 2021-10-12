@@ -1,7 +1,7 @@
 package me.frauenfelderflorian.worldutils.listeners;
 
-import me.frauenfelderflorian.worldutils.config.Option;
 import me.frauenfelderflorian.worldutils.WorldUtils;
+import me.frauenfelderflorian.worldutils.config.Option;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.EnderDragon;
 import org.bukkit.event.EventHandler;
