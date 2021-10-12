@@ -6,7 +6,7 @@
 
     <groupId>me.frauenfelderflorian</groupId>
     <artifactId>WorldUtils</artifactId>
-    <version>0.3</version>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
     <name>WorldUtils</name>
     <description>a Minecraft Spigot plugin with some general handy commands</description>
