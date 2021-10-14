@@ -33,7 +33,7 @@ public class Timer {
                     if ((Boolean) WorldUtils.prefs.get(Option.TIMER_ALLOW_BELOW_ZERO))
                         Bukkit.broadcastMessage("§e§oTimer is running with negative time.");
                     else {
-                        WorldUtils.prefs.set(Option.TIMER_RUNNING, false, true);
+                        setRunning(false);
                         Bukkit.broadcastMessage("§eTimer paused.");
                     }
                 }
@@ -42,6 +42,17 @@ public class Timer {
             }
         };
         runnable.runTaskTimer(plugin, 20, 20);
+    }
+
+    /**
+     * Set the running state of the timer
+     *
+     * @param running true to start, false to pause the timer
+     */
+    public void setRunning(boolean running) {
+        WorldUtils.prefs.set(Option.TIMER_RUNNING, running, true);
+        Bukkit.broadcastMessage("§eTimer " +
+                ((Boolean) WorldUtils.prefs.get(Option.TIMER_RUNNING) ? "started." : "paused."));
     }
 
     /**

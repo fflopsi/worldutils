@@ -91,7 +91,7 @@ public final class WorldUtils extends JavaPlugin {
      */
     @Override
     public void onDisable() {
-        prefs.set(Option.TIMER_RUNNING, false, true);
+        timer.setRunning(false);
         prefs.save(true);
     }
 

@@ -48,11 +48,7 @@ public class TimerCommand implements TabExecutor {
                         }
                         case "running" -> {
                             //change running status
-                            WorldUtils.prefs.set(Option.TIMER_RUNNING,
-                                    !(Boolean) WorldUtils.prefs.get(Option.TIMER_RUNNING), true);
-                            Bukkit.broadcastMessage("§eTimer "
-                                    + ((Boolean) WorldUtils.prefs.get(Option.TIMER_RUNNING)
-                                    ? "started." : "paused."));
+                            WorldUtils.timer.setRunning(!((Boolean) WorldUtils.prefs.get(Option.TIMER_RUNNING)));
                             return true;
                         }
                         case "reverse" -> {
@@ -66,7 +62,7 @@ public class TimerCommand implements TabExecutor {
                         }
                         case "reset" -> {
                             //set timer to 0
-                            WorldUtils.prefs.set(Option.TIMER_RUNNING, false, true);
+                            WorldUtils.timer.setRunning(false);
                             WorldUtils.timer.set(0);
                             Bukkit.broadcastMessage("§eTimer set to 0.");
                             return true;

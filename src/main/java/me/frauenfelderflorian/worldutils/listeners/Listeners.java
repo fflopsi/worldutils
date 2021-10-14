@@ -37,7 +37,7 @@ public class Listeners implements Listener {
     @EventHandler
     public void onPlayerLeave(PlayerQuitEvent event) {
         if (Bukkit.getServer().getOnlinePlayers().size() == 1)
-            WorldUtils.prefs.set(Option.TIMER_RUNNING, false, true);
+            WorldUtils.timer.setRunning(false);
     }
 
     /**
@@ -60,7 +60,7 @@ public class Listeners implements Listener {
     public void onDragonDeath(EntityDeathEvent event) {
         if (event.getEntity() instanceof EnderDragon) {
             if ((Boolean) WorldUtils.prefs.get(Option.TIMER_PAUSE_ON_DRAGON_DEATH))
-                WorldUtils.prefs.set(Option.TIMER_RUNNING, false, true);
+                WorldUtils.timer.setRunning(false);
             Objects.requireNonNull(event.getEntity().getKiller())
                     .sendMessage("§bCongratulations, you defeated the Ender Dragon!");
             Bukkit.broadcastMessage("§bCongratulations, you just won the game!");
