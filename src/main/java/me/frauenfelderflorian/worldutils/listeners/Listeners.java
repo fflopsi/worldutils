@@ -18,7 +18,7 @@ import java.util.Objects;
  */
 public class Listeners implements Listener {
     /**
-     * Executed when a player joins: Send a welcome message and add player to timer if configured so
+     * Executed when a player joins: Send a welcome message, add player to timer and start timer if configured so
      *
      * @param event the triggered PlayerJoinEvent
      */
@@ -27,6 +27,9 @@ public class Listeners implements Listener {
         event.getPlayer().sendMessage("Hello " + event.getPlayer().getName() + ", nice to meet you!");
         if ((Boolean) WorldUtils.prefs.get(Option.TIMER_ADD_PLAYER_ON_JOIN))
             WorldUtils.timer.timerBar.addPlayer(event.getPlayer());
+        if ((Boolean) WorldUtils.prefs.get(Option.TIMER_START_IF_WAS_RUNNING)
+                && (Boolean) WorldUtils.prefs.get(Option.TIMER_WAS_RUNNING)
+                && Bukkit.getServer().getOnlinePlayers().size() == 1) WorldUtils.timer.setRunning(true);
     }
 
     /**
@@ -36,8 +39,10 @@ public class Listeners implements Listener {
      */
     @EventHandler
     public void onPlayerLeave(PlayerQuitEvent event) {
-        if (Bukkit.getServer().getOnlinePlayers().size() == 1)
+        if (Bukkit.getServer().getOnlinePlayers().size() == 1) {
+            WorldUtils.prefs.set(Option.TIMER_WAS_RUNNING, WorldUtils.prefs.get(Option.TIMER_RUNNING), true);
             WorldUtils.timer.setRunning(false);
+        }
     }
 
     /**
