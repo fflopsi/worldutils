@@ -2,6 +2,7 @@ package me.frauenfelderflorian.worldutils.commands;
 
 import me.frauenfelderflorian.worldutils.WorldUtils;
 import me.frauenfelderflorian.worldutils.config.Option;
+import me.frauenfelderflorian.worldutils.config.Positions;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -17,8 +18,8 @@ import java.util.regex.Pattern;
 /**
  * CommandExecutor and TabCompleter for command position
  */
-public class PositionCommand implements TabExecutor {
-    public static final String command = "position";
+public record CPosition(WorldUtils plugin, Positions positions) implements TabExecutor {
+    public static final String CMD = "position";
 
     /**
      * Done when command sent
@@ -37,37 +38,37 @@ public class PositionCommand implements TabExecutor {
                 switch (args[0]) {
                     case "list" -> {
                         //send all position info
-                        for (String position : WorldUtils.positions.getPositions())
+                        for (String position : positions.getPositions())
                             sender.sendMessage(WorldUtils.Messages.positionMessage(
-                                    position, (Location) WorldUtils.positions.get(position)));
+                                    position, (Location) positions.get(position)));
                         return true;
                     }
                     case "clear" -> {
                         //remove all positions
                         Bukkit.broadcastMessage("§e§oCleared positions");
-                        for (String pos : WorldUtils.positions.getPositions()) WorldUtils.positions.remove(pos);
+                        for (String pos : positions.getPositions()) positions.remove(pos);
                         return true;
                     }
                     default -> {
                         //position name entered
-                        if (WorldUtils.positions.contains(args[0]))
+                        if (positions.contains(args[0]))
                             //existing position, send info
-                            if (WorldUtils.positions.contains("list." + args[0]))
+                            if (positions.contains("list." + args[0]))
                                 sender.sendMessage(WorldUtils.Messages.positionMessage(
-                                        args[0], (String) WorldUtils.positions.get("list." + args[0]),
-                                        (Location) WorldUtils.positions.get(args[0])));
+                                        args[0], (String) positions.get("list." + args[0]),
+                                        (Location) positions.get(args[0])));
                             else sender.sendMessage(WorldUtils.Messages.positionMessage(
-                                    args[0], (Location) WorldUtils.positions.get(args[0])));
+                                    args[0], (Location) positions.get(args[0])));
                         else if (sender instanceof Player) {
                             //new position name, save position
                             if (!Pattern.matches("\\w+", args[0])) WorldUtils.Messages.wrongArguments(sender);
                             else {
-                                WorldUtils.positions.set(args[0], ((Player) sender).getLocation(), true);
-                                if ((Boolean) WorldUtils.prefs.get(Option.POSITION_SAVE_AUTHOR))
-                                    WorldUtils.positions.set("list." + args[0], sender.getName(), true);
+                                positions.set(args[0], ((Player) sender).getLocation(), true);
+                                if ((Boolean) plugin.prefs.get(Option.POSITION_SAVE_AUTHOR))
+                                    positions.set("list." + args[0], sender.getName(), true);
                                 Bukkit.broadcastMessage("§aAdded§r position "
                                         + WorldUtils.Messages.positionMessage(args[0], sender.getName(),
-                                        (Location) WorldUtils.positions.get(args[0])));
+                                        (Location) positions.get(args[0])));
                             }
                         } else WorldUtils.Messages.notConsole(sender);
                         return true;
@@ -80,7 +81,7 @@ public class PositionCommand implements TabExecutor {
                     case "tp" -> {
                         //teleport player to position if OP
                         if (sender instanceof Player && sender.isOp())
-                            ((Player) sender).teleport((Location) WorldUtils.positions.get(args[1]));
+                            ((Player) sender).teleport((Location) positions.get(args[1]));
                         else if (sender instanceof Player) WorldUtils.Messages.notAllowed(sender);
                         else WorldUtils.Messages.notConsole(sender);
                         return true;
@@ -88,10 +89,10 @@ public class PositionCommand implements TabExecutor {
                     case "del" -> {
                         //delete position
                         Bukkit.broadcastMessage("§cDeleted§r position "
-                                + WorldUtils.Messages.positionMessage(args[1], (Location) WorldUtils.positions.get(args[1])));
-                        WorldUtils.positions.remove(args[1]);
-                        if (WorldUtils.positions.contains("list." + args[1]))
-                            WorldUtils.positions.remove("list." + args[1]);
+                                + WorldUtils.Messages.positionMessage(args[1], (Location) positions.get(args[1])));
+                        positions.remove(args[1]);
+                        if (positions.contains("list." + args[1]))
+                            positions.remove("list." + args[1]);
                         return true;
                     }
                 }
@@ -118,12 +119,12 @@ public class PositionCommand implements TabExecutor {
                 StringUtil.copyPartialMatches(args[0], List.of("list", "clear", "del"), completions);
                 if (sender instanceof Player && sender.isOp())
                     StringUtil.copyPartialMatches(args[0], List.of("tp"), completions);
-                StringUtil.copyPartialMatches(args[0], WorldUtils.positions.getPositions(), completions);
+                StringUtil.copyPartialMatches(args[0], positions.getPositions(), completions);
             }
             case 2 -> {
                 //position name being entered
                 if (args[0].equals("del") || sender instanceof Player && sender.isOp() && args[0].equals("tp"))
-                    StringUtil.copyPartialMatches(args[1], WorldUtils.positions.getPositions(), completions);
+                    StringUtil.copyPartialMatches(args[1], positions.getPositions(), completions);
             }
         }
         return completions;

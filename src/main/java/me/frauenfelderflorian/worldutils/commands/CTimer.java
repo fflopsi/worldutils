@@ -16,8 +16,8 @@ import java.util.List;
 /**
  * CommandExecutor and TabCompleter for command timer
  */
-public class TimerCommand implements TabExecutor {
-    public static final String command = "timer";
+public record CTimer(WorldUtils plugin) implements TabExecutor {
+    public static final String CMD = "timer";
 
     /**
      * Done when command sent
@@ -30,40 +30,40 @@ public class TimerCommand implements TabExecutor {
      */
     @Override
     public boolean onCommand(CommandSender sender, Command command, String alias, String[] args) {
-        if (sender.isOp() || WorldUtils.timer.timerBar.getPlayers().contains((Player) sender))
+        if (sender.isOp() || plugin.timer.timerBar.getPlayers().contains((Player) sender))
             switch (args.length) {
                 case 1 -> {
                     switch (args[0]) {
                         case "visible" -> {
                             //add or remove player: changes visibility status for one single player
                             if (sender instanceof Player) {
-                                if (WorldUtils.timer.timerBar.getPlayers().contains((Player) sender))
-                                    WorldUtils.timer.timerBar.removePlayer((Player) sender);
-                                else WorldUtils.timer.timerBar.addPlayer((Player) sender);
+                                if (plugin.timer.timerBar.getPlayers().contains((Player) sender))
+                                    plugin.timer.timerBar.removePlayer((Player) sender);
+                                else plugin.timer.timerBar.addPlayer((Player) sender);
                                 sender.sendMessage("§eTimer set to " +
-                                        (WorldUtils.timer.timerBar.getPlayers().contains((Player) sender)
+                                        (plugin.timer.timerBar.getPlayers().contains((Player) sender)
                                                 ? "visible." : "invisible."));
                             } else WorldUtils.Messages.notConsole(sender);
                             return true;
                         }
                         case "running" -> {
                             //change running status
-                            WorldUtils.timer.setRunning(!((Boolean) WorldUtils.prefs.get(Option.TIMER_RUNNING)));
+                            plugin.timer.setRunning(!((Boolean) plugin.prefs.get(Option.TIMER_RUNNING)));
                             return true;
                         }
                         case "reverse" -> {
                             //change reverse status
-                            WorldUtils.prefs.set(Option.TIMER_REVERSE,
-                                    !(Boolean) WorldUtils.prefs.get(Option.TIMER_REVERSE), true);
+                            plugin.prefs.set(Option.TIMER_REVERSE,
+                                    !(Boolean) plugin.prefs.get(Option.TIMER_REVERSE), true);
                             Bukkit.broadcastMessage("§eTimer reversed, now in §b"
-                                    + ((Boolean) WorldUtils.prefs.get(Option.TIMER_REVERSE) ? "reverse" : "normal")
+                                    + ((Boolean) plugin.prefs.get(Option.TIMER_REVERSE) ? "reverse" : "normal")
                                     + "§e mode.");
                             return true;
                         }
                         case "reset" -> {
                             //set timer to 0
-                            WorldUtils.timer.setRunning(false);
-                            WorldUtils.timer.setTime(0);
+                            plugin.timer.setRunning(false);
+                            plugin.timer.setTime(0);
                             Bukkit.broadcastMessage("§eTimer set to 0.");
                             return true;
                         }
@@ -74,21 +74,21 @@ public class TimerCommand implements TabExecutor {
                         case "set" -> {
                             //set time to input values
                             try {
-                                WorldUtils.timer.setTime(getTime(args));
+                                plugin.timer.setTime(getTime(args));
                             } catch (IllegalStateException e) {
                                 WorldUtils.Messages.wrongArgumentNumber(sender);
                             } catch (NumberFormatException e) {
                                 WorldUtils.Messages.wrongArguments(sender);
                             }
                             Bukkit.broadcastMessage("§eTimer set to §b"
-                                    + Timer.formatTime((int) WorldUtils.prefs.get(Option.TIMER_TIME)));
+                                    + Timer.formatTime((int) plugin.prefs.get(Option.TIMER_TIME)));
                             return true;
                         }
                         case "add" -> {
                             //add input values to current time
                             try {
-                                WorldUtils.timer.setTime(
-                                        (int) WorldUtils.prefs.get(Option.TIMER_TIME) + getTime(args));
+                                plugin.timer.setTime(
+                                        (int) plugin.prefs.get(Option.TIMER_TIME) + getTime(args));
                             } catch (IllegalStateException e) {
                                 WorldUtils.Messages.wrongArgumentNumber(sender);
                             } catch (NumberFormatException e) {
@@ -101,7 +101,7 @@ public class TimerCommand implements TabExecutor {
                 }
             }
         else if (args.length == 1 && args[0].equals("visible")) {
-            WorldUtils.timer.timerBar.addPlayer((Player) sender);
+            plugin.timer.timerBar.addPlayer((Player) sender);
             return true;
         }
         return false;
@@ -119,7 +119,7 @@ public class TimerCommand implements TabExecutor {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         List<String> completions = new ArrayList<>();
-        if (sender.isOp() || WorldUtils.timer.timerBar.getPlayers().contains((Player) sender))
+        if (sender.isOp() || plugin.timer.timerBar.getPlayers().contains((Player) sender))
             switch (args.length) {
                 case 1 -> StringUtil.copyPartialMatches(args[0],
                         List.of("visible", "running", "reverse", "reset", "set", "add"), completions);

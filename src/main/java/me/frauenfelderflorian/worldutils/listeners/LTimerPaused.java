@@ -24,10 +24,10 @@ import org.bukkit.event.vehicle.VehicleExitEvent;
  * <p>
  * If the timer is paused and the respective settings are set to true, all these events are canceled
  */
-public class ListenersTimerPaused implements Listener {
+public record LTimerPaused(WorldUtils plugin) implements Listener {
     @EventHandler
     public void onPlayerMoveEvent(PlayerMoveEvent event) {
-        if ((Boolean) WorldUtils.prefs.get(Option.TIMER_DISABLE_MOVEMENT_ON_PAUSE)) cancelEvent(event, false);
+        if ((Boolean) plugin.prefs.get(Option.TIMER_DISABLE_MOVEMENT_ON_PAUSE)) cancelEvent(event, false);
     }
 
     @EventHandler
@@ -208,8 +208,8 @@ public class ListenersTimerPaused implements Listener {
      *                <span style="color:yellow">Interaction not possible.</span>"
      */
     private void cancelEvent(Event event, boolean message) {
-        if ((Boolean) WorldUtils.prefs.get(Option.TIMER_DISABLE_ACTIONS_ON_PAUSE)
-                && !((Boolean) WorldUtils.prefs.get(Option.TIMER_RUNNING))
+        if ((Boolean) plugin.prefs.get(Option.TIMER_DISABLE_ACTIONS_ON_PAUSE)
+                && !((Boolean) plugin.prefs.get(Option.TIMER_RUNNING))
                 && event instanceof Cancellable && !((Cancellable) event).isCancelled()) {
             ((Cancellable) event).setCancelled(true);
             if (message) Bukkit.broadcastMessage("§cTimer is paused. §eInteraction not possible.");

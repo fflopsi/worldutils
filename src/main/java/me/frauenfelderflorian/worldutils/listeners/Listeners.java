@@ -16,7 +16,7 @@ import java.util.Objects;
 /**
  * Listener class for triggered Events
  */
-public class Listeners implements Listener {
+public record Listeners(WorldUtils plugin) implements Listener {
     /**
      * Executed when a player joins: Send a welcome message, add player to timer and start timer if configured so
      *
@@ -25,11 +25,11 @@ public class Listeners implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         event.getPlayer().sendMessage("Hello " + event.getPlayer().getName() + ", nice to meet you!");
-        if ((Boolean) WorldUtils.prefs.get(Option.TIMER_ADD_PLAYER_ON_JOIN))
-            WorldUtils.timer.timerBar.addPlayer(event.getPlayer());
-        if ((Boolean) WorldUtils.prefs.get(Option.TIMER_START_IF_WAS_RUNNING)
-                && (Boolean) WorldUtils.prefs.get(Option.TIMER_WAS_RUNNING)
-                && Bukkit.getServer().getOnlinePlayers().size() == 1) WorldUtils.timer.setRunning(true);
+        if ((Boolean) plugin.prefs.get(Option.TIMER_ADD_PLAYER_ON_JOIN))
+            plugin.timer.timerBar.addPlayer(event.getPlayer());
+        if ((Boolean) plugin.prefs.get(Option.TIMER_START_IF_WAS_RUNNING)
+                && (Boolean) plugin.prefs.get(Option.TIMER_WAS_RUNNING)
+                && Bukkit.getServer().getOnlinePlayers().size() == 1) plugin.timer.setRunning(true);
     }
 
     /**
@@ -40,8 +40,8 @@ public class Listeners implements Listener {
     @EventHandler
     public void onPlayerLeave(PlayerQuitEvent event) {
         if (Bukkit.getServer().getOnlinePlayers().size() == 1) {
-            WorldUtils.prefs.set(Option.TIMER_WAS_RUNNING, WorldUtils.prefs.get(Option.TIMER_RUNNING), true);
-            WorldUtils.timer.setRunning(false);
+            plugin.prefs.set(Option.TIMER_WAS_RUNNING, plugin.prefs.get(Option.TIMER_RUNNING), true);
+            plugin.timer.setRunning(false);
         }
     }
 
@@ -64,8 +64,8 @@ public class Listeners implements Listener {
     @EventHandler
     public void onDragonDeath(EntityDeathEvent event) {
         if (event.getEntity() instanceof EnderDragon) {
-            if ((Boolean) WorldUtils.prefs.get(Option.TIMER_PAUSE_ON_DRAGON_DEATH))
-                WorldUtils.timer.setRunning(false);
+            if ((Boolean) plugin.prefs.get(Option.TIMER_PAUSE_ON_DRAGON_DEATH))
+                plugin.timer.setRunning(false);
             Objects.requireNonNull(event.getEntity().getKiller())
                     .sendMessage("§bCongratulations, you defeated the Ender Dragon!");
             Bukkit.broadcastMessage("§bCongratulations, you just won the game!");

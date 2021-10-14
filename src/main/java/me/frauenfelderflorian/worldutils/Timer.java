@@ -13,6 +13,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 public class Timer {
     public final BossBar timerBar;
     private int time;
+    private final WorldUtils plugin;
 
     /**
      * Create a new Timer
@@ -20,7 +21,8 @@ public class Timer {
      * @param plugin the plugin for which the timer should be created
      */
     public Timer(WorldUtils plugin) {
-        time = (int) WorldUtils.prefs.get(Option.TIMER_TIME);
+        this.plugin = plugin;
+        time = (int) plugin.prefs.get(Option.TIMER_TIME);
         timerBar = Bukkit.createBossBar("§eTimer: " + formatTime(time), BarColor.YELLOW, BarStyle.SEGMENTED_12);
         timerBar.setVisible(true);
         update(false);
@@ -28,9 +30,9 @@ public class Timer {
             @Override
             public void run() {
                 //stop timer if time is over
-                if ((Boolean) WorldUtils.prefs.get(Option.TIMER_REVERSE) && time == 0) {
+                if ((Boolean) plugin.prefs.get(Option.TIMER_REVERSE) && time == 0) {
                     Bukkit.broadcastMessage("§cTime is over.");
-                    if ((Boolean) WorldUtils.prefs.get(Option.TIMER_ALLOW_BELOW_ZERO))
+                    if ((Boolean) plugin.prefs.get(Option.TIMER_ALLOW_BELOW_ZERO))
                         Bukkit.broadcastMessage("§e§oTimer is running with negative time.");
                     else {
                         setRunning(false);
@@ -38,7 +40,7 @@ public class Timer {
                     }
                 }
                 //update timer
-                if ((Boolean) WorldUtils.prefs.get(Option.TIMER_RUNNING)) update(true);
+                if ((Boolean) plugin.prefs.get(Option.TIMER_RUNNING)) update(true);
             }
         };
         runnable.runTaskTimer(plugin, 20, 20);
@@ -50,9 +52,9 @@ public class Timer {
      * @param running true to start, false to pause the timer
      */
     public void setRunning(boolean running) {
-        WorldUtils.prefs.set(Option.TIMER_RUNNING, running, true);
+        plugin.prefs.set(Option.TIMER_RUNNING, running, true);
         Bukkit.broadcastMessage("§eTimer " +
-                ((Boolean) WorldUtils.prefs.get(Option.TIMER_RUNNING) ? "started." : "paused."));
+                ((Boolean) plugin.prefs.get(Option.TIMER_RUNNING) ? "started." : "paused."));
     }
 
     /**
@@ -99,13 +101,13 @@ public class Timer {
      */
     private void update(boolean updateTime) {
         if (updateTime) {
-            if ((Boolean) WorldUtils.prefs.get(Option.TIMER_REVERSE)) time--;
+            if ((Boolean) plugin.prefs.get(Option.TIMER_REVERSE)) time--;
             else time++;
         }
         timerBar.setTitle("§eTimer: " + formatTime(time));
-        if ((Boolean) WorldUtils.prefs.get(Option.TIMER_PROGRESS_MINUTE))
+        if ((Boolean) plugin.prefs.get(Option.TIMER_PROGRESS_MINUTE))
             timerBar.setProgress((Math.abs(time) % 60) / 60.0);
         else timerBar.setProgress((Math.abs(time) % 3600) / 3600.0);
-        WorldUtils.prefs.set(Option.TIMER_TIME, time, false);
+        plugin.prefs.set(Option.TIMER_TIME, time, false);
     }
 }

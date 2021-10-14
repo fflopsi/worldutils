@@ -9,7 +9,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.StringUtil;
 
 import java.util.ArrayList;
@@ -19,8 +18,8 @@ import java.util.Objects;
 /**
  * CommandExecutor and TabCompleter for command personalposition
  */
-public record PersonalPositionCommand(JavaPlugin plugin) implements TabExecutor {
-    public static final String command = "personalposition";
+public record CPersonalPosition(WorldUtils plugin) implements TabExecutor {
+    public static final String CMD = "personalposition";
     private static String name = "";
     private static Positions positions;
 
@@ -145,7 +144,7 @@ public record PersonalPositionCommand(JavaPlugin plugin) implements TabExecutor 
      * @return true if correct command syntax used and no errors, false otherwise
      */
     private boolean otherPlayersPosition(CommandSender sender, String[] args) {
-        if ((Boolean) WorldUtils.prefs.get(Option.PERSONALPOSITION_ACCESS_GLOBAL))
+        if ((Boolean) plugin.prefs.get(Option.PERSONALPOSITION_ACCESS_GLOBAL))
             try {
                 if (Objects.requireNonNull(Bukkit.getPlayer(args[0])).isOnline()) {
                     //get personalposition from player

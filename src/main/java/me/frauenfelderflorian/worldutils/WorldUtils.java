@@ -4,8 +4,8 @@ import me.frauenfelderflorian.worldutils.commands.*;
 import me.frauenfelderflorian.worldutils.config.Option;
 import me.frauenfelderflorian.worldutils.config.Positions;
 import me.frauenfelderflorian.worldutils.config.Prefs;
+import me.frauenfelderflorian.worldutils.listeners.LTimerPaused;
 import me.frauenfelderflorian.worldutils.listeners.Listeners;
-import me.frauenfelderflorian.worldutils.listeners.ListenersTimerPaused;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -23,9 +23,8 @@ import java.util.Objects;
  * Main plugin class
  */
 public final class WorldUtils extends JavaPlugin {
-    public static Prefs prefs;
-    public static Positions positions;
-    public static Timer timer;
+    public Prefs prefs;
+    public Timer timer;
 
     /**
      * Done on plugin load before world loading
@@ -64,24 +63,22 @@ public final class WorldUtils extends JavaPlugin {
     @Override
     public void onEnable() {
         //load positions
-        positions = new Positions(this, "positions.yml");
+        Positions positions = new Positions(this, "positions.yml");
         //set CommandExecutors and TabCompleters
-        Objects.requireNonNull(getCommand(PositionCommand.command)).setExecutor(new PositionCommand());
-        Objects.requireNonNull(getCommand(PositionCommand.command)).setTabCompleter(new PositionCommand());
-        Objects.requireNonNull(getCommand(PersonalPositionCommand.command))
-                .setExecutor(new PersonalPositionCommand(this));
-        Objects.requireNonNull(getCommand(PersonalPositionCommand.command))
-                .setTabCompleter(new PersonalPositionCommand(this));
-        Objects.requireNonNull(getCommand(SendPositionCommand.command)).setExecutor(new SendPositionCommand());
-        Objects.requireNonNull(getCommand(SendPositionCommand.command)).setTabCompleter(new SendPositionCommand());
-        Objects.requireNonNull(getCommand(TimerCommand.command)).setExecutor(new TimerCommand());
-        Objects.requireNonNull(getCommand(TimerCommand.command)).setTabCompleter(new TimerCommand());
-        Objects.requireNonNull(getCommand(ResetCommand.command)).setExecutor(new ResetCommand(this));
-        Objects.requireNonNull(getCommand(ResetCommand.command)).setTabCompleter(new ResetCommand(this));
-        Objects.requireNonNull(getCommand(SettingsCommand.command)).setExecutor(new SettingsCommand());
-        Objects.requireNonNull(getCommand(SettingsCommand.command)).setTabCompleter(new SettingsCommand());
-        getServer().getPluginManager().registerEvents(new Listeners(), this);
-        getServer().getPluginManager().registerEvents(new ListenersTimerPaused(), this);
+        Objects.requireNonNull(getCommand(CPosition.CMD)).setExecutor(new CPosition(this, positions));
+        Objects.requireNonNull(getCommand(CPosition.CMD)).setTabCompleter(new CPosition(this, positions));
+        Objects.requireNonNull(getCommand(CPersonalPosition.CMD)).setExecutor(new CPersonalPosition(this));
+        Objects.requireNonNull(getCommand(CPersonalPosition.CMD)).setTabCompleter(new CPersonalPosition(this));
+        Objects.requireNonNull(getCommand(CSendPosition.CMD)).setExecutor(new CSendPosition());
+        Objects.requireNonNull(getCommand(CSendPosition.CMD)).setTabCompleter(new CSendPosition());
+        Objects.requireNonNull(getCommand(CTimer.CMD)).setExecutor(new CTimer(this));
+        Objects.requireNonNull(getCommand(CTimer.CMD)).setTabCompleter(new CTimer(this));
+        Objects.requireNonNull(getCommand(CReset.CMD)).setExecutor(new CReset(this));
+        Objects.requireNonNull(getCommand(CReset.CMD)).setTabCompleter(new CReset(this));
+        Objects.requireNonNull(getCommand(CSettings.CMD)).setExecutor(new CSettings(this));
+        Objects.requireNonNull(getCommand(CSettings.CMD)).setTabCompleter(new CSettings(this));
+        getServer().getPluginManager().registerEvents(new Listeners(this), this);
+        getServer().getPluginManager().registerEvents(new LTimerPaused(this), this);
         //set up timer
         timer = new Timer(this);
     }
@@ -91,8 +88,6 @@ public final class WorldUtils extends JavaPlugin {
      */
     @Override
     public void onDisable() {
-        timer.setRunning(false);
-        prefs.save(true);
     }
 
     /**

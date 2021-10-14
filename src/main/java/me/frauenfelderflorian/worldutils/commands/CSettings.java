@@ -14,8 +14,8 @@ import java.util.List;
 /**
  * CommandExecutor and TabCompleter for command settings
  */
-public class SettingsCommand implements TabExecutor {
-    public static final String command = "settings";
+public record CSettings(WorldUtils plugin) implements TabExecutor {
+    public static final String CMD = "settings";
 
     /**
      * Done when command sent
@@ -28,21 +28,21 @@ public class SettingsCommand implements TabExecutor {
      */
     @Override
     public boolean onCommand(CommandSender sender, Command command, String alias, String[] args) {
-        if (sender.isOp() || !((Boolean) WorldUtils.prefs.get(Option.SETTINGS_NEED_OP))) {
+        if (sender.isOp() || !((Boolean) plugin.prefs.get(Option.SETTINGS_NEED_OP))) {
             if (args.length == 3) {
                 //command, setting and value entered
                 Option setting = Option.get(args[0], args[1]);
                 if (setting != null)
                     if (args[2].equals("true")) {
-                        WorldUtils.prefs.set(setting, true, true);
+                        plugin.prefs.set(setting, true, true);
                         Bukkit.broadcastMessage("Setting §b" + args[1] + "§r from command §b" + args[0] + "§r set to §atrue");
                         return true;
                     } else if (args[2].equals("false")) {
-                        WorldUtils.prefs.set(setting, false, true);
+                        plugin.prefs.set(setting, false, true);
                         Bukkit.broadcastMessage("Setting §b" + args[1] + "§r from command §b" + args[0] + "§r set to §cfalse");
                         return true;
                     } else if (args[2].equals("null")) {
-                        WorldUtils.prefs.remove(setting);
+                        plugin.prefs.remove(setting);
                         Bukkit.broadcastMessage("Setting §b" + args[1] + "§r from command §b" + args[0] + "§r set to §enull");
                         Bukkit.broadcastMessage("§cUse with caution: §oThe plugin might not work correctly!");
                         return true;
@@ -67,7 +67,7 @@ public class SettingsCommand implements TabExecutor {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         List<String> completions = new ArrayList<>();
-        if (sender.isOp() || !((Boolean) WorldUtils.prefs.get(Option.SETTINGS_NEED_OP)))
+        if (sender.isOp() || !((Boolean) plugin.prefs.get(Option.SETTINGS_NEED_OP)))
             switch (args.length) {
                 case 1 -> //command being entered
                         StringUtil.copyPartialMatches(args[0], Option.getCommands(), completions);
