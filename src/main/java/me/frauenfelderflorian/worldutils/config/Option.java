@@ -24,6 +24,10 @@ public enum Option {
      */
     TIMER_RUNNING(Command.TIMER, "running", false, false),
     /**
+     * If the timer was running when the last player left the server the last time (default: false)
+     */
+    TIMER_WAS_RUNNING(Command.TIMER, "wasRunning", false, false),
+    /**
      * If the timer is running reversed (default: false)
      */
     TIMER_REVERSE(Command.TIMER, "reverse", false, false),
@@ -31,6 +35,11 @@ public enum Option {
      * Add a player to the timer automatically when joining (default: true)
      */
     TIMER_ADD_PLAYER_ON_JOIN(Command.TIMER, "addPlayerOnJoin", false, true),
+    /**
+     * Start the timer automatically when the first player joins if the timer was running when the last player left the
+     * last time (default: false)
+     */
+    TIMER_START_IF_WAS_RUNNING(Command.TIMER, "startOnPlayerJoinIfWasRunning", false, true),
     /**
      * Timer progress bar displays the progress of the current minute instead of hour (default: false)
      */
