@@ -63,7 +63,7 @@ public class TimerCommand implements TabExecutor {
                         case "reset" -> {
                             //set timer to 0
                             WorldUtils.timer.setRunning(false);
-                            WorldUtils.timer.set(0);
+                            WorldUtils.timer.setTime(0);
                             Bukkit.broadcastMessage("§eTimer set to 0.");
                             return true;
                         }
@@ -74,7 +74,7 @@ public class TimerCommand implements TabExecutor {
                         case "set" -> {
                             //set time to input values
                             try {
-                                WorldUtils.timer.set(getTime(args));
+                                WorldUtils.timer.setTime(getTime(args));
                             } catch (IllegalStateException e) {
                                 WorldUtils.Messages.wrongArgumentNumber(sender);
                             } catch (NumberFormatException e) {
@@ -87,7 +87,7 @@ public class TimerCommand implements TabExecutor {
                         case "add" -> {
                             //add input values to current time
                             try {
-                                WorldUtils.timer.set(
+                                WorldUtils.timer.setTime(
                                         (int) WorldUtils.prefs.get(Option.TIMER_TIME) + getTime(args));
                             } catch (IllegalStateException e) {
                                 WorldUtils.Messages.wrongArgumentNumber(sender);

@@ -60,7 +60,7 @@ public class Timer {
      *
      * @param time int of seconds for new timer value
      */
-    public void set(int time) {
+    public void setTime(int time) {
         this.time = time;
         update(false);
     }
