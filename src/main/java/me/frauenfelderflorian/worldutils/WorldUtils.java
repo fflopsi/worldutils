@@ -23,6 +23,7 @@ import java.util.Objects;
  * Main plugin class
  */
 public final class WorldUtils extends JavaPlugin {
+    private static WorldUtils instance;
     public Prefs prefs;
     public Timer timer;
 
@@ -31,6 +32,8 @@ public final class WorldUtils extends JavaPlugin {
      */
     @Override
     public void onLoad() {
+        //set plugin instance
+        instance = this;
         //load config and set defaults
         prefs = new Prefs(this);
         for (Option setting : Option.values())
@@ -88,6 +91,15 @@ public final class WorldUtils extends JavaPlugin {
      */
     @Override
     public void onDisable() {
+    }
+
+    /**
+     * Get an instance of this plugin, if it is running
+     *
+     * @return a WorldUtils object
+     */
+    public static WorldUtils getInstance() {
+        return instance;
     }
 
     /**
