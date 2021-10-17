@@ -47,6 +47,26 @@ public class Prefs extends Config {
     }
 
     /**
+     * Get a boolean value from a setting
+     *
+     * @param setting the setting
+     * @return the boolean at the setting's path
+     */
+    public boolean getBoolean(Option setting) {
+        return config.getBoolean(setting.getKey());
+    }
+
+    /**
+     * Get an int from a setting
+     *
+     * @param setting the setting
+     * @return the int at the setting's path
+     */
+    public int getInt(Option setting) {
+        return config.getInt(setting.getKey());
+    }
+
+    /**
      * Remove a setting
      *
      * @param setting the setting to be removed
