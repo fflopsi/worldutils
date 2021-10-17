@@ -171,7 +171,7 @@ public final class WorldUtils extends JavaPlugin {
          * @param target the target to whom the message should be sent
          */
         public static void wrongArguments(CommandSender target) {
-            target.sendMessage("§e§oWrong argument(s) entered for this command.");
+            target.sendMessage("§e§oWrong argument(s) were entered for this command.");
         }
 
         /**
