@@ -27,20 +27,27 @@ public record CReset(WorldUtils plugin) implements TabExecutor {
      */
     @Override
     public boolean onCommand(CommandSender sender, Command command, String alias, String[] args) {
-        if (!plugin.prefs.getBoolean(Prefs.Option.RESET_NEED_CONFIRM)
-                || args.length == 1 && args[0].equalsIgnoreCase("confirm")) {
-            Bukkit.broadcastMessage("§e§oResetting server in 10 seconds.");
-            //kick players 2 seconds before restarting or shutting down
-            Bukkit.getScheduler().runTaskLater(plugin, () -> {
-                for (Player player : Bukkit.getOnlinePlayers())
-                    player.kickPlayer("§e§oResetting server.§r You can rejoin in a few moments.");
-            }, 200);
-            //restart or shut down
-            Bukkit.getScheduler().runTaskLater(plugin, () -> {
-                plugin.prefs.set(Prefs.Option.RESET_RESET, true, true);
-                if (plugin.prefs.getBoolean(Prefs.Option.RESET_RESTART_AFTER_RESET)) Bukkit.spigot().restart();
-                else Bukkit.shutdown();
-            }, 220);
+        if (sender.isOp() || !plugin.prefs.getBoolean(Prefs.Option.RESET_NEED_OP)) {
+            if (!plugin.prefs.getBoolean(Prefs.Option.RESET_NEED_CONFIRM)
+                    || args.length == 1 && args[0].equalsIgnoreCase("confirm")) {
+                Bukkit.broadcastMessage("§e§oResetting server in 10 seconds.");
+                //kick players 2 seconds before restarting or shutting down
+                Bukkit.getScheduler().runTaskLater(plugin, () -> {
+                    for (Player player : Bukkit.getOnlinePlayers())
+                        player.kickPlayer("§e§oResetting server.§r You can rejoin in a few moments.");
+                }, 200);
+                //restart or shut down
+                Bukkit.getScheduler().runTaskLater(plugin, () -> {
+                    plugin.prefs.set(Prefs.Option.RESET_RESET, true, true);
+                    if (plugin.prefs.getBoolean(Prefs.Option.RESET_RESTART_AFTER_RESET)) Bukkit.spigot().restart();
+                    else Bukkit.shutdown();
+                }, 220);
+                return true;
+            } else {
+                WorldUtils.Messages.wrongArguments(sender);
+            }
+        } else {
+            WorldUtils.Messages.notAllowed(sender);
             return true;
         }
         return false;

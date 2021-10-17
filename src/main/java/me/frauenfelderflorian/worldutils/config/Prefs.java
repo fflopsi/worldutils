@@ -130,6 +130,10 @@ public class Prefs extends Config {
          */
         RESET_RESET(Command.RESET, "reset", false, false),
         /**
+         * Player needs OP to reset the server (default: true)
+         */
+        RESET_NEED_OP(Command.RESET, "needOp", true, true),
+        /**
          * Reset command needs confirm as first and only argument to start resetting world (default: true)
          */
         RESET_NEED_CONFIRM(Command.RESET, "needConfirm", true, true),
@@ -146,7 +150,7 @@ public class Prefs extends Config {
          */
         RESET_RESTART_AFTER_RESET(Command.RESET, "restartAfterReset", true, true),
         /**
-         * Player needs OP to be able to change settings (default: true)
+         * Player needs OP to change settings (default: true)
          */
         SETTINGS_NEED_OP(Command.SETTINGS, "needOp", true, true),
         ;
