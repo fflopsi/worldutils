@@ -75,26 +75,26 @@ public record CTimer(WorldUtils plugin) implements TabExecutor {
                             //set time to input values
                             try {
                                 plugin.timer.setTime(getTime(args));
+                                Bukkit.broadcastMessage("§eTimer set to §b"
+                                        + Timer.formatTime(plugin.prefs.getInt(Prefs.Option.TIMER_TIME)));
+                                return true;
                             } catch (IllegalStateException e) {
                                 WorldUtils.Messages.wrongArgumentNumber(sender);
                             } catch (NumberFormatException e) {
                                 WorldUtils.Messages.wrongArguments(sender);
                             }
-                            Bukkit.broadcastMessage("§eTimer set to §b"
-                                    + Timer.formatTime(plugin.prefs.getInt(Prefs.Option.TIMER_TIME)));
-                            return true;
                         }
                         case "add" -> {
                             //add input values to current time
                             try {
                                 plugin.timer.setTime(plugin.prefs.getInt(Prefs.Option.TIMER_TIME) + getTime(args));
+                                Bukkit.broadcastMessage("§eAdded §b" + Timer.formatTime(getTime(args)) + " §eto timer");
+                                return true;
                             } catch (IllegalStateException e) {
                                 WorldUtils.Messages.wrongArgumentNumber(sender);
                             } catch (NumberFormatException e) {
                                 WorldUtils.Messages.wrongArguments(sender);
                             }
-                            Bukkit.broadcastMessage("§eAdded §b" + Timer.formatTime(getTime(args)) + " §eto timer");
-                            return true;
                         }
                     }
                 }
