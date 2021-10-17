@@ -2,7 +2,7 @@ package me.frauenfelderflorian.worldutils.commands;
 
 import me.frauenfelderflorian.worldutils.Timer;
 import me.frauenfelderflorian.worldutils.WorldUtils;
-import me.frauenfelderflorian.worldutils.config.Option;
+import me.frauenfelderflorian.worldutils.config.Prefs;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -48,15 +48,15 @@ public record CTimer(WorldUtils plugin) implements TabExecutor {
                         }
                         case "running" -> {
                             //change running status
-                            plugin.timer.setRunning(!((Boolean) plugin.prefs.get(Option.TIMER_RUNNING)));
+                            plugin.timer.setRunning(!plugin.prefs.getBoolean(Prefs.Option.TIMER_RUNNING));
                             return true;
                         }
                         case "reverse" -> {
                             //change reverse status
-                            plugin.prefs.set(Option.TIMER_REVERSE,
-                                    !(Boolean) plugin.prefs.get(Option.TIMER_REVERSE), true);
+                            plugin.prefs.set(Prefs.Option.TIMER_REVERSE,
+                                    !plugin.prefs.getBoolean(Prefs.Option.TIMER_REVERSE), true);
                             Bukkit.broadcastMessage("§eTimer reversed, now in §b"
-                                    + ((Boolean) plugin.prefs.get(Option.TIMER_REVERSE) ? "reverse" : "normal")
+                                    + (plugin.prefs.getBoolean(Prefs.Option.TIMER_REVERSE) ? "reverse" : "normal")
                                     + "§e mode.");
                             return true;
                         }
@@ -81,14 +81,13 @@ public record CTimer(WorldUtils plugin) implements TabExecutor {
                                 WorldUtils.Messages.wrongArguments(sender);
                             }
                             Bukkit.broadcastMessage("§eTimer set to §b"
-                                    + Timer.formatTime((int) plugin.prefs.get(Option.TIMER_TIME)));
+                                    + Timer.formatTime(plugin.prefs.getInt(Prefs.Option.TIMER_TIME)));
                             return true;
                         }
                         case "add" -> {
                             //add input values to current time
                             try {
-                                plugin.timer.setTime(
-                                        (int) plugin.prefs.get(Option.TIMER_TIME) + getTime(args));
+                                plugin.timer.setTime(plugin.prefs.getInt(Prefs.Option.TIMER_TIME) + getTime(args));
                             } catch (IllegalStateException e) {
                                 WorldUtils.Messages.wrongArgumentNumber(sender);
                             } catch (NumberFormatException e) {

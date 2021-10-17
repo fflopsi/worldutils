@@ -1,7 +1,6 @@
 package me.frauenfelderflorian.worldutils;
 
 import me.frauenfelderflorian.worldutils.commands.*;
-import me.frauenfelderflorian.worldutils.config.Option;
 import me.frauenfelderflorian.worldutils.config.Positions;
 import me.frauenfelderflorian.worldutils.config.Prefs;
 import me.frauenfelderflorian.worldutils.listeners.LTimerPaused;
@@ -36,10 +35,10 @@ public final class WorldUtils extends JavaPlugin {
         instance = this;
         //load config and set defaults
         prefs = new Prefs(this);
-        for (Option setting : Option.values())
+        for (Prefs.Option setting : Prefs.Option.values())
             if (!prefs.contains(setting)) prefs.set(setting, setting.getDefault(), true);
         //reset if needed
-        if ((Boolean) prefs.get(Option.RESET_RESET)) {
+        if (prefs.getBoolean(Prefs.Option.RESET_RESET)) {
             //reset worlds
             for (String w : List.of("world", "world_nether", "world_the_end")) {
                 try {
@@ -48,14 +47,14 @@ public final class WorldUtils extends JavaPlugin {
                     e.printStackTrace();
                 }
             }
-            prefs.set(Option.RESET_RESET, false, true);
+            prefs.set(Prefs.Option.RESET_RESET, false, true);
             //delete positions if needed
-            if ((Boolean) prefs.get(Option.RESET_DELETE_POSITIONS))
+            if (prefs.getBoolean(Prefs.Option.RESET_DELETE_POSITIONS))
                 for (File file : Objects.requireNonNull(getDataFolder().listFiles()))
                     if (file.getName().startsWith("positions") && file.getName().endsWith(".yml")) file.delete();
             //reset Settings if needed
-            if ((Boolean) prefs.get(Option.RESET_RESET_SETTINGS))
-                for (Option stg : Option.values()) prefs.set(stg, stg.getDefault(), true);
+            if (prefs.getBoolean(Prefs.Option.RESET_RESET_SETTINGS))
+                for (Prefs.Option stg : Prefs.Option.values()) prefs.set(stg, stg.getDefault(), true);
             getLogger().warning("Server reset");
         }
     }

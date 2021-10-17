@@ -1,5 +1,6 @@
 package me.frauenfelderflorian.worldutils.config;
 
+import me.frauenfelderflorian.worldutils.WorldUtils;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -10,7 +11,7 @@ import java.io.IOException;
  * Abstract wrapper class for configuration file
  */
 public abstract class Config {
-    protected final JavaPlugin plugin;
+    protected final WorldUtils plugin;
     protected final File file;
     protected final YamlConfiguration config;
 
@@ -20,7 +21,7 @@ public abstract class Config {
      * @param plugin   the plugin to whom the Config belongs
      * @param filename the filename of the config file
      */
-    public Config(JavaPlugin plugin, String filename) {
+    public Config(WorldUtils plugin, String filename) {
         this.plugin = plugin;
         //set config file, create if not exists
         if (!plugin.getDataFolder().exists() && plugin.getDataFolder().mkdirs())
@@ -58,16 +59,6 @@ public abstract class Config {
      */
     public boolean contains(String path) {
         return config.contains(path);
-    }
-
-    /**
-     * Get a value from a path
-     *
-     * @param path the path of the object
-     * @return the Object at the path
-     */
-    public Object get(String path) {
-        return config.get(path);
     }
 
     /**

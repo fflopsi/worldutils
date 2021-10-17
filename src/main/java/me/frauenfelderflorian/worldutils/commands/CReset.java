@@ -1,7 +1,7 @@
 package me.frauenfelderflorian.worldutils.commands;
 
 import me.frauenfelderflorian.worldutils.WorldUtils;
-import me.frauenfelderflorian.worldutils.config.Option;
+import me.frauenfelderflorian.worldutils.config.Prefs;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -27,7 +27,7 @@ public record CReset(WorldUtils plugin) implements TabExecutor {
      */
     @Override
     public boolean onCommand(CommandSender sender, Command command, String alias, String[] args) {
-        if (!(Boolean) plugin.prefs.get(Option.RESET_NEED_CONFIRM)
+        if (!plugin.prefs.getBoolean(Prefs.Option.RESET_NEED_CONFIRM)
                 || args.length == 1 && args[0].equalsIgnoreCase("confirm")) {
             Bukkit.broadcastMessage("§e§oResetting server in 10 seconds.");
             //kick players 2 seconds before restarting or shutting down
@@ -37,8 +37,8 @@ public record CReset(WorldUtils plugin) implements TabExecutor {
             }, 200);
             //restart or shut down
             Bukkit.getScheduler().runTaskLater(plugin, () -> {
-                plugin.prefs.set(Option.RESET_RESET, true, true);
-                if ((Boolean) plugin.prefs.get(Option.RESET_RESTART_AFTER_RESET)) Bukkit.spigot().restart();
+                plugin.prefs.set(Prefs.Option.RESET_RESET, true, true);
+                if (plugin.prefs.getBoolean(Prefs.Option.RESET_RESTART_AFTER_RESET)) Bukkit.spigot().restart();
                 else Bukkit.shutdown();
             }, 220);
             return true;

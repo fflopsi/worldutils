@@ -1,7 +1,7 @@
 package me.frauenfelderflorian.worldutils.listeners;
 
 import me.frauenfelderflorian.worldutils.WorldUtils;
-import me.frauenfelderflorian.worldutils.config.Option;
+import me.frauenfelderflorian.worldutils.config.Prefs;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.EnderDragon;
 import org.bukkit.event.EventHandler;
@@ -25,10 +25,10 @@ public record Listeners(WorldUtils plugin) implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         event.getPlayer().sendMessage("Hello " + event.getPlayer().getName() + ", nice to meet you!");
-        if ((Boolean) plugin.prefs.get(Option.TIMER_ADD_PLAYER_ON_JOIN))
+        if (plugin.prefs.getBoolean(Prefs.Option.TIMER_ADD_PLAYER_ON_JOIN))
             plugin.timer.timerBar.addPlayer(event.getPlayer());
-        if ((Boolean) plugin.prefs.get(Option.TIMER_START_IF_WAS_RUNNING)
-                && (Boolean) plugin.prefs.get(Option.TIMER_WAS_RUNNING)
+        if (plugin.prefs.getBoolean(Prefs.Option.TIMER_START_IF_WAS_RUNNING)
+                && plugin.prefs.getBoolean(Prefs.Option.TIMER_WAS_RUNNING)
                 && Bukkit.getServer().getOnlinePlayers().size() == 1) plugin.timer.setRunning(true);
     }
 
@@ -40,7 +40,7 @@ public record Listeners(WorldUtils plugin) implements Listener {
     @EventHandler
     public void onPlayerLeave(PlayerQuitEvent event) {
         if (Bukkit.getServer().getOnlinePlayers().size() == 1) {
-            plugin.prefs.set(Option.TIMER_WAS_RUNNING, plugin.prefs.get(Option.TIMER_RUNNING), true);
+            plugin.prefs.set(Prefs.Option.TIMER_WAS_RUNNING, plugin.prefs.getBoolean(Prefs.Option.TIMER_RUNNING), true);
             plugin.timer.setRunning(false);
         }
     }
@@ -64,7 +64,7 @@ public record Listeners(WorldUtils plugin) implements Listener {
     @EventHandler
     public void onDragonDeath(EntityDeathEvent event) {
         if (event.getEntity() instanceof EnderDragon) {
-            if ((Boolean) plugin.prefs.get(Option.TIMER_PAUSE_ON_DRAGON_DEATH))
+            if (plugin.prefs.getBoolean(Prefs.Option.TIMER_PAUSE_ON_DRAGON_DEATH))
                 plugin.timer.setRunning(false);
             Objects.requireNonNull(event.getEntity().getKiller())
                     .sendMessage("§bCongratulations, you defeated the Ender Dragon!");

@@ -1,7 +1,7 @@
 package me.frauenfelderflorian.worldutils.commands;
 
 import me.frauenfelderflorian.worldutils.WorldUtils;
-import me.frauenfelderflorian.worldutils.config.Option;
+import me.frauenfelderflorian.worldutils.config.Prefs;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -28,10 +28,10 @@ public record CSettings(WorldUtils plugin) implements TabExecutor {
      */
     @Override
     public boolean onCommand(CommandSender sender, Command command, String alias, String[] args) {
-        if (sender.isOp() || !((Boolean) plugin.prefs.get(Option.SETTINGS_NEED_OP))) {
+        if (sender.isOp() || !plugin.prefs.getBoolean(Prefs.Option.SETTINGS_NEED_OP)) {
             if (args.length == 3) {
                 //command, setting and value entered
-                Option setting = Option.get(args[0], args[1]);
+                Prefs.Option setting = Prefs.Option.get(args[0], args[1]);
                 if (setting != null)
                     if (args[2].equals("true")) {
                         plugin.prefs.set(setting, true, true);
@@ -67,19 +67,19 @@ public record CSettings(WorldUtils plugin) implements TabExecutor {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         List<String> completions = new ArrayList<>();
-        if (sender.isOp() || !((Boolean) plugin.prefs.get(Option.SETTINGS_NEED_OP)))
+        if (sender.isOp() || !plugin.prefs.getBoolean(Prefs.Option.SETTINGS_NEED_OP))
             switch (args.length) {
                 case 1 -> //command being entered
-                        StringUtil.copyPartialMatches(args[0], Option.getCommands(), completions);
+                        StringUtil.copyPartialMatches(args[0], Prefs.Option.getCommands(), completions);
                 case 2 -> {
                     //setting being entered
-                    if (Option.getCommands().contains(args[0]))
+                    if (Prefs.Option.getCommands().contains(args[0]))
                         StringUtil.copyPartialMatches(
-                                args[1], Option.getSettings(args[0]), completions);
+                                args[1], Prefs.Option.getSettings(args[0]), completions);
                 }
                 case 3 -> {
                     //value being entered
-                    if (Option.get(args[0], args[1]) != null)
+                    if (Prefs.Option.get(args[0], args[1]) != null)
                         StringUtil.copyPartialMatches(args[2], List.of("true", "false"), completions);
                 }
             }

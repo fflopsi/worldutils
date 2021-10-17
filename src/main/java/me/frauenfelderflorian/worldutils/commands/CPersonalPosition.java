@@ -1,10 +1,9 @@
 package me.frauenfelderflorian.worldutils.commands;
 
 import me.frauenfelderflorian.worldutils.WorldUtils;
-import me.frauenfelderflorian.worldutils.config.Option;
 import me.frauenfelderflorian.worldutils.config.Positions;
+import me.frauenfelderflorian.worldutils.config.Prefs;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -47,7 +46,7 @@ public record CPersonalPosition(WorldUtils plugin) implements TabExecutor {
                             //send all position info
                             for (String pos : positions.getPositions())
                                 sender.sendMessage(WorldUtils.Messages.positionMessage(
-                                        pos, (Location) positions.get(pos)));
+                                        pos, positions.getLocation(pos)));
                             return true;
                         }
                         case "clear" -> {
@@ -61,13 +60,13 @@ public record CPersonalPosition(WorldUtils plugin) implements TabExecutor {
                             if (positions.contains(args[0]))
                                 //existing position, send info
                                 sender.sendMessage(WorldUtils.Messages.positionMessage(
-                                        args[0], (Location) positions.get(args[0])));
+                                        args[0], positions.getLocation(args[0])));
                             else {
                                 //new position name, save position
                                 positions.set(args[0], ((Player) sender).getLocation(), true);
                                 sender.sendMessage("§aAdded§r personal position "
                                         + WorldUtils.Messages.positionMessage(
-                                        args[0], (Location) positions.get(args[0])));
+                                        args[0], positions.getLocation(args[0])));
                             }
                             return true;
                         }
@@ -78,14 +77,14 @@ public record CPersonalPosition(WorldUtils plugin) implements TabExecutor {
                     switch (args[0]) {
                         case "tp" -> {
                             //teleport player to position if OP
-                            if (sender.isOp()) ((Player) sender).teleport((Location) positions.get(args[1]));
+                            if (sender.isOp()) ((Player) sender).teleport(positions.getLocation(args[1]));
                             else WorldUtils.Messages.notAllowed(sender);
                             return true;
                         }
                         case "del" -> {
                             //delete position
                             sender.sendMessage("§cDeleted§r personal position "
-                                    + WorldUtils.Messages.positionMessage(args[1], (Location) positions.get(args[1])));
+                                    + WorldUtils.Messages.positionMessage(args[1], positions.getLocation(args[1])));
                             positions.remove(args[1]);
                             return true;
                         }
@@ -144,14 +143,14 @@ public record CPersonalPosition(WorldUtils plugin) implements TabExecutor {
      * @return true if correct command syntax used and no errors, false otherwise
      */
     private boolean otherPlayersPosition(CommandSender sender, String[] args) {
-        if ((Boolean) plugin.prefs.get(Option.PERSONALPOSITION_ACCESS_GLOBAL))
+        if (plugin.prefs.getBoolean(Prefs.Option.PERSONALPOSITION_ACCESS_GLOBAL))
             try {
                 if (Objects.requireNonNull(Bukkit.getPlayer(args[0])).isOnline()) {
                     //get personalposition from player
                     try {
                         Positions positions = new Positions(plugin, "positions_" + args[0] + ".yml");
                         sender.sendMessage("Personal position from player " + args[0] + ": "
-                                + WorldUtils.Messages.positionMessage(args[1], (Location) positions.get(args[1])));
+                                + WorldUtils.Messages.positionMessage(args[1], positions.getLocation(args[1])));
                     } catch (NullPointerException e) {
                         WorldUtils.Messages.positionNotFound(sender);
                     }
