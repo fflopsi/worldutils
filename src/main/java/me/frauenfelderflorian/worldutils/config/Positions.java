@@ -1,5 +1,6 @@
 package me.frauenfelderflorian.worldutils.config;
 
+import org.bukkit.Location;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Set;
@@ -17,6 +18,16 @@ public class Positions extends Config {
      */
     public Positions(JavaPlugin plugin, String filename) {
         super(plugin, filename);
+    }
+
+    /**
+     * Get a Location from a path
+     *
+     * @param path the path of the Location
+     * @return the Location at the path
+     */
+    public Location getLocation(String path) {
+        return config.getLocation(path);
     }
 
     /**
