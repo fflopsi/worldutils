@@ -101,8 +101,8 @@ public class Prefs extends Config {
          */
         TIMER_ADD_PLAYER_ON_JOIN(Command.TIMER, "addPlayerOnJoin", false, true),
         /**
-         * Start the timer automatically when the first player joins if the timer was running when the last player left the
-         * last time (default: false)
+         * Start the timer automatically when the first player joins if the timer was running when the last player left
+         * the last time (default: false)
          */
         TIMER_START_IF_WAS_RUNNING(Command.TIMER, "startOnPlayerJoinIfWasRunning", false, true),
         /**
