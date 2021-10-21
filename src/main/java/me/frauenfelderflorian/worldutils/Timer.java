@@ -87,11 +87,22 @@ public class Timer {
         min = Math.floorDiv(time, 60);
         time %= 60;
         s = time;
-        return negative ? "\u2212 " : "" + (d == 0 ? h == 0 ? min == 0 ?
-                s + "\"" :
-                min + "'  " + s + "\"" :
-                h + "h  " + min + "'  " + s + "\"" :
-                d + "d  " + h + "h  " + min + "'  " + s + "\"");
+        String formatted = "";
+        if (negative) formatted += "\u2212 ";
+        if (d != 0) {
+            formatted += d + "d";
+            if (h != 0) formatted += "  " + h + "h";
+            if (min != 0) formatted += "  " + min + "'";
+            if (s != 0) formatted += "  " + s + "\"";
+        } else if (h != 0) {
+            formatted += h + "h";
+            if (min != 0) formatted += "  " + min + "'";
+            if (s != 0) formatted += "  " + s + "\"";
+        } else if (min != 0) {
+            formatted += min + "'";
+            if (s != 0) formatted += "  " + s + "\"";
+        } else formatted += s + "\"";
+        return formatted;
     }
 
     /**
@@ -104,7 +115,7 @@ public class Timer {
             if (plugin.prefs.getBoolean(Prefs.Option.TIMER_REVERSE)) time--;
             else time++;
         }
-        timerBar.setTitle("§eTimer: " + formatTime(time));
+        timerBar.setTitle("§eTimer: §l" + formatTime(time));
         if (plugin.prefs.getBoolean(Prefs.Option.TIMER_PROGRESS_MINUTE))
             timerBar.setProgress((Math.abs(time) % 60) / 60.0);
         else timerBar.setProgress((Math.abs(time) % 3600) / 3600.0);
