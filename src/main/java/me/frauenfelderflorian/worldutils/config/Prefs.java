@@ -40,6 +40,16 @@ public class Prefs extends Config {
     }
 
     /**
+     * Get a List value from a setting
+     *
+     * @param setting the setting
+     * @return the List at the setting's path
+     */
+    public List<?> getList(Option setting) {
+        return config.getList(setting.getKey());
+    }
+
+    /**
      * Get a boolean value from a setting
      *
      * @param setting the setting
