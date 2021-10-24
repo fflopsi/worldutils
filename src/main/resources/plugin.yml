@@ -2,6 +2,8 @@ name: WorldUtils
 version: ${project.version}
 main: me.frauenfelderflorian.worldutils.WorldUtils
 api-version: 1.17
+loadbefore:
+  - WUProjects
 authors: [ flopsi_ ]
 description: a Minecraft Spigot plugin with some general handy commands
 commands:
