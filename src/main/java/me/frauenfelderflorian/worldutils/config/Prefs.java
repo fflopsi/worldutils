@@ -153,6 +153,24 @@ public class Prefs extends Config {
          * Player needs OP to change settings (default: true)
          */
         SETTINGS_NEED_OP(Command.SETTINGS, "needOp", true, true),
+        //all the following options are only used in the other plugins that depend on WorldUtils
+        //defaultValue: null, settable: false for all the following options
+        /**
+         * If the AllItems project is running (default: null)
+         */
+        WUP_ALLITEMS_RUNNING(Command.WUPROJECTS, "running", null, false),
+        /**
+         * List which contains all obtainable items (default: null)
+         */
+        WUP_ALLITMES_ITEMS(Command.WUPROJECTS, "items", null, false),
+        /**
+         * Index of the next item to collect (default: null)
+         */
+        WUP_ALLITMES_INDEX(Command.WUPROJECTS, "index", null, false),
+        /**
+         * List which contains all already obtained items (default: null)
+         */
+        WUP_ALLITEMS_OBTAINED(Command.WUPROJECTS, "obtained", null, false),
         ;
 
         private final Command command;
@@ -205,6 +223,15 @@ public class Prefs extends Config {
         }
 
         /**
+         * Check if option is vanilla, which means belongs to this plugin
+         *
+         * @return true if in this plugin, false otherwise
+         */
+        public boolean isVanilla() {
+            return command.isVanilla();
+        }
+
+        /**
          * Get the config key
          *
          * @return String of the config key
@@ -226,18 +253,21 @@ public class Prefs extends Config {
          * Enum containing all plugin commands
          */
         private enum Command {
-            POSITION("position"),
-            PERSONALPOSITION("personalposition"),
-            SENDPOSITION("sendposition"),
-            TIMER("timer"),
-            RESET("reset"),
-            SETTINGS("settings"),
+            POSITION("position", true),
+            PERSONALPOSITION("personalposition", true),
+            SENDPOSITION("sendposition", true),
+            TIMER("timer", true),
+            RESET("reset", true),
+            SETTINGS("settings", true),
+            WUPROJECTS("wuprojects", false),
             ;
 
             private final String command;
+            private final boolean vanilla;
 
-            Command(String command) {
+            Command(String command, boolean vanilla) {
                 this.command = command;
+                this.vanilla = vanilla;
             }
 
             /**
@@ -247,6 +277,15 @@ public class Prefs extends Config {
              */
             public String getCommand() {
                 return command;
+            }
+
+            /**
+             * Check if command is vanilla, which means belongs to this plugin
+             *
+             * @return true if in this plugin, false otherwise
+             */
+            public boolean isVanilla() {
+                return vanilla;
             }
         }
     }

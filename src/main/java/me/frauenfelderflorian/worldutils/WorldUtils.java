@@ -36,7 +36,7 @@ public final class WorldUtils extends JavaPlugin {
         //load config and set defaults
         prefs = new Prefs(this);
         for (Prefs.Option setting : Prefs.Option.values())
-            if (!prefs.contains(setting)) prefs.set(setting, setting.getDefault(), true);
+            if (!prefs.contains(setting) && setting.isVanilla()) prefs.set(setting, setting.getDefault(), true);
         //reset if needed
         if (prefs.getBoolean(Prefs.Option.RESET_RESET)) {
             //reset worlds
