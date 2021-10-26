@@ -2,6 +2,7 @@ package me.frauenfelderflorian.worldutils.config;
 
 import me.frauenfelderflorian.worldutils.WorldUtils;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,7 +11,7 @@ import java.io.IOException;
  * Abstract wrapper class for configuration file
  */
 public abstract class Config {
-    protected final WorldUtils plugin;
+    protected final JavaPlugin plugin;
     protected final File file;
     protected final YamlConfiguration config;
 
