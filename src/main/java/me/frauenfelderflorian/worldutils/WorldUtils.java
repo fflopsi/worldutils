@@ -22,9 +22,18 @@ import java.util.Objects;
  * Main plugin class
  */
 public final class WorldUtils extends JavaPlugin {
-    private static WorldUtils instance;
+    /**
+     * Preferences for this plugin
+     */
     public Prefs prefs;
+    /**
+     * Timer for this plugin
+     */
     public Timer timer;
+    /**
+     * Contains the running instance of this plugin if available
+     */
+    private static WorldUtils instance;
 
     /**
      * Done on plugin load before world loading
@@ -79,6 +88,7 @@ public final class WorldUtils extends JavaPlugin {
         Objects.requireNonNull(getCommand(CReset.CMD)).setTabCompleter(new CReset(this));
         Objects.requireNonNull(getCommand(CSettings.CMD)).setExecutor(new CSettings(this));
         Objects.requireNonNull(getCommand(CSettings.CMD)).setTabCompleter(new CSettings(this));
+        //register Listeners
         getServer().getPluginManager().registerEvents(new Listeners(this), this);
         getServer().getPluginManager().registerEvents(new LTimerPaused(this), this);
         //set up timer

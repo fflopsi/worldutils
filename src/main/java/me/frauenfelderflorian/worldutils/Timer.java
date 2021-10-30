@@ -11,8 +11,17 @@ import org.bukkit.scheduler.BukkitRunnable;
  * Class used for controlling the timer
  */
 public class Timer {
+    /**
+     * The BossBar containing the time and hourly progress
+     */
     public final BossBar timerBar;
+    /**
+     * The current time in seconds
+     */
     private int time;
+    /**
+     * The plugin which the Timer belongs to
+     */
     private final WorldUtils plugin;
 
     /**
@@ -75,11 +84,13 @@ public class Timer {
      */
     public static String formatTime(int time) {
         int d, h, min, s;
+        //treat negative time
         boolean negative = false;
         if (time < 0) {
             negative = true;
             time *= -1;
         }
+        //calculate to days, hours, minutes and seconds
         d = Math.floorDiv(time, 86400);
         time %= 86400;
         h = Math.floorDiv(time, 3600);
@@ -87,6 +98,7 @@ public class Timer {
         min = Math.floorDiv(time, 60);
         time %= 60;
         s = time;
+        //format the time
         String formatted = "";
         if (negative) formatted += "\u2212 ";
         if (d != 0) {

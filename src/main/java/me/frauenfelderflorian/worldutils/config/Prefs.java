@@ -183,9 +183,21 @@ public class Prefs extends Config {
         WUP_ALLITEMS_OBTAINED(Command.WUPROJECTS, "obtained", null, false),
         ;
 
+        /**
+         * The command to which the option belongs
+         */
         private final Command command;
+        /**
+         * The subkey of the option
+         */
         private final String subKey;
+        /**
+         * The default value for the option that is used when no other value is present
+         */
         private final Object defaultValue;
+        /**
+         * True if this option should be user-settable (e.g. be included in tab completion)
+         */
         private final boolean settable;
 
         Option(Command command, String subKey, Object defaultValue, boolean settable) {
@@ -272,7 +284,13 @@ public class Prefs extends Config {
             WUPROJECTS("wuprojects", false),
             ;
 
+            /**
+             * The String of the command which the user enters
+             */
             private final String command;
+            /**
+             * True if this Command belongs to this plugin
+             */
             private final boolean vanilla;
 
             Command(String command, boolean vanilla) {

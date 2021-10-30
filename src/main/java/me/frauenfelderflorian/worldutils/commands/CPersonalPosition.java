@@ -19,7 +19,13 @@ import java.util.Objects;
  */
 public record CPersonalPosition(WorldUtils plugin) implements TabExecutor {
     public static final String CMD = "personalposition";
+    /**
+     * Name of the last player who accessed their personal positions
+     */
     private static String name = "";
+    /**
+     * The personal positions of the last player who accessed their personal positions
+     */
     private static Positions positions;
 
     /**

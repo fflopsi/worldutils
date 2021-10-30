@@ -11,8 +11,17 @@ import java.io.IOException;
  * Abstract wrapper class for configuration file
  */
 public abstract class Config {
+    /**
+     * The plugin to which the Config belongs
+     */
     protected final JavaPlugin plugin;
+    /**
+     * The file in which the Config is stored
+     */
     protected final File file;
+    /**
+     * The YamlConfiguration for accessing the configs
+     */
     protected final YamlConfiguration config;
 
     /**
