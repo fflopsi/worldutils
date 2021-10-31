@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 /**
@@ -14,7 +15,7 @@ public class Timer {
     /**
      * The BossBar containing the time and hourly progress
      */
-    public final BossBar timerBar;
+    private final BossBar timerBar;
     /**
      * The current time in seconds
      */
@@ -115,6 +116,34 @@ public class Timer {
             if (s != 0) formatted += "  " + s + "\"";
         } else formatted += s + "\"";
         return formatted;
+    }
+
+    /**
+     * Add a Player to the timer, so that they can see the timer BossBar
+     *
+     * @param player the Player to be added
+     */
+    public void addPlayer(Player player) {
+        timerBar.addPlayer(player);
+    }
+
+    /**
+     * Check if a Player can see the timer BossBar
+     *
+     * @param player the Player to be checked
+     * @return true if the Player can see the BossBar, false otherwise
+     */
+    public boolean containsPlayer(Player player) {
+        return timerBar.getPlayers().contains(player);
+    }
+
+    /**
+     * Remove a Player from the timer, so that they can no longer see the BossBar
+     *
+     * @param player the Player to be removed
+     */
+    public void removePlayer(Player player) {
+        timerBar.removePlayer(player);
     }
 
     /**

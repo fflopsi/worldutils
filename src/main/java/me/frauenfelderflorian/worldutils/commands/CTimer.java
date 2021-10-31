@@ -30,18 +30,18 @@ public record CTimer(WorldUtils plugin) implements TabExecutor {
      */
     @Override
     public boolean onCommand(CommandSender sender, Command command, String alias, String[] args) {
-        if (sender.isOp() || plugin.timer.timerBar.getPlayers().contains((Player) sender))
+        if (sender.isOp() || plugin.timer.containsPlayer((Player) sender))
             switch (args.length) {
                 case 1 -> {
                     switch (args[0]) {
                         case "visible" -> {
                             //add or remove player: changes visibility status for one single player
                             if (sender instanceof Player) {
-                                if (plugin.timer.timerBar.getPlayers().contains((Player) sender))
-                                    plugin.timer.timerBar.removePlayer((Player) sender);
-                                else plugin.timer.timerBar.addPlayer((Player) sender);
+                                if (plugin.timer.containsPlayer((Player) sender))
+                                    plugin.timer.removePlayer((Player) sender);
+                                else plugin.timer.addPlayer((Player) sender);
                                 sender.sendMessage("§eTimer set to " +
-                                        (plugin.timer.timerBar.getPlayers().contains((Player) sender)
+                                        (plugin.timer.containsPlayer((Player) sender)
                                                 ? "visible." : "invisible."));
                             } else WorldUtils.Messages.notConsole(sender);
                             return true;
@@ -100,7 +100,7 @@ public record CTimer(WorldUtils plugin) implements TabExecutor {
                 }
             }
         else if (args.length == 1 && args[0].equals("visible")) {
-            plugin.timer.timerBar.addPlayer((Player) sender);
+            plugin.timer.addPlayer((Player) sender);
             return true;
         }
         return false;
@@ -118,7 +118,7 @@ public record CTimer(WorldUtils plugin) implements TabExecutor {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         List<String> completions = new ArrayList<>();
-        if (sender.isOp() || plugin.timer.timerBar.getPlayers().contains((Player) sender))
+        if (sender.isOp() || plugin.timer.containsPlayer((Player) sender))
             switch (args.length) {
                 case 1 -> StringUtil.copyPartialMatches(args[0],
                         List.of("visible", "running", "reverse", "reset", "set", "add"), completions);

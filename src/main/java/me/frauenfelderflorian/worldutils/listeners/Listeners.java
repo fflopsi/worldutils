@@ -26,7 +26,7 @@ public record Listeners(WorldUtils plugin) implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event) {
         event.getPlayer().sendMessage("Hello " + event.getPlayer().getName() + ", nice to meet you!");
         if (plugin.prefs.getBoolean(Prefs.Option.TIMER_ADD_PLAYER_ON_JOIN))
-            plugin.timer.timerBar.addPlayer(event.getPlayer());
+            plugin.timer.addPlayer(event.getPlayer());
         if (plugin.prefs.getBoolean(Prefs.Option.TIMER_START_IF_WAS_RUNNING)
                 && plugin.prefs.getBoolean(Prefs.Option.TIMER_WAS_RUNNING)
                 && Bukkit.getServer().getOnlinePlayers().size() == 1) plugin.timer.setRunning(true);
