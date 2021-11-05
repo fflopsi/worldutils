@@ -45,7 +45,8 @@ public record CPersonalPosition(WorldUtils plugin, Positions positions) implemen
                         case "clear" -> {
                             //remove all positions
                             sender.sendMessage("§e§oCleared personal positions");
-                            positions.remove(((Player) sender).getUniqueId().toString());
+                            for (String position : positions.getPositions((Player) sender))
+                                positions.remove((Player) sender, position);
                             return true;
                         }
                         default -> {
