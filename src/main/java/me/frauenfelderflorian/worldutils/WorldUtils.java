@@ -78,8 +78,10 @@ public final class WorldUtils extends JavaPlugin {
         //set CommandExecutors and TabCompleters
         Objects.requireNonNull(getCommand(CPosition.CMD)).setExecutor(new CPosition(this, positions));
         Objects.requireNonNull(getCommand(CPosition.CMD)).setTabCompleter(new CPosition(this, positions));
-        Objects.requireNonNull(getCommand(CPersonalPosition.CMD)).setExecutor(new CPersonalPosition(this));
-        Objects.requireNonNull(getCommand(CPersonalPosition.CMD)).setTabCompleter(new CPersonalPosition(this));
+        Objects.requireNonNull(getCommand(CPersonalPosition.CMD))
+                .setExecutor(new CPersonalPosition(this, positions));
+        Objects.requireNonNull(getCommand(CPersonalPosition.CMD))
+                .setTabCompleter(new CPersonalPosition(this, positions));
         Objects.requireNonNull(getCommand(CSendPosition.CMD)).setExecutor(new CSendPosition());
         Objects.requireNonNull(getCommand(CSendPosition.CMD)).setTabCompleter(new CSendPosition());
         Objects.requireNonNull(getCommand(CTimer.CMD)).setExecutor(new CTimer(this));

@@ -12,21 +12,12 @@ import org.bukkit.util.StringUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * CommandExecutor and TabCompleter for command personalposition
  */
-public record CPersonalPosition(WorldUtils plugin) implements TabExecutor {
+public record CPersonalPosition(WorldUtils plugin, Positions positions) implements TabExecutor {
     public static final String CMD = "personalposition";
-    /**
-     * Name of the last player who accessed their personal positions
-     */
-    private static String name = "";
-    /**
-     * The personal positions of the last player who accessed their personal positions
-     */
-    private static Positions positions;
 
     /**
      * Done when command sent
@@ -40,39 +31,34 @@ public record CPersonalPosition(WorldUtils plugin) implements TabExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String alias, String[] args) {
         if (sender instanceof Player) {
-            if (!name.equals(sender.getName())) {
-                name = sender.getName();
-                positions = new Positions(plugin, "positions_" + name + ".yml");
-            }
             switch (args.length) {
                 case 1 -> {
                     //command or position name entered
                     switch (args[0]) {
                         case "list" -> {
                             //send all position info
-                            for (String pos : positions.getPositions())
+                            for (String pos : positions.getPositions((Player) sender))
                                 sender.sendMessage(WorldUtils.Messages.positionMessage(
-                                        pos, positions.getLocation(pos)));
+                                        pos, positions.getPersonalLocation((Player) sender, pos)));
                             return true;
                         }
                         case "clear" -> {
                             //remove all positions
                             sender.sendMessage("§e§oCleared personal positions");
-                            for (String pos : positions.getPositions()) positions.remove(pos);
+                            positions.remove(((Player) sender).getUniqueId().toString());
                             return true;
                         }
                         default -> {
                             //position name entered
-                            if (positions.contains(args[0]))
+                            if (positions.containsPersonal((Player) sender, args[0]))
                                 //existing position, send info
-                                sender.sendMessage(WorldUtils.Messages.positionMessage(
-                                        args[0], positions.getLocation(args[0])));
+                                sender.sendMessage(WorldUtils.Messages.positionMessage(args[0],
+                                        positions.getPersonalLocation((Player) sender, args[0])));
                             else {
                                 //new position name, save position
-                                positions.set(args[0], ((Player) sender).getLocation(), true);
-                                sender.sendMessage("§aAdded§r personal position "
-                                        + WorldUtils.Messages.positionMessage(
-                                        args[0], positions.getLocation(args[0])));
+                                positions.setPersonal((Player) sender, args[0]);
+                                sender.sendMessage("§aAdded§r personal position " + WorldUtils.Messages.positionMessage(
+                                        args[0], positions.getPersonalLocation((Player) sender, args[0])));
                             }
                             return true;
                         }
@@ -83,15 +69,16 @@ public record CPersonalPosition(WorldUtils plugin) implements TabExecutor {
                     switch (args[0]) {
                         case "tp" -> {
                             //teleport player to position if OP
-                            if (sender.isOp()) ((Player) sender).teleport(positions.getLocation(args[1]));
+                            if (sender.isOp())
+                                ((Player) sender).teleport(positions.getPersonalLocation((Player) sender, args[1]));
                             else WorldUtils.Messages.notAllowed(sender);
                             return true;
                         }
                         case "del" -> {
                             //delete position
-                            sender.sendMessage("§cDeleted§r personal position "
-                                    + WorldUtils.Messages.positionMessage(args[1], positions.getLocation(args[1])));
-                            positions.remove(args[1]);
+                            sender.sendMessage("§cDeleted§r personal position " + WorldUtils.Messages.positionMessage(
+                                    args[1], positions.getPersonalLocation((Player) sender, args[1])));
+                            positions.remove((Player) sender, args[1]);
                             return true;
                         }
                         default -> {
@@ -119,25 +106,21 @@ public record CPersonalPosition(WorldUtils plugin) implements TabExecutor {
      */
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-        if (!name.equals(sender.getName())) {
-            name = sender.getName();
-            positions = new Positions(plugin, "positions_" + name + ".yml");
-        }
         List<String> completions = new ArrayList<>();
-        switch (args.length) {
-            case 1 -> {
-                //command or position name being entered
-                StringUtil.copyPartialMatches(args[0], List.of("list", "clear", "del"), completions);
-                if (sender instanceof Player && sender.isOp())
-                    StringUtil.copyPartialMatches(args[0], List.of("tp"), completions);
-                StringUtil.copyPartialMatches(args[0], positions.getPositions(), completions);
+        if (sender instanceof Player)
+            switch (args.length) {
+                case 1 -> {
+                    //command or position name being entered
+                    StringUtil.copyPartialMatches(args[0], List.of("list", "clear", "del"), completions);
+                    if (sender.isOp()) StringUtil.copyPartialMatches(args[0], List.of("tp"), completions);
+                    StringUtil.copyPartialMatches(args[0], positions.getPositions((Player) sender), completions);
+                }
+                case 2 -> {
+                    //position name being entered
+                    if (args[0].equals("del") || sender.isOp() && args[0].equals("tp"))
+                        StringUtil.copyPartialMatches(args[1], positions.getPositions((Player) sender), completions);
+                }
             }
-            case 2 -> {
-                //position name being entered
-                if (args[0].equals("del") || sender instanceof Player && sender.isOp() && args[0].equals("tp"))
-                    StringUtil.copyPartialMatches(args[1], positions.getPositions(), completions);
-            }
-        }
         return completions;
     }
 
@@ -149,23 +132,21 @@ public record CPersonalPosition(WorldUtils plugin) implements TabExecutor {
      * @return true if correct command syntax used and no errors, false otherwise
      */
     private boolean otherPlayersPosition(CommandSender sender, String[] args) {
-        if (plugin.prefs.getBoolean(Prefs.Option.PERSONALPOSITION_ACCESS_GLOBAL))
-            try {
-                if (Objects.requireNonNull(Bukkit.getPlayer(args[0])).isOnline()) {
-                    //get personalposition from player
-                    try {
-                        Positions positions = new Positions(plugin, "positions_" + args[0] + ".yml");
-                        sender.sendMessage("Personal position from player " + args[0] + ": "
-                                + WorldUtils.Messages.positionMessage(args[1], positions.getLocation(args[1])));
-                    } catch (NullPointerException e) {
-                        WorldUtils.Messages.positionNotFound(sender);
-                    }
-                    return true;
+        if (plugin.prefs.getBoolean(Prefs.Option.PERSONALPOSITION_ACCESS_GLOBAL)) {
+            Player other = Bukkit.getPlayer(args[0]);
+            if (other != null && other.isOnline()) {
+                //get personalposition from player
+                try {
+                    sender.sendMessage("Personal position from player " + args[0] + ": "
+                            + WorldUtils.Messages.positionMessage(args[1], positions.getPersonalLocation(other, args[1])));
+                } catch (NullPointerException e) {
+                    WorldUtils.Messages.positionNotFound(sender);
                 }
-            } catch (NullPointerException e) {
+            } else {
                 WorldUtils.Messages.playerNotFound(sender);
-                return true;
             }
+            return true;
+        }
         return false;
     }
 }
