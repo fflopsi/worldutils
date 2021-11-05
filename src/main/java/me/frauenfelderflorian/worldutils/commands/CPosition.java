@@ -4,6 +4,7 @@ import me.frauenfelderflorian.worldutils.WorldUtils;
 import me.frauenfelderflorian.worldutils.config.Positions;
 import me.frauenfelderflorian.worldutils.config.Prefs;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -87,9 +88,14 @@ public record CPosition(WorldUtils plugin, Positions positions) implements TabEx
                     }
                     case "del" -> {
                         //delete position
-                        Bukkit.broadcastMessage("§cDeleted§r position "
-                                + WorldUtils.Messages.positionMessage(args[1], positions.getLocation(args[1])));
-                        positions.remove(args[1]);
+                        try {
+                            Location old = positions.getLocation(args[1]);
+                            positions.remove(args[1]);
+                            Bukkit.broadcastMessage("§cDeleted§r position "
+                                    + WorldUtils.Messages.positionMessage(args[1], old));
+                        } catch (UnsupportedOperationException | NullPointerException e) {
+                            WorldUtils.Messages.wrongArguments(sender);
+                        }
                         return true;
                     }
                 }
