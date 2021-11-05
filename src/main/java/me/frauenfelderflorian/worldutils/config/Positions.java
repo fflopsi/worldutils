@@ -14,11 +14,10 @@ public class Positions extends Config {
     /**
      * Load the config file or create a new one if none is found
      *
-     * @param plugin   the plugin to whom the Positions belongs
-     * @param filename the filename of the config file
+     * @param plugin the plugin to whom the Positions belongs
      */
-    public Positions(WorldUtils plugin, String filename) {
-        super(plugin, filename);
+    public Positions(WorldUtils plugin) {
+        super(plugin, "positions.yml");
     }
 
     /**

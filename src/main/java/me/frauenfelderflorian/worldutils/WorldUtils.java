@@ -74,7 +74,7 @@ public final class WorldUtils extends JavaPlugin {
     @Override
     public void onEnable() {
         //load positions
-        Positions positions = new Positions(this, "positions.yml");
+        Positions positions = new Positions(this);
         //set CommandExecutors and TabCompleters
         Objects.requireNonNull(getCommand(CPosition.CMD)).setExecutor(new CPosition(this, positions));
         Objects.requireNonNull(getCommand(CPosition.CMD)).setTabCompleter(new CPosition(this, positions));
