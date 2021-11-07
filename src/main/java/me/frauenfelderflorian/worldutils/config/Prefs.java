@@ -85,102 +85,102 @@ public class Prefs extends Config {
         /**
          * Saves the author of a position on creation (default: false)
          */
-        POSITION_SAVE_AUTHOR(Command.POSITION, "saveAuthor", false, true),
+        POSITION_SAVE_AUTHOR(Command.POSITION, "saveAuthor", false, true, true),
         /**
          * Makes everyone's personal positions accessible for everyone else (without tab completion) (default: false)
          */
-        PERSONALPOSITION_ACCESS_GLOBAL(Command.PERSONALPOSITION, "makeAccessibleGlobally", false, true),
+        PERSONALPOSITION_ACCESS_GLOBAL(Command.PERSONALPOSITION, "makeAccessibleGlobally", false, true, true),
         /**
          * The current time of the timer (default: 0)
          */
-        TIMER_TIME(Command.TIMER, "time", 0, false),
+        TIMER_TIME(Command.TIMER, "time", 0, false, true),
         /**
          * If the timer is running (default: false)
          */
-        TIMER_RUNNING(Command.TIMER, "running", false, false),
+        TIMER_RUNNING(Command.TIMER, "running", false, false, true),
         /**
          * If the timer was running when the last player left the server the last time (default: false)
          */
-        TIMER_WAS_RUNNING(Command.TIMER, "wasRunning", false, false),
+        TIMER_WAS_RUNNING(Command.TIMER, "wasRunning", false, false, true),
         /**
          * If the timer is running reversed (default: false)
          */
-        TIMER_REVERSE(Command.TIMER, "reverse", false, false),
+        TIMER_REVERSE(Command.TIMER, "reverse", false, false, true),
         /**
          * Add a player to the timer automatically when joining (default: true)
          */
-        TIMER_ADD_PLAYER_ON_JOIN(Command.TIMER, "addPlayerOnJoin", false, true),
+        TIMER_ADD_PLAYER_ON_JOIN(Command.TIMER, "addPlayerOnJoin", false, true, true),
         /**
          * Start the timer automatically when the first player joins if the timer was running when the last player left
          * the last time (default: false)
          */
-        TIMER_START_IF_WAS_RUNNING(Command.TIMER, "startOnPlayerJoinIfWasRunning", false, true),
+        TIMER_START_IF_WAS_RUNNING(Command.TIMER, "startOnPlayerJoinIfWasRunning", false, true, true),
         /**
          * Timer progress bar displays the progress of the current minute instead of hour (default: false)
          */
-        TIMER_PROGRESS_MINUTE(Command.TIMER, "progressMinute", false, true),
+        TIMER_PROGRESS_MINUTE(Command.TIMER, "progressMinute", false, true, true),
         /**
          * Allows the timer to go below zero into negative values (default: false)
          */
-        TIMER_ALLOW_BELOW_ZERO(Command.TIMER, "allowBelowZero", false, true),
+        TIMER_ALLOW_BELOW_ZERO(Command.TIMER, "allowBelowZero", false, true, true),
         /**
          * Disables player interactions when timer is paused (default: true)
          */
-        TIMER_DISABLE_ACTIONS_ON_PAUSE(Command.TIMER, "disableInteractionsOnPause", true, true),
+        TIMER_DISABLE_ACTIONS_ON_PAUSE(Command.TIMER, "disableInteractionsOnPause", true, true, true),
         /**
          * Disables player movement when timer is paused (default: false)
          */
-        TIMER_DISABLE_MOVEMENT_ON_PAUSE(Command.TIMER, "disableMovementOnPause", false, true),
+        TIMER_DISABLE_MOVEMENT_ON_PAUSE(Command.TIMER, "disableMovementOnPause", false, true, true),
         /**
          * Timer pauses when the ender dragon is defeated (default: true)
          */
-        TIMER_PAUSE_ON_DRAGON_DEATH(Command.TIMER, "pauseOnDragonDeath", true, true),
+        TIMER_PAUSE_ON_DRAGON_DEATH(Command.TIMER, "pauseOnDragonDeath", true, true, true),
         /**
          * If the world is going to be reset on next load (default: false)
          */
-        RESET_RESET(Command.RESET, "reset", false, false),
+        RESET_RESET(Command.RESET, "reset", false, false, true),
         /**
          * Player needs OP to reset the server (default: true)
          */
-        RESET_NEED_OP(Command.RESET, "needOp", true, true),
+        RESET_NEED_OP(Command.RESET, "needOp", true, true, true),
         /**
          * Reset command needs confirm as first and only argument to start resetting world (default: true)
          */
-        RESET_NEED_CONFIRM(Command.RESET, "needConfirm", true, true),
+        RESET_NEED_CONFIRM(Command.RESET, "needConfirm", true, true, true),
         /**
          * Deletes all positions on server reset (default: true)
          */
-        RESET_DELETE_POSITIONS(Command.RESET, "deletePositions", true, true),
+        RESET_DELETE_POSITIONS(Command.RESET, "deletePositions", true, true, true),
         /**
          * Resets settings to defaults on server reset (default: false)
          */
-        RESET_RESET_SETTINGS(Command.RESET, "resetSettings", false, true),
+        RESET_RESET_SETTINGS(Command.RESET, "resetSettings", false, true, true),
         /**
          * Restarts the server after the reset command has been entered (default: true)
          */
-        RESET_RESTART_AFTER_RESET(Command.RESET, "restartAfterReset", true, true),
+        RESET_RESTART_AFTER_RESET(Command.RESET, "restartAfterReset", true, true, true),
         /**
          * Player needs OP to change settings (default: true)
          */
-        SETTINGS_NEED_OP(Command.SETTINGS, "needOp", true, true),
+        SETTINGS_NEED_OP(Command.SETTINGS, "needOp", true, true, true),
         //all the following options are only used in the other plugins that depend on WorldUtils
         //defaultValue: null, settable: false for all the following options
         /**
          * If the AllItems project is running (default: null)
          */
-        WUP_ALLITEMS_RUNNING(Command.WUPROJECTS, "running", null, false),
+        WUP_ALLITEMS_RUNNING(Command.WUPROJECTS, "running", null, false, true),
         /**
          * List which contains all obtainable items (default: null)
          */
-        WUP_ALLITMES_ITEMS(Command.WUPROJECTS, "items", null, false),
+        WUP_ALLITMES_ITEMS(Command.WUPROJECTS, "items", null, false, true),
         /**
          * Index of the next item to collect (default: null)
          */
-        WUP_ALLITMES_INDEX(Command.WUPROJECTS, "index", null, false),
+        WUP_ALLITMES_INDEX(Command.WUPROJECTS, "index", null, false, true),
         /**
          * List which contains all already obtained items (default: null)
          */
-        WUP_ALLITEMS_OBTAINED(Command.WUPROJECTS, "obtained", null, false),
+        WUP_ALLITEMS_OBTAINED(Command.WUPROJECTS, "obtained", null, false, true),
         ;
 
         /**
@@ -199,12 +199,17 @@ public class Prefs extends Config {
          * True if this option should be user-settable (e.g. be included in tab completion)
          */
         private final boolean settable;
+        /**
+         * True if this option applies for all users
+         */
+        private final boolean global;
 
-        Option(Command command, String subKey, Object defaultValue, boolean settable) {
+        Option(Command command, String subKey, Object defaultValue, boolean settable, boolean global) {
             this.command = command;
             this.subKey = subKey;
             this.defaultValue = defaultValue;
             this.settable = settable;
+            this.global = global;
         }
 
         /**
@@ -269,6 +274,15 @@ public class Prefs extends Config {
          */
         public Object getDefault() {
             return defaultValue;
+        }
+
+        /**
+         * Check if option is global, which means applies to all users
+         *
+         * @return true if global, false otherwise
+         */
+        public boolean isGlobal() {
+            return global;
         }
 
         /**
