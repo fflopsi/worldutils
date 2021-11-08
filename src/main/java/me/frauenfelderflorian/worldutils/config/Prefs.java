@@ -1,6 +1,7 @@
 package me.frauenfelderflorian.worldutils.config;
 
 import me.frauenfelderflorian.worldutils.WorldUtils;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +31,18 @@ public class Prefs extends Config {
     }
 
     /**
+     * Set a personal setting value
+     *
+     * @param player  the Player whose setting to set
+     * @param setting the setting to be set
+     * @param value   the value Object of the setting
+     * @param log     true if logging messages should be sent
+     */
+    public void set(Player player, Option setting, Object value, boolean log) {
+        set(getPrefix(player) + setting.getKey(), value, log);
+    }
+
+    /**
      * Check if the setting contains a value
      *
      * @param setting the setting to be checked
@@ -37,6 +50,17 @@ public class Prefs extends Config {
      */
     public boolean contains(Option setting) {
         return contains(setting.getKey());
+    }
+
+    /**
+     * Check if the personal setting contains a value
+     *
+     * @param player  the Player whose setting to check
+     * @param setting the setting to check
+     * @return true if something is found, false if not
+     */
+    public boolean contains(Player player, Option setting) {
+        return contains(getPrefix(player) + setting.getKey());
     }
 
     /**
@@ -60,6 +84,17 @@ public class Prefs extends Config {
     }
 
     /**
+     * Get a boolean value from a setting
+     *
+     * @param player  the Player whose setting to get
+     * @param setting the setting
+     * @return the boolean at the setting's path
+     */
+    public boolean getBoolean(Player player, Option setting) {
+        return config.getBoolean(getPrefix(player) + setting.getKey());
+    }
+
+    /**
      * Get an int value from a setting
      *
      * @param setting the setting
@@ -70,12 +105,33 @@ public class Prefs extends Config {
     }
 
     /**
+     * Get an int value from a setting
+     *
+     * @param player  the player whose setting to get
+     * @param setting the setting
+     * @return the int at the setting's path
+     */
+    public int getInt(Player player, Option setting) {
+        return config.getInt(getPrefix(player) + setting.getKey());
+    }
+
+    /**
      * Remove a setting
      *
-     * @param setting the setting to be removed
+     * @param setting the setting to remove
      */
     public void remove(Option setting) {
         remove(setting.getKey());
+    }
+
+    /**
+     * Remove a personal setting
+     *
+     * @param player  the player whose setting to remove
+     * @param setting the setting to remove
+     */
+    public void remove(Player player, Option setting) {
+        remove(getPrefix(player) + setting.getKey());
     }
 
     /**
