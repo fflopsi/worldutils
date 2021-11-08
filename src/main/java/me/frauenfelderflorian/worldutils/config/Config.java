@@ -2,6 +2,7 @@ package me.frauenfelderflorian.worldutils.config;
 
 import me.frauenfelderflorian.worldutils.WorldUtils;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -92,5 +93,15 @@ public abstract class Config {
             plugin.getLogger().severe("Could not save config to " + file.getName());
             plugin.getLogger().info(config.saveToString());
         }
+    }
+
+    /**
+     * Get the prefix for personal configs
+     *
+     * @param player the Player whose configs to get
+     * @return String of the prefix for saving personal configs (with "." at the end)
+     */
+    protected String getPrefix(Player player) {
+        return "--personal--." + player.getUniqueId() + ".";
     }
 }
