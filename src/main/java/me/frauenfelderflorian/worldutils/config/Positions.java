@@ -1,6 +1,7 @@
 package me.frauenfelderflorian.worldutils.config;
 
 import me.frauenfelderflorian.worldutils.WorldUtils;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -27,7 +28,7 @@ public class Positions extends Config {
      * @param name   the name of the position
      */
     public void setPersonal(Player player, String name) {
-        set("--personal--." + player.getUniqueId() + "." + name, player.getLocation(), true);
+        set(getPrefix(player) + name, player.getLocation(), true);
     }
 
     /**
@@ -48,7 +49,7 @@ public class Positions extends Config {
      * @return true if something is found, false otherwise
      */
     public boolean containsPersonal(Player player, String name) {
-        return config.contains("--personal--." + player.getUniqueId() + "." + name);
+        return config.contains(getPrefix(player) + name);
     }
 
     /**
@@ -89,7 +90,7 @@ public class Positions extends Config {
      * @return the Location at the path
      */
     public Location getPersonalLocation(Player player, String name) {
-        return config.getLocation("--personal--." + player.getUniqueId() + "." + name);
+        return config.getLocation(getPrefix(player) + name);
     }
 
     /**
@@ -112,7 +113,7 @@ public class Positions extends Config {
      * @param name   the name of the position
      */
     public void remove(Player player, String name) {
-        super.remove("--personal--." + player.getUniqueId() + "." + name);
+        super.remove(getPrefix(player) + name);
     }
 
     /**
@@ -133,7 +134,7 @@ public class Positions extends Config {
      * @return a Set of Strings containing all position names
      */
     public Set<String> getPositions(Player player) {
-        ConfigurationSection positions = config.getConfigurationSection("--personal--." + player.getUniqueId());
+        ConfigurationSection positions = config.getConfigurationSection(StringUtils.chop(getPrefix(player)));
         if (positions != null) {
             return positions.getKeys(false);
         }
