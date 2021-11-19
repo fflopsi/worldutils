@@ -6,6 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
+import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
 
 import java.util.ArrayList;
@@ -28,30 +29,61 @@ public record CSettings(WorldUtils plugin) implements TabExecutor {
      */
     @Override
     public boolean onCommand(CommandSender sender, Command command, String alias, String[] args) {
-        if (sender.isOp() || !plugin.prefs.getBoolean(Prefs.Option.SETTINGS_NEED_OP)) {
-            if (args.length == 3) {
-                //command, setting and value entered
-                Prefs.Option setting = Prefs.Option.get(args[0], args[1]);
-                if (setting != null)
-                    if (args[2].equals("true")) {
-                        plugin.prefs.set(setting, true, true);
-                        Bukkit.broadcastMessage("Setting §b" + args[1] + "§r from command §b" + args[0] + "§r set to §atrue");
-                        return true;
-                    } else if (args[2].equals("false")) {
-                        plugin.prefs.set(setting, false, true);
-                        Bukkit.broadcastMessage("Setting §b" + args[1] + "§r from command §b" + args[0] + "§r set to §cfalse");
-                        return true;
-                    } else if (args[2].equals("null")) {
-                        plugin.prefs.remove(setting);
-                        Bukkit.broadcastMessage("Setting §b" + args[1] + "§r from command §b" + args[0] + "§r set to §enull");
-                        Bukkit.broadcastMessage("§cUse with caution: §oThe plugin might not work correctly!");
-                        return true;
+        if (args.length == 3) {
+            //correct number of arguments
+            Prefs.Option setting = Prefs.Option.get(args[0], args[1]);
+            if (setting != null && List.of("true", "false", "null").contains(args[2])) {
+                //correct setting and value
+                if (!setting.isGlobal() && sender instanceof Player) {
+                    //personal setting
+                    switch (args[2]) {
+                        case "true" -> {
+                            //set to true
+                            plugin.prefs.set((Player) sender, setting, true, true);
+                            sender.sendMessage(WorldUtils.Messages.settingSet(setting, "true"));
+                            return true;
+                        }
+                        case "false" -> {
+                            //set to false
+                            plugin.prefs.set((Player) sender, setting, false, true);
+                            sender.sendMessage(WorldUtils.Messages.settingSet(setting, "false"));
+                            return true;
+                        }
+                        case "null" -> {
+                            //remove setting
+                            plugin.prefs.remove((Player) sender, setting);
+                            sender.sendMessage(WorldUtils.Messages.settingSet(setting, "null"));
+                            sender.sendMessage("§cUse with caution: §oThe plugin might not work correctly!");
+                            return true;
+                        }
                     }
-            }
-        } else {
-            WorldUtils.Messages.notAllowed(sender);
-            return true;
-        }
+                } else if (setting.isGlobal()
+                        && (sender.isOp() || !plugin.prefs.getBoolean(Prefs.Option.SETTINGS_NEED_OP))) {
+                    //global setting
+                    switch (args[2]) {
+                        case "true" -> {
+                            //set to true
+                            plugin.prefs.set(setting, true, true);
+                            Bukkit.broadcastMessage(WorldUtils.Messages.settingSet(setting, "true"));
+                            return true;
+                        }
+                        case "false" -> {
+                            //set to false
+                            plugin.prefs.set(setting, false, true);
+                            sender.sendMessage(WorldUtils.Messages.settingSet(setting, "false"));
+                            return true;
+                        }
+                        case "null" -> {
+                            //remove setting
+                            plugin.prefs.remove(setting);
+                            Bukkit.broadcastMessage(WorldUtils.Messages.settingSet(setting, "null"));
+                            Bukkit.broadcastMessage("§cUse with caution: §oThe plugin might not work correctly!");
+                            return true;
+                        }
+                    }
+                }
+            } else WorldUtils.Messages.wrongArguments(sender);
+        } else WorldUtils.Messages.wrongArgumentNumber(sender);
         return false;
     }
 
@@ -67,22 +99,40 @@ public record CSettings(WorldUtils plugin) implements TabExecutor {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         List<String> completions = new ArrayList<>();
-        if (sender.isOp() || !plugin.prefs.getBoolean(Prefs.Option.SETTINGS_NEED_OP))
-            switch (args.length) {
-                case 1 -> //command being entered
-                        StringUtil.copyPartialMatches(args[0], Prefs.Option.getCommands(), completions);
-                case 2 -> {
-                    //setting being entered
-                    if (Prefs.Option.getCommands().contains(args[0]))
-                        StringUtil.copyPartialMatches(
-                                args[1], Prefs.Option.getSettings(args[0]), completions);
+        switch (args.length) {
+            case 1 -> {
+                //command being entered
+                if (sender.isOp() || !plugin.prefs.getBoolean(Prefs.Option.SETTINGS_NEED_OP)) {
+                    StringUtil.copyPartialMatches(args[0], Prefs.Option.getGlobalCommands(), completions);
                 }
-                case 3 -> {
-                    //value being entered
-                    if (Prefs.Option.get(args[0], args[1]) != null)
-                        StringUtil.copyPartialMatches(args[2], List.of("true", "false"), completions);
+                if (sender instanceof Player) {
+                    List<String> commands = new ArrayList<>(Prefs.Option.getCommands());
+                    commands.removeAll(Prefs.Option.getGlobalCommands());
+                    StringUtil.copyPartialMatches(args[0], commands, completions);
                 }
             }
+            case 2 -> {
+                //setting being entered
+                if (Prefs.Option.getCommands().contains(args[0])) {
+                    if (sender.isOp() || !plugin.prefs.getBoolean(Prefs.Option.SETTINGS_NEED_OP)) {
+                        StringUtil.copyPartialMatches(args[1], Prefs.Option.getGlobalSettings(args[0]), completions);
+                    }
+                    if (sender instanceof Player) {
+                        List<String> settings = new ArrayList<>(Prefs.Option.getSettings(args[0]));
+                        settings.removeAll(Prefs.Option.getGlobalSettings(args[0]));
+                        StringUtil.copyPartialMatches(args[1], settings, completions);
+                    }
+                }
+            }
+            case 3 -> {
+                //value being entered
+                Prefs.Option setting = Prefs.Option.get(args[0], args[1]);
+                if (setting != null && (sender instanceof Player && !setting.isGlobal()
+                        || (sender.isOp() || !plugin.prefs.getBoolean(Prefs.Option.SETTINGS_NEED_OP))
+                        && setting.isGlobal()))
+                    StringUtil.copyPartialMatches(args[2], List.of("true", "false"), completions);
+            }
+        }
         return completions;
     }
 }
