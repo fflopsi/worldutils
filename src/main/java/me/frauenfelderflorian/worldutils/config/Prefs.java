@@ -293,15 +293,50 @@ public class Prefs extends Config {
         }
 
         /**
+         * Get all commands that contain global settings
+         *
+         * @return List of Strings containing all commands that contain global settings
+         */
+        public static List<String> getGlobalCommands() {
+            List<String> commands = new ArrayList<>();
+            for (Command command : Command.values()) {
+                boolean global = false;
+                for (Option setting : values()) {
+                    if (setting.command == command && setting.isGlobal()) {
+                        global = true;
+                        break;
+                    }
+                }
+                if (global) commands.add(command.getCommand());
+            }
+            return commands;
+        }
+
+        /**
          * Get all (user) settable settings for a command
          *
          * @param command command to be searched for
-         * @return List of Settings objects for command
+         * @return List of Strings of setting subkeys
          */
         public static List<String> getSettings(String command) {
             List<String> settings = new ArrayList<>();
             for (Option stg : Option.values())
                 if (command.equals(stg.command.getCommand()) && stg.settable) settings.add(stg.subKey);
+            return settings;
+        }
+
+        /**
+         * Get all (user) settabel global settings for a command
+         *
+         * @param command command to be searched for
+         * @return List of Strings of setting subkeys
+         */
+        public static List<String> getGlobalSettings(String command) {
+            List<String> settings = new ArrayList<>();
+            for (Option stg : values()) {
+                if (command.equals(stg.command.getCommand()) && stg.settable && stg.isGlobal())
+                    settings.add(stg.subKey);
+            }
             return settings;
         }
 
