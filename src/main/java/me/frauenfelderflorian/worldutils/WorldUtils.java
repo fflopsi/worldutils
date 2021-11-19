@@ -157,6 +157,18 @@ public final class WorldUtils extends JavaPlugin {
         }
 
         /**
+         * Get a message:
+         * <p>
+         * Setting <span style="color:blue">[command.setting]</span> set to <span style="color:blue">[value]</span>.
+         *
+         * @param setting the setting
+         * @param value   the new value of the setting
+         */
+        public static String settingSet(Prefs.Option setting, String value) {
+            return "Setting §b" + setting.getKey() + "§r set to §b" + value + "§r.";
+        }
+
+        /**
          * Send a message to the target:
          * "<span style="color:red; font-weight:bold">You are not allowed to do this.</span>"
          *
