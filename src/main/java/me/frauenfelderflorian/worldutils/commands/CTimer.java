@@ -136,7 +136,7 @@ public record CTimer(WorldUtils plugin) implements TabExecutor {
      * @param args String array containing all input arguments (length 2 - 5)
      * @return int of time in seconds
      */
-    private int getTime(String[] args) {
+    public static int getTime(String[] args) {
         int time;
         switch (args.length) {
             case 2 -> time = Integer.parseInt(args[1]);
