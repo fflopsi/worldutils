@@ -7,6 +7,7 @@ import me.frauenfelderflorian.worldutils.listeners.LTimerPaused;
 import me.frauenfelderflorian.worldutils.listeners.Listeners;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -14,9 +15,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Main plugin class
@@ -30,6 +29,10 @@ public final class WorldUtils extends JavaPlugin {
      * Timer for this plugin
      */
     public Timer timer;
+    /**
+     * Contains all personal timers
+     */
+    private Map<Player, Timer> timers;
     /**
      * Contains the running instance of this plugin if available
      */
@@ -45,7 +48,8 @@ public final class WorldUtils extends JavaPlugin {
         //load config and set defaults
         prefs = new Prefs(this);
         for (Prefs.Option setting : Prefs.Option.values())
-            if (!prefs.contains(setting) && setting.isVanilla()) prefs.set(setting, setting.getDefault(), true);
+            if (setting.isGlobal() && !prefs.contains(setting) && setting.isVanilla())
+                prefs.set(setting, setting.getDefault(), true);
         //reset if needed
         if (prefs.getBoolean(Prefs.Option.RESET_RESET)) {
             //reset worlds
@@ -86,6 +90,8 @@ public final class WorldUtils extends JavaPlugin {
         Objects.requireNonNull(getCommand(CSendPosition.CMD)).setTabCompleter(new CSendPosition());
         Objects.requireNonNull(getCommand(CTimer.CMD)).setExecutor(new CTimer(this));
         Objects.requireNonNull(getCommand(CTimer.CMD)).setTabCompleter(new CTimer(this));
+        Objects.requireNonNull(getCommand(CPersonalTimer.CMD)).setExecutor(new CPersonalTimer(this));
+        Objects.requireNonNull(getCommand(CPersonalTimer.CMD)).setTabCompleter(new CPersonalTimer(this));
         Objects.requireNonNull(getCommand(CReset.CMD)).setExecutor(new CReset(this));
         Objects.requireNonNull(getCommand(CReset.CMD)).setTabCompleter(new CReset(this));
         Objects.requireNonNull(getCommand(CSettings.CMD)).setExecutor(new CSettings(this));
@@ -95,6 +101,7 @@ public final class WorldUtils extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new LTimerPaused(this), this);
         //set up timer
         timer = new Timer(this);
+        timers = new HashMap<>();
     }
 
     /**
@@ -111,6 +118,36 @@ public final class WorldUtils extends JavaPlugin {
      */
     public static WorldUtils getInstance() {
         return instance;
+    }
+
+    /**
+     * Add a personal Timer to the timers Map
+     *
+     * @param player the Player to whom the Timer belongs
+     * @throws IllegalArgumentException if the Player already has a Timer assigned
+     */
+    public void addTimer(Player player) {
+        if (timers.containsKey(player)) throw new IllegalArgumentException("This player already has a timer assigned.");
+        timers.put(player, new Timer(this, player));
+    }
+
+    /**
+     * Get a personal Timer from the timers Map
+     *
+     * @param player the Player to whom the Timer belongs
+     * @return the Player's personal Timer
+     */
+    public Timer getTimer(Player player) {
+        return timers.get(player);
+    }
+
+    /**
+     * Remove a personal Timer from the timers Map
+     *
+     * @param player the Player to whom the Timer belongs
+     */
+    public void removeTimer(Player player) {
+        timers.remove(player);
     }
 
     /**
