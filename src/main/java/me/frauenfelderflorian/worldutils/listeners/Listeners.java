@@ -24,12 +24,23 @@ public record Listeners(WorldUtils plugin) implements Listener {
      */
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
+        //greeting message
         event.getPlayer().sendMessage("Hello " + event.getPlayer().getName() + ", nice to meet you!");
+        //set default personal settings
+        for (Prefs.Option setting : Prefs.Option.values())
+            if (!setting.isGlobal() && !plugin.prefs.contains(event.getPlayer(), setting) && setting.isVanilla())
+                plugin.prefs.set(event.getPlayer(), setting, setting.getDefault(), true);
+        //global timer setup
         if (plugin.prefs.getBoolean(Prefs.Option.TIMER_ADD_PLAYER_ON_JOIN))
             plugin.timer.addPlayer(event.getPlayer());
         if (plugin.prefs.getBoolean(Prefs.Option.TIMER_START_IF_WAS_RUNNING)
                 && plugin.prefs.getBoolean(Prefs.Option.TIMER_WAS_RUNNING)
                 && Bukkit.getServer().getOnlinePlayers().size() == 1) plugin.timer.setRunning(true);
+        //personal timer setup
+        plugin.addTimer(event.getPlayer());
+        if (plugin.prefs.getBoolean(event.getPlayer(), Prefs.Option.PTIMER_START_IF_WAS_RUNNING)
+                && plugin.prefs.getBoolean(event.getPlayer(), Prefs.Option.PTIMER_WAS_RUNNING))
+            plugin.getTimer(event.getPlayer()).setRunning(true);
     }
 
     /**
@@ -39,10 +50,16 @@ public record Listeners(WorldUtils plugin) implements Listener {
      */
     @EventHandler
     public void onPlayerLeave(PlayerQuitEvent event) {
+        //global timer processing
         if (Bukkit.getServer().getOnlinePlayers().size() == 1) {
             plugin.prefs.set(Prefs.Option.TIMER_WAS_RUNNING, plugin.prefs.getBoolean(Prefs.Option.TIMER_RUNNING), true);
             plugin.timer.setRunning(false);
         }
+        //personal timer processing
+        plugin.prefs.set(event.getPlayer(), Prefs.Option.PTIMER_WAS_RUNNING,
+                plugin.prefs.getBoolean(event.getPlayer(), Prefs.Option.PTIMER_RUNNING), true);
+        plugin.getTimer(event.getPlayer()).setRunning(false);
+        plugin.removeTimer(event.getPlayer());
     }
 
     /**
@@ -57,7 +74,7 @@ public record Listeners(WorldUtils plugin) implements Listener {
     }
 
     /**
-     * Executed when an entity dies: If it is the Ender Dragon, stop the timer
+     * Executed when an entity dies: If it is the Ender Dragon, stop the global timer and personal timer of the killer
      *
      * @param event the triggered EntityDeathEvent
      */
@@ -66,6 +83,8 @@ public record Listeners(WorldUtils plugin) implements Listener {
         if (event.getEntity() instanceof EnderDragon) {
             if (plugin.prefs.getBoolean(Prefs.Option.TIMER_PAUSE_ON_DRAGON_DEATH))
                 plugin.timer.setRunning(false);
+            if (plugin.prefs.getBoolean(event.getEntity().getKiller(), Prefs.Option.PTIMER_PAUSE_ON_DRAGON_DEATH))
+                plugin.getTimer(event.getEntity().getKiller()).setRunning(false);
             Objects.requireNonNull(event.getEntity().getKiller())
                     .sendMessage("§bCongratulations, you defeated the Ender Dragon!");
             Bukkit.broadcastMessage("§bCongratulations, you just won the game!");
