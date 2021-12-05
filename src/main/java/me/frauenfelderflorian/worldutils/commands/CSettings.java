@@ -102,26 +102,18 @@ public record CSettings(WorldUtils plugin) implements TabExecutor {
         switch (args.length) {
             case 1 -> {
                 //command being entered
-                if (sender.isOp() || !plugin.prefs.getBoolean(Prefs.Option.SETTINGS_NEED_OP)) {
-                    StringUtil.copyPartialMatches(args[0], Prefs.Option.getGlobalCommands(), completions);
-                }
-                if (sender instanceof Player) {
-                    List<String> commands = new ArrayList<>(Prefs.Option.getCommands());
-                    commands.removeAll(Prefs.Option.getGlobalCommands());
-                    StringUtil.copyPartialMatches(args[0], commands, completions);
-                }
+                if (sender.isOp() || !plugin.prefs.getBoolean(Prefs.Option.SETTINGS_NEED_OP))
+                    StringUtil.copyPartialMatches(args[0], Prefs.Option.getCommands(true), completions);
+                if (sender instanceof Player)
+                    StringUtil.copyPartialMatches(args[0], Prefs.Option.getCommands(false), completions);
             }
             case 2 -> {
                 //setting being entered
                 if (Prefs.Option.getCommands().contains(args[0])) {
-                    if (sender.isOp() || !plugin.prefs.getBoolean(Prefs.Option.SETTINGS_NEED_OP)) {
-                        StringUtil.copyPartialMatches(args[1], Prefs.Option.getGlobalSettings(args[0]), completions);
-                    }
-                    if (sender instanceof Player) {
-                        List<String> settings = new ArrayList<>(Prefs.Option.getSettings(args[0]));
-                        settings.removeAll(Prefs.Option.getGlobalSettings(args[0]));
-                        StringUtil.copyPartialMatches(args[1], settings, completions);
-                    }
+                    if (sender.isOp() || !plugin.prefs.getBoolean(Prefs.Option.SETTINGS_NEED_OP))
+                        StringUtil.copyPartialMatches(args[1], Prefs.Option.getSettings(args[0], true), completions);
+                    if (sender instanceof Player)
+                        StringUtil.copyPartialMatches(args[1], Prefs.Option.getSettings(args[0], false), completions);
                 }
             }
             case 3 -> {
