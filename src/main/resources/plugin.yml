@@ -12,16 +12,11 @@ commands:
   personalposition:
     description: save, view, delete personal positions
     usage: /<command> <name> | list | clear | (tp | del <name>)
-    aliases:
-      - personalpos
-      - perspos
-      - ppos
+    aliases: ppos
   sendposition:
     description: send your position to other players
     usage: /<command> [<playername>]
-    aliases:
-      - sendpos
-      - spos
+    aliases: spos
   timer:
     description: control the ingame timer
     usage: /<command> visible | running | reverse | reset | (set | add [[[<d>] <h>] <min>] <s>)
