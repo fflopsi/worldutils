@@ -192,6 +192,47 @@ public class Prefs extends Config {
          */
         TIMER_PAUSE_ON_DRAGON_DEATH(Command.TIMER, "pauseOnDragonDeath", true, true, true),
         /**
+         * The current time of the personal timer (default: 0)
+         */
+        PTIMER_TIME(Command.PTIMER, "time", 0, false, false),
+        /**
+         * If the personal timer is visible (default: false)
+         */
+        PTIMER_VISIBLE(Command.PTIMER, "visible", false, false, false),
+        /**
+         * If the personal timer is running (default: false)
+         */
+        PTIMER_RUNNING(Command.PTIMER, "running", false, false, false),
+        /**
+         * If the personal timer was running when the player left the server the last time (default: false)
+         */
+        PTIMER_WAS_RUNNING(Command.PTIMER, "wasRunning", false, false, false),
+        /**
+         * If the personal timer is running reversed (default: false)
+         */
+        PTIMER_REVERSE(Command.PTIMER, "reverse", false, false, false),
+        /**
+         * Show the personal timer automatically when the player joins (default: false)
+         */
+        PTIMER_VISIBLE_ON_JOIN(Command.PTIMER, "visibleOnJoin", false, true, false),
+        /**
+         * Start the timer automatically when the player joins if the timer was running when the player left the last
+         * time (default: false)
+         */
+        PTIMER_START_IF_WAS_RUNNING(Command.PTIMER, "startOnPlayerJoinIfWasRunning", false, true, false),
+        /**
+         * Personal timer progress bar displays the progress of the current minute instead of hour (default: false)
+         */
+        PTIMER_PROGRESS_MINUTE(Command.PTIMER, "progressMinute", false, true, false),
+        /**
+         * Allows the personal timer to go below zero into negative values (default: false)
+         */
+        PTIMER_ALLOW_BELOW_ZERO(Command.PTIMER, "allowBelowZero", false, true, false),
+        /**
+         * Personal timer pauses when the ender dragon is defeated (default: true)
+         */
+        PTIMER_PAUSE_ON_DRAGON_DEATH(Command.PTIMER, "pauseOnDragonDeath", true, true, false),
+        /**
          * If the world is going to be reset on next load (default: false)
          */
         RESET_RESET(Command.RESET, "reset", false, false, true),
@@ -219,6 +260,7 @@ public class Prefs extends Config {
          * Player needs OP to change settings (default: true)
          */
         SETTINGS_NEED_OP(Command.SETTINGS, "needOp", true, true, true),
+
         //all the following options are only used in the other plugins that depend on WorldUtils
         //defaultValue: null, settable: false for all the following options
         /**
@@ -252,7 +294,7 @@ public class Prefs extends Config {
          */
         private final Object defaultValue;
         /**
-         * True if this option should be user-settable (e.g. be included in tab completion)
+         * True if this option should be user-settable via the settings command (e.g. be included in tab completion)
          */
         private final boolean settable;
         /**
@@ -293,21 +335,23 @@ public class Prefs extends Config {
         }
 
         /**
-         * Get all commands that contain global settings
+         * Get commands that either contain global or personal settings
          *
-         * @return List of Strings containing all commands that contain global settings
+         * @param global true if "global commands" should be returned, false if "personal commands" should be returned
+         * @return List of Strings containing the commands
          */
-        public static List<String> getGlobalCommands() {
+        public static List<String> getCommands(boolean global) {
             List<String> commands = new ArrayList<>();
             for (Command command : Command.values()) {
-                boolean global = false;
+                boolean scope = false;
                 for (Option setting : values()) {
-                    if (setting.command == command && setting.isGlobal()) {
-                        global = true;
+                    if (setting.command == command
+                            && (global && setting.isGlobal() || !global && !setting.isGlobal())) {
+                        scope = true;
                         break;
                     }
                 }
-                if (global) commands.add(command.getCommand());
+                if (scope) commands.add(command.getCommand());
             }
             return commands;
         }
@@ -326,15 +370,17 @@ public class Prefs extends Config {
         }
 
         /**
-         * Get all (user) settabel global settings for a command
+         * Get all (user) settable global or personal settings for a command
          *
          * @param command command to be searched for
-         * @return List of Strings of setting subkeys
+         * @param global  true if global settings should be returned, false if personal settings should be returned
+         * @return List of Strings containing setting subkeys
          */
-        public static List<String> getGlobalSettings(String command) {
+        public static List<String> getSettings(String command, boolean global) {
             List<String> settings = new ArrayList<>();
             for (Option stg : values()) {
-                if (command.equals(stg.command.getCommand()) && stg.settable && stg.isGlobal())
+                if (command.equals(stg.command.getCommand()) && stg.settable
+                        && (global && stg.isGlobal() || !global && !stg.isGlobal()))
                     settings.add(stg.subKey);
             }
             return settings;
@@ -384,6 +430,7 @@ public class Prefs extends Config {
             PERSONALPOSITION("personalposition", true),
             SENDPOSITION("sendposition", true),
             TIMER("timer", true),
+            PTIMER("personaltimer", true),
             RESET("reset", true),
             SETTINGS("settings", true),
             WUPROJECTS("wuprojects", false),
