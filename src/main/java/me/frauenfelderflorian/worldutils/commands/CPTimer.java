@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * CommandExecutor and TabCompleter for command personaltimer
  */
-public record CPersonalTimer(WorldUtils plugin) implements TabExecutor {
+public record CPTimer(WorldUtils plugin) implements TabExecutor {
     public static final String CMD = "personaltimer";
 
     /**

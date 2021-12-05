@@ -82,16 +82,14 @@ public final class WorldUtils extends JavaPlugin {
         //set CommandExecutors and TabCompleters
         Objects.requireNonNull(getCommand(CPosition.CMD)).setExecutor(new CPosition(this, positions));
         Objects.requireNonNull(getCommand(CPosition.CMD)).setTabCompleter(new CPosition(this, positions));
-        Objects.requireNonNull(getCommand(CPersonalPosition.CMD))
-                .setExecutor(new CPersonalPosition(this, positions));
-        Objects.requireNonNull(getCommand(CPersonalPosition.CMD))
-                .setTabCompleter(new CPersonalPosition(this, positions));
+        Objects.requireNonNull(getCommand(CPPosition.CMD)).setExecutor(new CPPosition(this, positions));
+        Objects.requireNonNull(getCommand(CPPosition.CMD)).setTabCompleter(new CPPosition(this, positions));
         Objects.requireNonNull(getCommand(CSendPosition.CMD)).setExecutor(new CSendPosition());
         Objects.requireNonNull(getCommand(CSendPosition.CMD)).setTabCompleter(new CSendPosition());
         Objects.requireNonNull(getCommand(CTimer.CMD)).setExecutor(new CTimer(this));
         Objects.requireNonNull(getCommand(CTimer.CMD)).setTabCompleter(new CTimer(this));
-        Objects.requireNonNull(getCommand(CPersonalTimer.CMD)).setExecutor(new CPersonalTimer(this));
-        Objects.requireNonNull(getCommand(CPersonalTimer.CMD)).setTabCompleter(new CPersonalTimer(this));
+        Objects.requireNonNull(getCommand(CPTimer.CMD)).setExecutor(new CPTimer(this));
+        Objects.requireNonNull(getCommand(CPTimer.CMD)).setTabCompleter(new CPTimer(this));
         Objects.requireNonNull(getCommand(CReset.CMD)).setExecutor(new CReset(this));
         Objects.requireNonNull(getCommand(CReset.CMD)).setTabCompleter(new CReset(this));
         Objects.requireNonNull(getCommand(CSettings.CMD)).setExecutor(new CSettings(this));

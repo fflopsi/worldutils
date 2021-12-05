@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * CommandExecutor and TabCompleter for command personalposition
  */
-public record CPersonalPosition(WorldUtils plugin, Positions positions) implements TabExecutor {
+public record CPPosition(WorldUtils plugin, Positions positions) implements TabExecutor {
     public static final String CMD = "personalposition";
 
     /**
@@ -133,7 +133,7 @@ public record CPersonalPosition(WorldUtils plugin, Positions positions) implemen
      * @return true if correct command syntax used and no errors, false otherwise
      */
     private boolean otherPlayersPosition(CommandSender sender, String[] args) {
-        if (plugin.prefs.getBoolean(Prefs.Option.PERSONALPOSITION_ACCESS_GLOBAL)) {
+        if (plugin.prefs.getBoolean(Prefs.Option.PPOSITION_ACCESS_GLOBAL)) {
             Player other = Bukkit.getPlayer(args[0]);
             if (other != null && other.isOnline()) {
                 //get personalposition from player

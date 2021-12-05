@@ -145,7 +145,7 @@ public class Prefs extends Config {
         /**
          * Makes everyone's personal positions accessible for everyone else (without tab completion) (default: false)
          */
-        PERSONALPOSITION_ACCESS_GLOBAL(Command.PERSONALPOSITION, "makeAccessibleGlobally", false, true, true),
+        PPOSITION_ACCESS_GLOBAL(Command.PPOSITION, "makeAccessibleGlobally", false, true, true),
         /**
          * The current time of the timer (default: 0)
          */
@@ -427,7 +427,7 @@ public class Prefs extends Config {
          */
         private enum Command {
             POSITION("position", true),
-            PERSONALPOSITION("personalposition", true),
+            PPOSITION("personalposition", true),
             SENDPOSITION("sendposition", true),
             TIMER("timer", true),
             PTIMER("personaltimer", true),
