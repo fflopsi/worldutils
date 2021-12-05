@@ -1,5 +1,6 @@
 package me.frauenfelderflorian.worldutils.commands;
 
+import me.frauenfelderflorian.worldutils.Messages;
 import me.frauenfelderflorian.worldutils.Timer;
 import me.frauenfelderflorian.worldutils.WorldUtils;
 import me.frauenfelderflorian.worldutils.config.Prefs;
@@ -74,9 +75,9 @@ public record CPTimer(WorldUtils plugin) implements TabExecutor {
                                         + Timer.formatTime(plugin.prefs.getInt((Player) sender, Prefs.Option.TIMER_TIME)));
                                 return true;
                             } catch (IllegalStateException e) {
-                                WorldUtils.Messages.wrongArgumentNumber(sender);
+                                Messages.wrongArgumentNumber(sender);
                             } catch (NumberFormatException e) {
-                                WorldUtils.Messages.wrongArguments(sender);
+                                Messages.wrongArguments(sender);
                             }
                         }
                         case "add" -> {
@@ -87,16 +88,16 @@ public record CPTimer(WorldUtils plugin) implements TabExecutor {
                                 sender.sendMessage("§eAdded §b" + Timer.formatTime(CTimer.getTime(args)) + " §eto personal timer");
                                 return true;
                             } catch (IllegalStateException e) {
-                                WorldUtils.Messages.wrongArgumentNumber(sender);
+                                Messages.wrongArgumentNumber(sender);
                             } catch (NumberFormatException e) {
-                                WorldUtils.Messages.wrongArguments(sender);
+                                Messages.wrongArguments(sender);
                             }
                         }
                     }
                 }
             }
         else {
-            WorldUtils.Messages.notConsole(sender);
+            Messages.notConsole(sender);
             return true;
         }
         return false;

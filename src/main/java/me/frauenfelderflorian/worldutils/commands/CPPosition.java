@@ -1,5 +1,6 @@
 package me.frauenfelderflorian.worldutils.commands;
 
+import me.frauenfelderflorian.worldutils.Messages;
 import me.frauenfelderflorian.worldutils.WorldUtils;
 import me.frauenfelderflorian.worldutils.config.Positions;
 import me.frauenfelderflorian.worldutils.config.Prefs;
@@ -38,7 +39,7 @@ public record CPPosition(WorldUtils plugin, Positions positions) implements TabE
                         case "list" -> {
                             //send all position info
                             for (String pos : positions.getPositions((Player) sender))
-                                sender.sendMessage(WorldUtils.Messages.positionMessage(
+                                sender.sendMessage(Messages.positionMessage(
                                         pos, positions.getPersonalLocation((Player) sender, pos)));
                             return true;
                         }
@@ -53,12 +54,12 @@ public record CPPosition(WorldUtils plugin, Positions positions) implements TabE
                             //position name entered
                             if (positions.containsPersonal((Player) sender, args[0]))
                                 //existing position, send info
-                                sender.sendMessage(WorldUtils.Messages.positionMessage(args[0],
+                                sender.sendMessage(Messages.positionMessage(args[0],
                                         positions.getPersonalLocation((Player) sender, args[0])));
                             else {
                                 //new position name, save position
                                 positions.setPersonal((Player) sender, args[0]);
-                                sender.sendMessage("§aAdded§r personal position " + WorldUtils.Messages.positionMessage(
+                                sender.sendMessage("§aAdded§r personal position " + Messages.positionMessage(
                                         args[0], positions.getPersonalLocation((Player) sender, args[0])));
                             }
                             return true;
@@ -72,12 +73,12 @@ public record CPPosition(WorldUtils plugin, Positions positions) implements TabE
                             //teleport player to position if OP
                             if (sender.isOp())
                                 ((Player) sender).teleport(positions.getPersonalLocation((Player) sender, args[1]));
-                            else WorldUtils.Messages.notAllowed(sender);
+                            else Messages.notAllowed(sender);
                             return true;
                         }
                         case "del" -> {
                             //delete position
-                            sender.sendMessage("§cDeleted§r personal position " + WorldUtils.Messages.positionMessage(
+                            sender.sendMessage("§cDeleted§r personal position " + Messages.positionMessage(
                                     args[1], positions.getPersonalLocation((Player) sender, args[1])));
                             positions.remove((Player) sender, args[1]);
                             return true;
@@ -90,7 +91,7 @@ public record CPPosition(WorldUtils plugin, Positions positions) implements TabE
             }
         } else {
             if (args.length == 2) return otherPlayersPosition(sender, args);
-            WorldUtils.Messages.notConsole(sender);
+            Messages.notConsole(sender);
             return true;
         }
         return false;
@@ -139,12 +140,12 @@ public record CPPosition(WorldUtils plugin, Positions positions) implements TabE
                 //get personalposition from player
                 try {
                     sender.sendMessage("Personal position from player " + args[0] + ": "
-                            + WorldUtils.Messages.positionMessage(args[1], positions.getPersonalLocation(other, args[1])));
+                            + Messages.positionMessage(args[1], positions.getPersonalLocation(other, args[1])));
                 } catch (NullPointerException e) {
-                    WorldUtils.Messages.positionNotFound(sender);
+                    Messages.positionNotFound(sender);
                 }
             } else {
-                WorldUtils.Messages.playerNotFound(sender);
+                Messages.playerNotFound(sender);
             }
             return true;
         }

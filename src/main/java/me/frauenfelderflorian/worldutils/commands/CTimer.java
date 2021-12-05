@@ -1,5 +1,6 @@
 package me.frauenfelderflorian.worldutils.commands;
 
+import me.frauenfelderflorian.worldutils.Messages;
 import me.frauenfelderflorian.worldutils.Timer;
 import me.frauenfelderflorian.worldutils.WorldUtils;
 import me.frauenfelderflorian.worldutils.config.Prefs;
@@ -43,7 +44,7 @@ public record CTimer(WorldUtils plugin) implements TabExecutor {
                                 sender.sendMessage("§eTimer set to " +
                                         (plugin.timer.containsPlayer((Player) sender)
                                                 ? "visible." : "invisible."));
-                            } else WorldUtils.Messages.notConsole(sender);
+                            } else Messages.notConsole(sender);
                             return true;
                         }
                         case "running" -> {
@@ -79,9 +80,9 @@ public record CTimer(WorldUtils plugin) implements TabExecutor {
                                         + Timer.formatTime(plugin.prefs.getInt(Prefs.Option.TIMER_TIME)));
                                 return true;
                             } catch (IllegalStateException e) {
-                                WorldUtils.Messages.wrongArgumentNumber(sender);
+                                Messages.wrongArgumentNumber(sender);
                             } catch (NumberFormatException e) {
-                                WorldUtils.Messages.wrongArguments(sender);
+                                Messages.wrongArguments(sender);
                             }
                         }
                         case "add" -> {
@@ -91,9 +92,9 @@ public record CTimer(WorldUtils plugin) implements TabExecutor {
                                 Bukkit.broadcastMessage("§eAdded §b" + Timer.formatTime(getTime(args)) + " §eto timer");
                                 return true;
                             } catch (IllegalStateException e) {
-                                WorldUtils.Messages.wrongArgumentNumber(sender);
+                                Messages.wrongArgumentNumber(sender);
                             } catch (NumberFormatException e) {
-                                WorldUtils.Messages.wrongArguments(sender);
+                                Messages.wrongArguments(sender);
                             }
                         }
                     }

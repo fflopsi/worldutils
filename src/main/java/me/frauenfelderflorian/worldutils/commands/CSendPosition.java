@@ -1,6 +1,6 @@
 package me.frauenfelderflorian.worldutils.commands;
 
-import me.frauenfelderflorian.worldutils.WorldUtils;
+import me.frauenfelderflorian.worldutils.Messages;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -33,23 +33,23 @@ public class CSendPosition implements TabExecutor {
             switch (args.length) {
                 case 0 -> {
                     //send to all players
-                    Bukkit.broadcastMessage(WorldUtils.Messages.positionMessage(
+                    Bukkit.broadcastMessage(Messages.positionMessage(
                             sender.getName(), ((Player) sender).getLocation()));
                     return true;
                 }
                 case 1 -> {
                     //send to one player
                     try {
-                        Objects.requireNonNull(Bukkit.getPlayer(args[0])).sendMessage(WorldUtils.Messages.positionMessage(
+                        Objects.requireNonNull(Bukkit.getPlayer(args[0])).sendMessage(Messages.positionMessage(
                                 sender.getName(), ((Player) sender).getLocation()));
                     } catch (NullPointerException e) {
-                        WorldUtils.Messages.playerNotFound(sender);
+                        Messages.playerNotFound(sender);
                     }
                     return true;
                 }
             }
         else {
-            WorldUtils.Messages.notConsole(sender);
+            Messages.notConsole(sender);
             return true;
         }
         return false;

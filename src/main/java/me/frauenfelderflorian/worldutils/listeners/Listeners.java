@@ -1,5 +1,6 @@
 package me.frauenfelderflorian.worldutils.listeners;
 
+import me.frauenfelderflorian.worldutils.Messages;
 import me.frauenfelderflorian.worldutils.WorldUtils;
 import me.frauenfelderflorian.worldutils.config.Prefs;
 import org.bukkit.Bukkit;
@@ -70,7 +71,7 @@ public record Listeners(WorldUtils plugin) implements Listener {
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
         event.getEntity().sendMessage("You §4died§r at "
-                + WorldUtils.Messages.positionMessage(event.getEntity().getLocation()));
+                + Messages.positionMessage(event.getEntity().getLocation()));
     }
 
     /**

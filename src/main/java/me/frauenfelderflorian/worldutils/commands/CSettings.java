@@ -1,5 +1,6 @@
 package me.frauenfelderflorian.worldutils.commands;
 
+import me.frauenfelderflorian.worldutils.Messages;
 import me.frauenfelderflorian.worldutils.WorldUtils;
 import me.frauenfelderflorian.worldutils.config.Prefs;
 import org.bukkit.Bukkit;
@@ -40,19 +41,19 @@ public record CSettings(WorldUtils plugin) implements TabExecutor {
                         case "true" -> {
                             //set to true
                             plugin.prefs.set((Player) sender, setting, true, true);
-                            sender.sendMessage(WorldUtils.Messages.settingSet(setting, "true"));
+                            sender.sendMessage(Messages.settingSet(setting, "true"));
                             return true;
                         }
                         case "false" -> {
                             //set to false
                             plugin.prefs.set((Player) sender, setting, false, true);
-                            sender.sendMessage(WorldUtils.Messages.settingSet(setting, "false"));
+                            sender.sendMessage(Messages.settingSet(setting, "false"));
                             return true;
                         }
                         case "null" -> {
                             //remove setting
                             plugin.prefs.remove((Player) sender, setting);
-                            sender.sendMessage(WorldUtils.Messages.settingSet(setting, "null"));
+                            sender.sendMessage(Messages.settingSet(setting, "null"));
                             sender.sendMessage("§cUse with caution: §oThe plugin might not work correctly!");
                             return true;
                         }
@@ -64,26 +65,26 @@ public record CSettings(WorldUtils plugin) implements TabExecutor {
                         case "true" -> {
                             //set to true
                             plugin.prefs.set(setting, true, true);
-                            Bukkit.broadcastMessage(WorldUtils.Messages.settingSet(setting, "true"));
+                            Bukkit.broadcastMessage(Messages.settingSet(setting, "true"));
                             return true;
                         }
                         case "false" -> {
                             //set to false
                             plugin.prefs.set(setting, false, true);
-                            sender.sendMessage(WorldUtils.Messages.settingSet(setting, "false"));
+                            sender.sendMessage(Messages.settingSet(setting, "false"));
                             return true;
                         }
                         case "null" -> {
                             //remove setting
                             plugin.prefs.remove(setting);
-                            Bukkit.broadcastMessage(WorldUtils.Messages.settingSet(setting, "null"));
+                            Bukkit.broadcastMessage(Messages.settingSet(setting, "null"));
                             Bukkit.broadcastMessage("§cUse with caution: §oThe plugin might not work correctly!");
                             return true;
                         }
                     }
                 }
-            } else WorldUtils.Messages.wrongArguments(sender);
-        } else WorldUtils.Messages.wrongArgumentNumber(sender);
+            } else Messages.wrongArguments(sender);
+        } else Messages.wrongArgumentNumber(sender);
         return false;
     }
 

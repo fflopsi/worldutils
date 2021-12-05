@@ -1,5 +1,6 @@
 package me.frauenfelderflorian.worldutils.commands;
 
+import me.frauenfelderflorian.worldutils.Messages;
 import me.frauenfelderflorian.worldutils.WorldUtils;
 import me.frauenfelderflorian.worldutils.config.Prefs;
 import org.bukkit.Bukkit;
@@ -44,10 +45,10 @@ public record CReset(WorldUtils plugin) implements TabExecutor {
                 }, 220);
                 return true;
             } else {
-                WorldUtils.Messages.wrongArguments(sender);
+                Messages.wrongArguments(sender);
             }
         } else {
-            WorldUtils.Messages.notAllowed(sender);
+            Messages.notAllowed(sender);
             return true;
         }
         return false;
