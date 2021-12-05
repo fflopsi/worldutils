@@ -13,6 +13,10 @@ import org.bukkit.scheduler.BukkitRunnable;
  */
 public class Timer {
     /**
+     * The player to whom this timer belongs
+     */
+    private final Player player;
+    /**
      * The BossBar containing the time and hourly progress
      */
     private final BossBar timerBar;
@@ -26,12 +30,13 @@ public class Timer {
     private final WorldUtils plugin;
 
     /**
-     * Create a new Timer
+     * Create a new global Timer
      *
      * @param plugin the plugin for which the timer should be created
      */
     public Timer(WorldUtils plugin) {
         this.plugin = plugin;
+        this.player = null;
         time = plugin.prefs.getInt(Prefs.Option.TIMER_TIME);
         timerBar = Bukkit.createBossBar("§eTimer: " + formatTime(time), BarColor.YELLOW, BarStyle.SEGMENTED_12);
         timerBar.setVisible(true);
@@ -57,14 +62,56 @@ public class Timer {
     }
 
     /**
+     * Create a new personal Timer
+     *
+     * @param plugin the plugin for which the timer should be created
+     * @param player the Player to whom this Timer belongs
+     */
+    public Timer(WorldUtils plugin, Player player) {
+        this.plugin = plugin;
+        this.player = player;
+        time = plugin.prefs.getInt(player, Prefs.Option.PTIMER_TIME);
+        timerBar = Bukkit.createBossBar("§ePersonal timer: " + formatTime(time), BarColor.YELLOW, BarStyle.SEGMENTED_12);
+        timerBar.setVisible(plugin.prefs.getBoolean(player, Prefs.Option.PTIMER_VISIBLE_ON_JOIN));
+        update(false);
+        timerBar.addPlayer(player);
+        BukkitRunnable runnable = new BukkitRunnable() {
+            @Override
+            public void run() {
+                //stop timer if time is over
+                if (plugin.prefs.getBoolean(player, Prefs.Option.PTIMER_REVERSE) && time == 0) {
+                    player.sendMessage("§cPersonal time is over.");
+                    if (plugin.prefs.getBoolean(player, Prefs.Option.PTIMER_ALLOW_BELOW_ZERO))
+                        player.sendMessage("§e§oPersonal timer is running with negative time.");
+                    else {
+                        setRunning(false);
+                        player.sendMessage("§ePersonal timer paused.");
+                    }
+                }
+                //update timer
+                if (plugin.prefs.getBoolean(player, Prefs.Option.PTIMER_RUNNING)) update(true);
+            }
+        };
+        runnable.runTaskTimer(plugin, 20, 20);
+    }
+
+    /**
      * Set the running state of the timer
      *
      * @param running true to start, false to pause the timer
      */
     public void setRunning(boolean running) {
-        plugin.prefs.set(Prefs.Option.TIMER_RUNNING, running, true);
-        Bukkit.broadcastMessage("§eTimer " +
-                (plugin.prefs.getBoolean(Prefs.Option.TIMER_RUNNING) ? "started." : "paused."));
+        if (player == null) {
+            //global timer
+            plugin.prefs.set(Prefs.Option.TIMER_RUNNING, running, true);
+            Bukkit.broadcastMessage("§eTimer " +
+                    (plugin.prefs.getBoolean(Prefs.Option.TIMER_RUNNING) ? "started." : "paused."));
+        } else {
+            //personal timer
+            plugin.prefs.set(player, Prefs.Option.PTIMER_RUNNING, running, true);
+            player.sendMessage("§ePersonal timer " +
+                    (plugin.prefs.getBoolean(player, Prefs.Option.PTIMER_RUNNING) ? "started." : "paused."));
+        }
     }
 
     /**
@@ -119,6 +166,17 @@ public class Timer {
     }
 
     /**
+     * Set a personal Timer's visibility status
+     *
+     * @param visible if the Timer should be visible or not
+     */
+    public void setVisible(boolean visible) {
+        if (player == null) throw new IllegalStateException("The global timer cannot be set to invisible.");
+        timerBar.setVisible(visible);
+        player.sendMessage("§ePersonal timer set to " + (visible ? "visible." : "invisible."));
+    }
+
+    /**
      * Add a Player to the timer, so that they can see the timer BossBar
      *
      * @param player the Player to be added
@@ -152,14 +210,28 @@ public class Timer {
      * @param updateTime boolean if the time itself should be updated accordingly to reverse status
      */
     private void update(boolean updateTime) {
-        if (updateTime) {
-            if (plugin.prefs.getBoolean(Prefs.Option.TIMER_REVERSE)) time--;
-            else time++;
+        if (player == null) {
+            //global timer
+            if (updateTime) {
+                if (plugin.prefs.getBoolean(Prefs.Option.TIMER_REVERSE)) time--;
+                else time++;
+            }
+            timerBar.setTitle("§eTimer: §l" + formatTime(time));
+            if (plugin.prefs.getBoolean(Prefs.Option.TIMER_PROGRESS_MINUTE))
+                timerBar.setProgress((Math.abs(time) % 60) / 60.0);
+            else timerBar.setProgress((Math.abs(time) % 3600) / 3600.0);
+            plugin.prefs.set(Prefs.Option.TIMER_TIME, time, false);
+        } else {
+            //personal timer
+            if (updateTime) {
+                if (plugin.prefs.getBoolean(player, Prefs.Option.PTIMER_REVERSE)) time--;
+                else time++;
+            }
+            timerBar.setTitle("§ePersonal timer: §l" + formatTime(time));
+            if (plugin.prefs.getBoolean(player, Prefs.Option.PTIMER_PROGRESS_MINUTE))
+                timerBar.setProgress((Math.abs(time) % 60) / 60.0);
+            else timerBar.setProgress((Math.abs(time) % 3600) / 3600.0);
+            plugin.prefs.set(player, Prefs.Option.PTIMER_TIME, time, false);
         }
-        timerBar.setTitle("§eTimer: §l" + formatTime(time));
-        if (plugin.prefs.getBoolean(Prefs.Option.TIMER_PROGRESS_MINUTE))
-            timerBar.setProgress((Math.abs(time) % 60) / 60.0);
-        else timerBar.setProgress((Math.abs(time) % 3600) / 3600.0);
-        plugin.prefs.set(Prefs.Option.TIMER_TIME, time, false);
     }
 }
