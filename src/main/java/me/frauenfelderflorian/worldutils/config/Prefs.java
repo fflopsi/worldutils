@@ -233,6 +233,10 @@ public class Prefs extends Config {
          */
         PTIMER_PAUSE_ON_DRAGON_DEATH(Command.PTIMER, "pauseOnDragonDeath", true, true, false),
         /**
+         * Make the personal timer "joinable" for other players (default: false)
+         */
+        PTIMER_JOINDABLE(Command.PTIMER, "joinable", false, true, false),
+        /**
          * If the world is going to be reset on next load (default: false)
          */
         RESET_RESET(Command.RESET, "reset", false, false, true),
