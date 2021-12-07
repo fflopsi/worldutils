@@ -20,8 +20,7 @@ and can be run correctly.
 ## Usage
 
 To use the plugin, enter an appropriate command. All commands have tab completion (except when accessing personal
-positions of other players or joining personal timers of other players), so you do not need to know the exact syntax
-when typing.
+positions or joining personal timers of other players), so you do not need to know the exact syntax when typing.
 
 The commands and their respective syntax are:
 
