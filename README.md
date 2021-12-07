@@ -20,7 +20,8 @@ and can be run correctly.
 ## Usage
 
 To use the plugin, enter an appropriate command. All commands have tab completion (except when accessing personal
-positions of other players), so you do not need to know the exact syntax when typing.
+positions of other players or joining personal timers of other players), so you do not need to know the exact syntax
+when typing.
 
 The commands and their respective syntax are:
 
@@ -28,16 +29,18 @@ The commands and their respective syntax are:
 - `/personalposition <name> | list | clear | (tp | del <name>)`
 - `/sendposition [<playername>]`
 - `/timer visible | running | reverse | reset | (set | add [[[<d>] <h>] <min>] <s>)`
+- `/personaltimer <playername> | visible | running | reverse | reset | (set | add [[[<d>] <h>] <min>] <s>)`
 - `/reset [confirm]`
 - `/settings <commandname> <setting> true | false`
 
-Some of these commands also have aliases that can be used instead of the full command names and allow for faster command
-input. These aliases are:
+Some of these commands also have an alias that can be used instead of the full command names and allow for faster
+command input. These aliases are:
 
 - `position`: `pos`
-- `personalposition`: `personalpos`, `perspos`, `ppos`
-- `sendposition`: `sendpos`, `spos`
+- `personalposition`: `ppos`
+- `sendposition`: `spos`
 - `timer`: `tmr`
+- `personaltimer`: `ptmr`
 - `settings`: `stg`
 
 For further information on how this all works in detail and more,
