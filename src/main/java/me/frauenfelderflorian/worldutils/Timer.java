@@ -71,7 +71,7 @@ public class Timer {
         this.plugin = plugin;
         this.player = player;
         time = plugin.prefs.getInt(player, Prefs.Option.PTIMER_TIME);
-        timerBar = Bukkit.createBossBar("§ePersonal timer: " + formatTime(time), BarColor.YELLOW, BarStyle.SEGMENTED_12);
+        timerBar = Bukkit.createBossBar("§e" + player.getDisplayName() + "'s timer: " + formatTime(time), BarColor.YELLOW, BarStyle.SEGMENTED_12);
         timerBar.setVisible(plugin.prefs.getBoolean(player, Prefs.Option.PTIMER_VISIBLE_ON_JOIN));
         update(false);
         timerBar.addPlayer(player);
@@ -227,7 +227,7 @@ public class Timer {
                 if (plugin.prefs.getBoolean(player, Prefs.Option.PTIMER_REVERSE)) time--;
                 else time++;
             }
-            timerBar.setTitle("§ePersonal timer: §l" + formatTime(time));
+            timerBar.setTitle("§e" + player.getDisplayName() + "'s timer: §l" + formatTime(time));
             if (plugin.prefs.getBoolean(player, Prefs.Option.PTIMER_PROGRESS_MINUTE))
                 timerBar.setProgress((Math.abs(time) % 60) / 60.0);
             else timerBar.setProgress((Math.abs(time) % 3600) / 3600.0);
