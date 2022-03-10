@@ -41,20 +41,20 @@ public record CSettings(WorldUtils plugin) implements TabExecutor {
                         case "true" -> {
                             //set to true
                             plugin.prefs.set((Player) sender, setting, true, true);
-                            sender.sendMessage(Messages.settingSet(setting, "true"));
+                            Messages.sendMessage((Player) sender, Messages.settingSet(setting, "true"));
                             return true;
                         }
                         case "false" -> {
                             //set to false
                             plugin.prefs.set((Player) sender, setting, false, true);
-                            sender.sendMessage(Messages.settingSet(setting, "false"));
+                            Messages.sendMessage((Player) sender, Messages.settingSet(setting, "false"));
                             return true;
                         }
                         case "null" -> {
                             //remove setting
                             plugin.prefs.remove((Player) sender, setting);
-                            sender.sendMessage(Messages.settingSet(setting, "null"));
-                            sender.sendMessage("§cUse with caution: §oThe plugin might not work correctly!");
+                            Messages.sendMessage((Player) sender, Messages.settingSet(setting, "null"));
+                            Messages.sendMessage((Player) sender, "§cUse with caution: §oThe plugin might not work correctly!");
                             return true;
                         }
                     }
@@ -65,20 +65,20 @@ public record CSettings(WorldUtils plugin) implements TabExecutor {
                         case "true" -> {
                             //set to true
                             plugin.prefs.set(setting, true, true);
-                            Bukkit.broadcastMessage(Messages.settingSet(setting, "true"));
+                            Messages.sendMessage(Messages.settingSet(setting, "true"));
                             return true;
                         }
                         case "false" -> {
                             //set to false
                             plugin.prefs.set(setting, false, true);
-                            sender.sendMessage(Messages.settingSet(setting, "false"));
+                            Messages.sendMessage((Player) sender, Messages.settingSet(setting, "false"));
                             return true;
                         }
                         case "null" -> {
                             //remove setting
                             plugin.prefs.remove(setting);
-                            Bukkit.broadcastMessage(Messages.settingSet(setting, "null"));
-                            Bukkit.broadcastMessage("§cUse with caution: §oThe plugin might not work correctly!");
+                            Messages.sendMessage(Messages.settingSet(setting, "null"));
+                            Messages.sendMessage("§cUse with caution: §oThe plugin might not work correctly!");
                             return true;
                         }
                     }

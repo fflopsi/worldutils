@@ -51,7 +51,7 @@ public record CPTimer(WorldUtils plugin) implements TabExecutor {
                             //change reverse status
                             plugin.prefs.set((Player) sender, Prefs.Option.PTIMER_REVERSE,
                                     !plugin.prefs.getBoolean((Player) sender, Prefs.Option.PTIMER_REVERSE), true);
-                            Bukkit.broadcastMessage("§eTimer reversed, now in §b"
+                            Messages.sendMessage("§eTimer reversed, now in §b"
                                     + (plugin.prefs.getBoolean((Player) sender, Prefs.Option.TIMER_REVERSE)
                                     ? "reverse" : "normal") + "§e mode.");
                             return true;
@@ -60,7 +60,7 @@ public record CPTimer(WorldUtils plugin) implements TabExecutor {
                             //set timer to 0
                             plugin.getTimer((Player) sender).setRunning(false);
                             plugin.getTimer((Player) sender).setTime(0);
-                            sender.sendMessage("§ePersonal timer set to 0.");
+                            Messages.sendMessage((Player) sender, "§ePersonal timer set to 0.");
                             return true;
                         }
                     }
@@ -71,7 +71,7 @@ public record CPTimer(WorldUtils plugin) implements TabExecutor {
                             //set time to input values
                             try {
                                 plugin.getTimer((Player) sender).setTime(CTimer.getTime(args));
-                                sender.sendMessage("§ePersonal timer set to §b"
+                                Messages.sendMessage((Player) sender, "§ePersonal timer set to §b"
                                         + Timer.formatTime(plugin.prefs.getInt((Player) sender, Prefs.Option.TIMER_TIME)));
                                 return true;
                             } catch (IllegalStateException e) {
@@ -85,7 +85,7 @@ public record CPTimer(WorldUtils plugin) implements TabExecutor {
                             try {
                                 plugin.getTimer((Player) sender).setTime(
                                         plugin.prefs.getInt((Player) sender, Prefs.Option.TIMER_TIME) + CTimer.getTime(args));
-                                sender.sendMessage("§eAdded §b" + Timer.formatTime(CTimer.getTime(args)) + " §eto personal timer");
+                                Messages.sendMessage((Player) sender, "§eAdded §b" + Timer.formatTime(CTimer.getTime(args)) + " §eto personal timer");
                                 return true;
                             } catch (IllegalStateException e) {
                                 Messages.wrongArgumentNumber(sender);

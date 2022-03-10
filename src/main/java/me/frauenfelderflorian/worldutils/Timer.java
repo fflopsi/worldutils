@@ -46,12 +46,12 @@ public class Timer {
             public void run() {
                 //stop timer if time is over
                 if (plugin.prefs.getBoolean(Prefs.Option.TIMER_REVERSE) && time == 0) {
-                    Bukkit.broadcastMessage("§cTime is over.");
+                    Messages.sendMessage("§cTime is over.");
                     if (plugin.prefs.getBoolean(Prefs.Option.TIMER_ALLOW_BELOW_ZERO))
-                        Bukkit.broadcastMessage("§e§oTimer is running with negative time.");
+                        Messages.sendMessage("§e§oTimer is running with negative time.");
                     else {
                         setRunning(false);
-                        Bukkit.broadcastMessage("§eTimer paused.");
+                        Messages.sendMessage("§eTimer paused.");
                     }
                 }
                 //update timer
@@ -80,12 +80,12 @@ public class Timer {
             public void run() {
                 //stop timer if time is over
                 if (plugin.prefs.getBoolean(player, Prefs.Option.PTIMER_REVERSE) && time == 0) {
-                    player.sendMessage("§cPersonal time is over.");
+                    Messages.sendMessage(player, "§cPersonal time is over.");
                     if (plugin.prefs.getBoolean(player, Prefs.Option.PTIMER_ALLOW_BELOW_ZERO))
-                        player.sendMessage("§e§oPersonal timer is running with negative time.");
+                        Messages.sendMessage(player, "§e§oPersonal timer is running with negative time.");
                     else {
                         setRunning(false);
-                        player.sendMessage("§ePersonal timer paused.");
+                        Messages.sendMessage(player, "§ePersonal timer paused.");
                     }
                 }
                 //update timer
@@ -104,12 +104,12 @@ public class Timer {
         if (player == null) {
             //global timer
             plugin.prefs.set(Prefs.Option.TIMER_RUNNING, running, true);
-            Bukkit.broadcastMessage("§eTimer " +
+            Messages.sendMessage("§eTimer " +
                     (plugin.prefs.getBoolean(Prefs.Option.TIMER_RUNNING) ? "started." : "paused."));
         } else {
             //personal timer
             plugin.prefs.set(player, Prefs.Option.PTIMER_RUNNING, running, true);
-            player.sendMessage("§ePersonal timer " +
+            Messages.sendMessage(player, "§ePersonal timer " +
                     (plugin.prefs.getBoolean(player, Prefs.Option.PTIMER_RUNNING) ? "started." : "paused."));
         }
     }
@@ -173,7 +173,7 @@ public class Timer {
     public void setVisible(boolean visible) {
         if (player == null) throw new IllegalStateException("The global timer cannot be set to invisible.");
         timerBar.setVisible(visible);
-        player.sendMessage("§ePersonal timer set to " + (visible ? "visible." : "invisible."));
+        Messages.sendMessage(player, "§ePersonal timer set to " + (visible ? "visible." : "invisible."));
     }
 
     /**

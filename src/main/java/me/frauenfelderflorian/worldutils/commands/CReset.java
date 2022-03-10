@@ -31,7 +31,7 @@ public record CReset(WorldUtils plugin) implements TabExecutor {
         if (sender.isOp() || !plugin.prefs.getBoolean(Prefs.Option.RESET_NEED_OP)) {
             if (!plugin.prefs.getBoolean(Prefs.Option.RESET_NEED_CONFIRM)
                     || args.length == 1 && args[0].equalsIgnoreCase("confirm")) {
-                Bukkit.broadcastMessage("§e§oResetting server in 10 seconds.");
+                Messages.sendMessage("§e§oResetting server in 10 seconds.");
                 //kick players 2 seconds before restarting or shutting down
                 Bukkit.getScheduler().runTaskLater(plugin, () -> {
                     for (Player player : Bukkit.getOnlinePlayers())

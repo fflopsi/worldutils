@@ -89,7 +89,7 @@ public enum Messages {
      * @param target the target to whom the message should be sent
      */
     public static void notAllowed(CommandSender target) {
-        target.sendMessage("§c§lYou are not allowed to do this.");
+        Messages.sendMessage(target, "§c§lYou are not allowed to do this.");
     }
 
     /**
@@ -99,7 +99,7 @@ public enum Messages {
      * @param target the target to whom the message should be sent
      */
     public static void notConsole(CommandSender target) {
-        target.sendMessage("§e§oThis is not a console command.");
+        Messages.sendMessage(target, "§e§oThis is not a console command.");
     }
 
     /**
@@ -109,7 +109,7 @@ public enum Messages {
      * @param target the target to whom the message should be sent
      */
     public static void wrongArguments(CommandSender target) {
-        target.sendMessage("§e§oWrong argument(s) were entered for this command.");
+        Messages.sendMessage(target, "§e§oWrong argument(s) were entered for this command.");
     }
 
     /**
@@ -119,7 +119,7 @@ public enum Messages {
      * @param target the target to whom the message should be sent
      */
     public static void wrongArgumentNumber(CommandSender target) {
-        target.sendMessage("§e§oA wrong number of arguments was entered for this command.");
+        Messages.sendMessage(target, "§e§oA wrong number of arguments was entered for this command.");
     }
 
     /**
@@ -129,7 +129,7 @@ public enum Messages {
      * @param target the target to whom the message should be sent
      */
     public static void playerNotFound(CommandSender target) {
-        target.sendMessage("§e§oThe entered name does not belong to an online player.");
+        Messages.sendMessage(target, "§e§oThe entered name does not belong to an online player.");
     }
 
     /**
@@ -139,7 +139,7 @@ public enum Messages {
      * @param target the target to whom the message should be sent
      */
     public static void positionNotFound(CommandSender target) {
-        target.sendMessage("§e§oThe entered position name cannot be found.");
+        Messages.sendMessage(target, "§e§oThe entered position name cannot be found.");
     }
 
     /**

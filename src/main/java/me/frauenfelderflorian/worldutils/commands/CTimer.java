@@ -41,7 +41,7 @@ public record CTimer(WorldUtils plugin) implements TabExecutor {
                                 if (plugin.timer.containsPlayer((Player) sender))
                                     plugin.timer.removePlayer((Player) sender);
                                 else plugin.timer.addPlayer((Player) sender);
-                                sender.sendMessage("§eTimer set to " +
+                                Messages.sender((Player) sender, "§eTimer set to " +
                                         (plugin.timer.containsPlayer((Player) sender)
                                                 ? "visible." : "invisible."));
                             } else Messages.notConsole(sender);
@@ -56,7 +56,7 @@ public record CTimer(WorldUtils plugin) implements TabExecutor {
                             //change reverse status
                             plugin.prefs.set(Prefs.Option.TIMER_REVERSE,
                                     !plugin.prefs.getBoolean(Prefs.Option.TIMER_REVERSE), true);
-                            Bukkit.broadcastMessage("§eTimer reversed, now in §b"
+                            Messages.sendMessage("§eTimer reversed, now in §b"
                                     + (plugin.prefs.getBoolean(Prefs.Option.TIMER_REVERSE) ? "reverse" : "normal")
                                     + "§e mode.");
                             return true;
@@ -65,7 +65,7 @@ public record CTimer(WorldUtils plugin) implements TabExecutor {
                             //set timer to 0
                             plugin.timer.setRunning(false);
                             plugin.timer.setTime(0);
-                            Bukkit.broadcastMessage("§eTimer set to 0.");
+                            Messages.sendMessage("§eTimer set to 0.");
                             return true;
                         }
                         default -> {
@@ -87,7 +87,7 @@ public record CTimer(WorldUtils plugin) implements TabExecutor {
                             //set time to input values
                             try {
                                 plugin.timer.setTime(getTime(args));
-                                Bukkit.broadcastMessage("§eTimer set to §b"
+                                Messages.sendMessage("§eTimer set to §b"
                                         + Timer.formatTime(plugin.prefs.getInt(Prefs.Option.TIMER_TIME)));
                                 return true;
                             } catch (IllegalStateException e) {
@@ -100,7 +100,7 @@ public record CTimer(WorldUtils plugin) implements TabExecutor {
                             //add input values to current time
                             try {
                                 plugin.timer.setTime(plugin.prefs.getInt(Prefs.Option.TIMER_TIME) + getTime(args));
-                                Bukkit.broadcastMessage("§eAdded §b" + Timer.formatTime(getTime(args)) + " §eto timer");
+                                Messages.sendMessage("§eAdded §b" + Timer.formatTime(getTime(args)) + " §eto timer");
                                 return true;
                             } catch (IllegalStateException e) {
                                 Messages.wrongArgumentNumber(sender);

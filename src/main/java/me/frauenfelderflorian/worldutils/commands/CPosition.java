@@ -40,13 +40,13 @@ public record CPosition(WorldUtils plugin, Positions positions) implements TabEx
                     case "list" -> {
                         //send all position info
                         for (String position : positions.getPositions())
-                            sender.sendMessage(Messages.positionMessage(
+                            Messages.sendMessage((Player) sender, Messages.positionMessage(
                                     position, positions.getLocation(position)));
                         return true;
                     }
                     case "clear" -> {
                         //remove all positions
-                        Bukkit.broadcastMessage("§e§oCleared positions");
+                        Messages.sendMessage("§e§oCleared positions");
                         for (String pos : positions.getPositions()) positions.remove(pos);
                         return true;
                     }
@@ -55,10 +55,10 @@ public record CPosition(WorldUtils plugin, Positions positions) implements TabEx
                         if (positions.contains(args[0]))
                             //existing position, send info
                             if (positions.containsAuthor(args[0]))
-                                sender.sendMessage(Messages.positionMessage(
+                                Messages.sendMessage((Player) sender, Messages.positionMessage(
                                         args[0], positions.getAuthor(args[0]),
                                         positions.getLocation(args[0])));
-                            else sender.sendMessage(Messages.positionMessage(
+                            else Messages.sendMessage((Player) sender, Messages.positionMessage(
                                     args[0], positions.getLocation(args[0])));
                         else if (sender instanceof Player) {
                             //new position name, save position
@@ -67,7 +67,7 @@ public record CPosition(WorldUtils plugin, Positions positions) implements TabEx
                                 positions.set(args[0], ((Player) sender).getLocation(), true);
                                 if (plugin.prefs.getBoolean(Prefs.Option.POSITION_SAVE_AUTHOR))
                                     positions.setAuthor(args[0], sender.getName());
-                                Bukkit.broadcastMessage("§aAdded§r position "
+                                Messages.sendMessage("§aAdded§r position "
                                         + Messages.positionMessage(args[0], sender.getName(),
                                         positions.getLocation(args[0])));
                             }
@@ -92,7 +92,7 @@ public record CPosition(WorldUtils plugin, Positions positions) implements TabEx
                         try {
                             Location old = positions.getLocation(args[1]);
                             positions.remove(args[1]);
-                            Bukkit.broadcastMessage("§cDeleted§r position "
+                            Messages.sendMessage("§cDeleted§r position "
                                     + Messages.positionMessage(args[1], old));
                         } catch (UnsupportedOperationException | NullPointerException e) {
                             Messages.wrongArguments(sender);

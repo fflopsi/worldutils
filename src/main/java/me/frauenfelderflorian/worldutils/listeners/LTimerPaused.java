@@ -212,7 +212,7 @@ public record LTimerPaused(WorldUtils plugin) implements Listener {
                 && !plugin.prefs.getBoolean(Prefs.Option.TIMER_RUNNING)
                 && event instanceof Cancellable && !((Cancellable) event).isCancelled()) {
             ((Cancellable) event).setCancelled(true);
-            if (message) Bukkit.broadcastMessage("§cTimer is paused. §eInteraction not possible.");
+            if (message) Messages.sendMessage("§cTimer is paused. §eInteraction not possible.");
         }
     }
 

@@ -33,14 +33,14 @@ public class CSendPosition implements TabExecutor {
             switch (args.length) {
                 case 0 -> {
                     //send to all players
-                    Bukkit.broadcastMessage(Messages.positionMessage(
+                    Messages.sendMessage(Messages.positionMessage(
                             sender.getName(), ((Player) sender).getLocation()));
                     return true;
                 }
                 case 1 -> {
                     //send to one player
                     try {
-                        Objects.requireNonNull(Bukkit.getPlayer(args[0])).sendMessage(Messages.positionMessage(
+                        Messages.sendMessage(Objects.requireNonNull(Bukkit.getPlayer(args[0])), Messages.positionMessage(
                                 sender.getName(), ((Player) sender).getLocation()));
                     } catch (NullPointerException e) {
                         Messages.playerNotFound(sender);
