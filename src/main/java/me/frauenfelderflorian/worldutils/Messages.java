@@ -12,6 +12,27 @@ import java.util.Objects;
 public enum Messages {
     ;
 
+    private final static String pluginPrefix = "[§3§lWorldUtils§r] ";
+
+    /**
+     * Broadcast a message with the plugin name as a prefix
+     *
+     * @param message message to be sent
+     */
+    public static void sendMessage(String message) {
+        Bukkit.broadcastMessage(pluginPrefix + message)
+    }
+
+    /**
+     * Send a message with the plugin name as a prefix to a player
+     *
+     * @param player  player to whom the message should be sent
+     * @param message message to be sent
+     */
+    public static void sendMessage(Player player, String message) {
+        player.sendMessage(pluginPrefix + message)
+    }
+
     /**
      * Get a formatted message with position information
      *
