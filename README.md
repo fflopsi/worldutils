@@ -3,6 +3,15 @@
 This Minecraft Spigot plugin contains various tools, namely for managing both public and personal in-game positions,
 sending your own position, setting up a timer, resetting the server and managing some plugin settings.
 
+### Extensions
+
+This plugin can be extended with further functionality. When your own extension works good enough, you can apply to
+be listed below in the official extension list.
+
+#### Official Extension List
+
+- [WUProjects](https://github.com/flopsif/wu-projects)
+
 ## Table of Contents
 
 - [Installation](#installation)
