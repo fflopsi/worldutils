@@ -5,10 +5,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>me.frauenfelderflorian</groupId>
-    <artifactId>WorldUtils</artifactId>
+    <artifactId>worldutils</artifactId>
     <version>1.1.0</version>
     <packaging>jar</packaging>
-    <name>${project.artifactId}</name>
+    <name>WorldUtils</name>
     <description>a Minecraft Spigot plugin with some general handy commands</description>
     <properties>
         <java.version>17</java.version>
