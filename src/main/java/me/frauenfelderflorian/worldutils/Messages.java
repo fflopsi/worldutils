@@ -20,7 +20,7 @@ public enum Messages {
      * @param message message to be sent
      */
     public static void sendMessage(String message) {
-        Bukkit.broadcastMessage(pluginPrefix + message)
+        Bukkit.broadcastMessage(pluginPrefix + message);
     }
 
     /**
@@ -30,7 +30,7 @@ public enum Messages {
      * @param message message to be sent
      */
     public static void sendMessage(Player player, String message) {
-        player.sendMessage(pluginPrefix + message)
+        player.sendMessage(pluginPrefix + message);
     }
 
     /**
