@@ -6,7 +6,7 @@ name: Maven Package and Publish
 on:
   public:
   release:
-    types: [published]
+    types: [ published ]
   workflow_dispatch:
 
 jobs:
