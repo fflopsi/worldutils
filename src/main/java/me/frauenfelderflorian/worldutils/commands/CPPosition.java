@@ -47,7 +47,7 @@ public record CPPosition(WorldUtils plugin, Positions positions) implements TabE
                             //remove all positions
                             Messages.sendMessage(sender, "§e§oCleared personal positions");
                             for (String position : positions.getPositions((Player) sender))
-                                positions.remove(sender, position);
+                                positions.remove((Player) sender, position);
                             return true;
                         }
                         default -> {
@@ -58,7 +58,7 @@ public record CPPosition(WorldUtils plugin, Positions positions) implements TabE
                                         positions.getPersonalLocation((Player) sender, args[0])));
                             else {
                                 //new position name, save position
-                                positions.setPersonal(sender, args[0]);
+                                positions.setPersonal((Player) sender, args[0]);
                                 Messages.sendMessage(sender, "§aAdded§r personal position " + Messages.positionMessage(
                                         args[0], positions.getPersonalLocation((Player) sender, args[0])));
                             }
