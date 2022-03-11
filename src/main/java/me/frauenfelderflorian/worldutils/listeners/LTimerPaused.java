@@ -1,5 +1,6 @@
 package me.frauenfelderflorian.worldutils.listeners;
 
+import me.frauenfelderflorian.worldutils.Messages;
 import me.frauenfelderflorian.worldutils.WorldUtils;
 import me.frauenfelderflorian.worldutils.config.Prefs;
 import org.bukkit.Bukkit;

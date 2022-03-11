@@ -41,7 +41,7 @@ public record CTimer(WorldUtils plugin) implements TabExecutor {
                                 if (plugin.timer.containsPlayer((Player) sender))
                                     plugin.timer.removePlayer((Player) sender);
                                 else plugin.timer.addPlayer((Player) sender);
-                                Messages.sender((Player) sender, "§eTimer set to " +
+                                Messages.sendMessage((Player) sender, "§eTimer set to " +
                                         (plugin.timer.containsPlayer((Player) sender)
                                                 ? "visible." : "invisible."));
                             } else Messages.notConsole(sender);
