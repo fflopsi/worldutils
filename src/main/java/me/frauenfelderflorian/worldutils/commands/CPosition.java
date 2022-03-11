@@ -40,7 +40,7 @@ public record CPosition(WorldUtils plugin, Positions positions) implements TabEx
                     case "list" -> {
                         //send all position info
                         for (String position : positions.getPositions())
-                            Messages.sendMessage((Player) sender, Messages.positionMessage(
+                            Messages.sendMessage(sender, Messages.positionMessage(
                                     position, positions.getLocation(position)));
                         return true;
                     }
@@ -55,10 +55,10 @@ public record CPosition(WorldUtils plugin, Positions positions) implements TabEx
                         if (positions.contains(args[0]))
                             //existing position, send info
                             if (positions.containsAuthor(args[0]))
-                                Messages.sendMessage((Player) sender, Messages.positionMessage(
+                                Messages.sendMessage(sender, Messages.positionMessage(
                                         args[0], positions.getAuthor(args[0]),
                                         positions.getLocation(args[0])));
-                            else Messages.sendMessage((Player) sender, Messages.positionMessage(
+                            else Messages.sendMessage(sender, Messages.positionMessage(
                                     args[0], positions.getLocation(args[0])));
                         else if (sender instanceof Player) {
                             //new position name, save position

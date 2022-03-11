@@ -39,27 +39,27 @@ public record CPPosition(WorldUtils plugin, Positions positions) implements TabE
                         case "list" -> {
                             //send all position info
                             for (String pos : positions.getPositions((Player) sender))
-                                Messages.sendMessage((Player) sender, Messages.positionMessage(
+                                Messages.sendMessage(sender, Messages.positionMessage(
                                         pos, positions.getPersonalLocation((Player) sender, pos)));
                             return true;
                         }
                         case "clear" -> {
                             //remove all positions
-                            Messages.sendMessage((Player) sender, "§e§oCleared personal positions");
+                            Messages.sendMessage(sender, "§e§oCleared personal positions");
                             for (String position : positions.getPositions((Player) sender))
-                                positions.remove((Player) sender, position);
+                                positions.remove(sender, position);
                             return true;
                         }
                         default -> {
                             //position name entered
                             if (positions.containsPersonal((Player) sender, args[0]))
                                 //existing position, send info
-                                Messages.sendMessage((Player) sender, Messages.positionMessage(args[0],
+                                Messages.sendMessage(sender, Messages.positionMessage(args[0],
                                         positions.getPersonalLocation((Player) sender, args[0])));
                             else {
                                 //new position name, save position
-                                positions.setPersonal((Player) sender, args[0]);
-                                Messages.sendMessage((Player) sender, "§aAdded§r personal position " + Messages.positionMessage(
+                                positions.setPersonal(sender, args[0]);
+                                Messages.sendMessage(sender, "§aAdded§r personal position " + Messages.positionMessage(
                                         args[0], positions.getPersonalLocation((Player) sender, args[0])));
                             }
                             return true;
@@ -78,7 +78,7 @@ public record CPPosition(WorldUtils plugin, Positions positions) implements TabE
                         }
                         case "del" -> {
                             //delete position
-                            Messages.sendMessage((Player) sender, "§cDeleted§r personal position " + Messages.positionMessage(
+                            Messages.sendMessage(sender, "§cDeleted§r personal position " + Messages.positionMessage(
                                     args[1], positions.getPersonalLocation((Player) sender, args[1])));
                             positions.remove((Player) sender, args[1]);
                             return true;
@@ -139,7 +139,7 @@ public record CPPosition(WorldUtils plugin, Positions positions) implements TabE
             if (other != null && other.isOnline()) {
                 //get personalposition from player
                 try {
-                    Messages.sendMessage((Player) sender, "Personal position from player " + args[0] + ": "
+                    Messages.sendMessage(sender, "Personal position from player " + args[0] + ": "
                             + Messages.positionMessage(args[1], positions.getPersonalLocation(other, args[1])));
                 } catch (NullPointerException e) {
                     Messages.positionNotFound(sender);

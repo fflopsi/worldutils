@@ -4,7 +4,6 @@ import me.frauenfelderflorian.worldutils.config.Prefs;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import java.util.Objects;
 
@@ -26,13 +25,13 @@ public enum Messages {
     }
 
     /**
-     * Send a message with the plugin name as a prefix to a player
+     * Send a message with the plugin name as a prefix to a CommandSender
      *
-     * @param player  player to whom the message should be sent
+     * @param sender  CommandSender to whom the message should be sent
      * @param message message to be sent
      */
-    public static void sendMessage(Player player, String message) {
-        player.sendMessage(pluginPrefix + message);
+    public static void sendMessage(CommandSender sender, String message) {
+        sender.sendMessage(pluginPrefix + message);
     }
 
     /**
