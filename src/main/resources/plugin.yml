@@ -23,7 +23,7 @@ commands:
     aliases: tmr
   personaltimer:
     description: control your personal ingame timer
-    usage: /<command> <playername> | visible | running | reverse | reset | (set | add [[[<d>] <h>] <min>] <s>)
+    usage: /<command> (invite | join | leave | remove <playername>) | visible | running | reverse | reset | (set | add [[[<d>] <h>] <min>] <s>)
     aliases: ptmr
   reset:
     description: reset the server
