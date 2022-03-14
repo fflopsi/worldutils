@@ -10,7 +10,7 @@ be listed below in the official extension list.
 
 #### Official Extension List
 
-- [WUProjects](https://github.com/flopsif/wu-projects)
+- [WUProjects](https://github.com/WorldUtils/wu-projects)
 
 ## Table of Contents
 
@@ -52,15 +52,15 @@ command input. These aliases are:
 - `settings`: `stg`
 
 For further information on how this all works in detail and more,
-visit [the wiki](https://github.com/flopsif/world-utils/wiki/Usage).
+visit [the wiki](https://github.com/WorldUtils/world-utils/wiki/Usage).
 
 ## Contributing
 
 If you are willing to contribute to this project and know how to use GitHub issues, feel free
-to [open one](https://github.com/flopsif/world-utils/issues/new/choose).
+to [open one](https://github.com/WorldUtils/world-utils/issues/new/choose).
 
 You are also welcome to fork this repository and improve it via
-a [pull request](https://github.com/flopsif/world-utils/compare).
+a [pull request](https://github.com/WorldUtils/world-utils/compare).
 
 ## Credits
 
