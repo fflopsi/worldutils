@@ -1,9 +1,9 @@
 name: ${project.name}
 version: ${project.version}
 main: me.frauenfelderflorian.worldutils.WorldUtils
-api-version: 1.17
+api-version: 1.18
 authors: [ flopsi_ ]
-description: a Minecraft Spigot plugin with some general handy commands
+description: ${project.description}
 commands:
   position:
     description: save, view, delete positions
