@@ -5,8 +5,8 @@ sending your own position, setting up a timer, resetting the server and managing
 
 ### Extensions
 
-This plugin can be extended with further functionality. When your own extension works good enough, you can apply to
-be listed below in the official extension list.
+This plugin can be extended with further functionality. When your own extension works good enough, you can apply via
+[pull request](https://github.com/WorldUtils/world-utils/compare) to be listed below in the official extension list.
 
 #### Official Extension List
 
