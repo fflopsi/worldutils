@@ -67,6 +67,40 @@ public record CPTimer(WorldUtils plugin) implements TabExecutor {
                 }
                 case 2, 3, 4, 5 -> {
                     switch (args[0]) {
+                        case "invite", "join" -> {
+                            //add another player to the personal timer or join another player's personal timer
+                            if (args.length == 2) {
+                                Player other = Bukkit.getPlayer(args[1]);
+                                if (other != null && other.isOnline()) {
+                                    if (args[0] == "invite" && !plugin.getTimer((Player) sender).containsPlayer(other)){
+                                        plugin.getTimer((Player) sender).addPlayer(other);
+                                        return true;
+                                    } else if (args[0] == "join" && !plugin.getTimer(other).containsPlayer((Player) sender)) {
+                                        plugin.getTimer(other).addPlayer((Player) sender);
+                                        return true;
+                                    }
+                                } else {
+                                    Messages.playerNotFound(sender);
+                                }
+                            }
+                        }
+                        case "leave", "remove" -> {
+                            //leave another player's personal timer or remove a player from the personal timer
+                            if (args.length == 2) {
+                                Player other = Bukkit.getPlayer(args[1]);
+                                if (other != null && other.isOnline()) {
+                                    if (args[0] == "leave" && plugin.getTimer(other).containsPlayer((Player) sender)) {
+                                        plugin.getTimer(other).removePlayer((Player) sender);
+                                        return true;
+                                    } else if (args[0] == "remove" && plugin.getTimer((Player) sender).containsPlayer(other)) {
+                                        plugin.getTimer((Player) sender).removePlayer(other);
+                                        return true;
+                                    }
+                                } else {
+                                    Messages.playerNotFound(sender);
+                                }
+                            }
+                        }
                         case "set" -> {
                             //set time to input values
                             try {
