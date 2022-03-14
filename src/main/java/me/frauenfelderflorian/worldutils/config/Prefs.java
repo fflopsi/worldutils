@@ -235,7 +235,7 @@ public class Prefs extends Config {
         /**
          * Make the personal timer "joinable" for other players (default: false)
          */
-        PTIMER_JOINDABLE(Command.PTIMER, "joinable", false, true, false),
+        PTIMER_JOINABLE(Command.PTIMER, "joinable", false, true, false),
         /**
          * If the world is going to be reset on next load (default: false)
          */
