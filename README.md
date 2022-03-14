@@ -1,7 +1,8 @@
 # WorldUtils
 
 This Minecraft Spigot plugin contains various tools, namely for managing both public and personal in-game positions,
-sending your own position, setting up a timer, resetting the server and managing some plugin settings.
+sending your own position, setting up a public and a personal timer, resetting the server and managing some plugin
+settings.
 
 ### Extensions
 
