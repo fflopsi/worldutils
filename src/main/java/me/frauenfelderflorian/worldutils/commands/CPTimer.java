@@ -75,7 +75,8 @@ public record CPTimer(WorldUtils plugin) implements TabExecutor {
                                     if (args[0] == "invite" && !plugin.getTimer((Player) sender).containsPlayer(other)){
                                         plugin.getTimer((Player) sender).addPlayer(other);
                                         return true;
-                                    } else if (args[0] == "join" && !plugin.getTimer(other).containsPlayer((Player) sender)) {
+                                    } else if (args[0] == "join" && !plugin.getTimer(other).containsPlayer((Player) sender)
+                                            && plugin.prefs.getBoolean(other, Prefs.Option.PTIMER_JOINABLE)) {
                                         plugin.getTimer(other).addPlayer((Player) sender);
                                         return true;
                                     }
