@@ -68,17 +68,6 @@ public record CTimer(WorldUtils plugin) implements TabExecutor {
                             Messages.sendMessage("§eTimer set to 0.");
                             return true;
                         }
-                        default -> {
-                            Player other = Bukkit.getPlayer(args[0]);
-                            if (other != null)
-                                if (plugin.prefs.getBoolean(other, Prefs.Option.PTIMER_JOINDABLE))
-                                    if (plugin.getTimer(other).containsPlayer((Player) sender))
-                                        plugin.getTimer(other).removePlayer((Player) sender);
-                                    else plugin.getTimer(other).addPlayer((Player) sender);
-                                else Messages.notAllowed(sender);
-                            else Messages.playerNotFound(sender);
-                            return true;
-                        }
                     }
                 }
                 case 2, 3, 4, 5 -> {
