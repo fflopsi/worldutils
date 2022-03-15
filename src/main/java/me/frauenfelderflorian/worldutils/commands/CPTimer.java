@@ -151,10 +151,27 @@ public record CPTimer(WorldUtils plugin) implements TabExecutor {
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias,
                                       String[] args) {
         List<String> completions = new ArrayList<>();
+        //get names of all online players
+        List<String> players = new ArrayList<>();
+        for (Player player : Bukkit.getOnlinePlayers())
+            players.add(player.getName());
+        //get names of all players that can view the personal timer
+        List<String> removablePlayers = new ArrayList<>();
+        for (Player player : Bukkit.getOnlinePlayers())
+            if (plugin.getTimer((Player) sender).containsPlayer(player)) removablePlayers.add(player.getName());
+        //get names of all players whose personal timer is visible
+        List<String> leavableTimers = new ArrayList<>();
+        for (Player player : Bukkit.getOnlinePlayers())
+            if (plugin.getTimer(player).containsPlayer((Player) sender)) leavableTimers.add(player.getName());
         switch (args.length) {
-            case 1 -> StringUtil.copyPartialMatches(args[0],
-                    List.of("visible", "running", "reverse", "reset", "set", "add"), completions);
+            case 1 -> StringUtil.copyPartialMatches(args[0], List.of("visible", "running", "reverse", "reset", "invite",
+                    "join", "leave", "remove", "set", "add"), completions);
             case 2, 3, 4, 5 -> {
+                if (args.length == 2) switch (args[0]) {
+                    case "invite" -> StringUtil.copyPartialMatches(args[1], players, completions);
+                    case "leave" -> StringUtil.copyPartialMatches(args[1], leavableTimers, completions);
+                    case "remove" -> StringUtil.copyPartialMatches(args[1], removablePlayers, completions);
+                }
                 if (List.of("set", "add").contains(args[0])) completions.add("<time>");
             }
         }
