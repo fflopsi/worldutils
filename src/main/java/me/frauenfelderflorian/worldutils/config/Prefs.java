@@ -270,19 +270,19 @@ public class Prefs extends Config {
         /**
          * If the AllItems project is running (default: null)
          */
-        WUP_ALLITEMS_RUNNING(Command.WUPROJECTS, "running", null, false, true),
+        WUP_ALLITEMS_RUNNING(Command.WUPROJECTS_ALLITEMS, "running", null, false, true),
         /**
          * List which contains all obtainable items (default: null)
          */
-        WUP_ALLITMES_ITEMS(Command.WUPROJECTS, "items", null, false, true),
+        WUP_ALLITMES_ITEMS(Command.WUPROJECTS_ALLITEMS, "items", null, false, true),
         /**
          * Index of the next item to collect (default: null)
          */
-        WUP_ALLITMES_INDEX(Command.WUPROJECTS, "index", null, false, true),
+        WUP_ALLITMES_INDEX(Command.WUPROJECTS_ALLITEMS, "index", null, false, true),
         /**
          * List which contains all already obtained items (default: null)
          */
-        WUP_ALLITEMS_OBTAINED(Command.WUPROJECTS, "obtained", null, false, true),
+        WUP_ALLITEMS_OBTAINED(Command.WUPROJECTS_ALLITEMS, "obtained", null, false, true),
         ;
 
         /**
@@ -436,7 +436,7 @@ public class Prefs extends Config {
             PTIMER("personaltimer", true),
             RESET("reset", true),
             SETTINGS("settings", true),
-            WUPROJECTS("wuprojects", false),
+            WUPROJECTS_ALLITEMS("wuprojects.allitems", false),
             ;
 
             /**
