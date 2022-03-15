@@ -143,9 +143,9 @@ public class Prefs extends Config {
          */
         POSITION_SAVE_AUTHOR(Command.POSITION, "saveAuthor", false, true, true),
         /**
-         * Makes everyone's personal positions accessible for everyone else (without tab completion) (default: false)
+         * Makes the player's personal positions accessible for everyone else (without tab completion) (default: false)
          */
-        PPOSITION_ACCESS_GLOBAL(Command.PPOSITION, "makeAccessibleGlobally", false, true, true),
+        PPOSITION_ACCESS_GLOBAL(Command.PPOSITION, "makeAccessibleGlobally", false, true, false),
         /**
          * The current time of the timer (default: 0)
          */

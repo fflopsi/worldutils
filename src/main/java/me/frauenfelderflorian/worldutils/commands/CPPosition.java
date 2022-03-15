@@ -137,21 +137,18 @@ public record CPPosition(WorldUtils plugin, Positions positions) implements TabE
      * @return true if correct command syntax used and no errors, false otherwise
      */
     private boolean otherPlayersPosition(CommandSender sender, String[] args) {
-        if (plugin.prefs.getBoolean(Prefs.Option.PPOSITION_ACCESS_GLOBAL)) {
-            Player other = Bukkit.getPlayer(args[0]);
-            if (other != null && other.isOnline()) {
-                //get personalposition from player
-                try {
-                    Messages.sendMessage(sender, "Personal position from player " + args[0] + ": "
-                            + Messages.positionMessage(args[1], positions.getPersonalLocation(other, args[1])));
-                } catch (NullPointerException e) {
-                    Messages.positionNotFound(sender);
-                }
-            } else {
-                Messages.playerNotFound(sender);
+        Player other = Bukkit.getPlayer(args[0]);
+        if (other != null && other.isOnline()) {
+            //get personalposition from player
+            if (plugin.prefs.getBoolean(other, Prefs.Option.PPOSITION_ACCESS_GLOBAL)) try {
+                Messages.sendMessage(sender, "Personal position from player " + args[0] + ": "
+                        + Messages.positionMessage(args[1], positions.getPersonalLocation(other, args[1])));
+            } catch (NullPointerException e) {
+                Messages.positionNotFound(sender);
             }
+            else Messages.notAllowed(sender);
             return true;
-        }
+        } else Messages.playerNotFound(sender);
         return false;
     }
 }
