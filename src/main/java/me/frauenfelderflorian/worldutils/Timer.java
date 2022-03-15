@@ -71,7 +71,8 @@ public class Timer {
         this.plugin = plugin;
         this.player = player;
         time = plugin.prefs.getInt(player, Prefs.Option.PTIMER_TIME);
-        timerBar = Bukkit.createBossBar("§e" + player.getDisplayName() + "'s timer: " + formatTime(time), BarColor.YELLOW, BarStyle.SEGMENTED_12);
+        timerBar = Bukkit.createBossBar("§e" + player.getDisplayName() + "'s timer: " + formatTime(time),
+                BarColor.YELLOW, BarStyle.SEGMENTED_12);
         timerBar.setVisible(plugin.prefs.getBoolean(player, Prefs.Option.PTIMER_VISIBLE_ON_JOIN));
         update(false);
         timerBar.addPlayer(player);
@@ -104,13 +105,13 @@ public class Timer {
         if (player == null) {
             //global timer
             plugin.prefs.set(Prefs.Option.TIMER_RUNNING, running, true);
-            Messages.sendMessage("§eTimer " +
-                    (plugin.prefs.getBoolean(Prefs.Option.TIMER_RUNNING) ? "started." : "paused."));
+            Messages.sendMessage("§eTimer "
+                    + (plugin.prefs.getBoolean(Prefs.Option.TIMER_RUNNING) ? "started." : "paused."));
         } else {
             //personal timer
             plugin.prefs.set(player, Prefs.Option.PTIMER_RUNNING, running, true);
-            Messages.sendMessage(player, "§ePersonal timer " +
-                    (plugin.prefs.getBoolean(player, Prefs.Option.PTIMER_RUNNING) ? "started." : "paused."));
+            Messages.sendMessage(player, "§ePersonal timer "
+                    + (plugin.prefs.getBoolean(player, Prefs.Option.PTIMER_RUNNING) ? "started." : "paused."));
         }
     }
 

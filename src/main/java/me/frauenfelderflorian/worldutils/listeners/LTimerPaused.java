@@ -3,7 +3,6 @@ package me.frauenfelderflorian.worldutils.listeners;
 import me.frauenfelderflorian.worldutils.Messages;
 import me.frauenfelderflorian.worldutils.WorldUtils;
 import me.frauenfelderflorian.worldutils.config.Prefs;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
@@ -210,8 +209,8 @@ public record LTimerPaused(WorldUtils plugin) implements Listener {
      */
     private void cancelEvent(Event event, boolean message) {
         if (plugin.prefs.getBoolean(Prefs.Option.TIMER_DISABLE_ACTIONS_ON_PAUSE)
-                && !plugin.prefs.getBoolean(Prefs.Option.TIMER_RUNNING)
-                && event instanceof Cancellable && !((Cancellable) event).isCancelled()) {
+                && !plugin.prefs.getBoolean(Prefs.Option.TIMER_RUNNING) && event instanceof Cancellable
+                && !((Cancellable) event).isCancelled()) {
             ((Cancellable) event).setCancelled(true);
             if (message) Messages.sendMessage("§cTimer is paused. §eInteraction not possible.");
         }

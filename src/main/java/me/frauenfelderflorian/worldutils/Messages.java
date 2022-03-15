@@ -41,8 +41,8 @@ public enum Messages {
      * @return String with formatted position
      */
     public static String positionMessage(Location location) {
-        return betterWorld(Objects.requireNonNull(location.getWorld()).getName()) + ": "
-                + location.getBlockX() + "  " + location.getBlockY() + "  " + location.getBlockZ();
+        return betterWorld(Objects.requireNonNull(location.getWorld()).getName()) + ": " + location.getBlockX() + "  "
+                + location.getBlockY() + "  " + location.getBlockZ();
     }
 
     /**
@@ -66,9 +66,9 @@ public enum Messages {
      * @return String with formatted position
      */
     public static String positionMessage(String name, String author, Location location) {
-        return "§b" + name + "§r from §b§o" + author
-                + "§r (" + betterWorld(Objects.requireNonNull(location.getWorld()).getName()) + "): "
-                + location.getBlockX() + "  " + location.getBlockY() + "  " + location.getBlockZ();
+        return "§b" + name + "§r from §b§o" + author + "§r ("
+                + betterWorld(Objects.requireNonNull(location.getWorld()).getName()) + "): " + location.getBlockX()
+                + "  " + location.getBlockY() + "  " + location.getBlockZ();
     }
 
     /**

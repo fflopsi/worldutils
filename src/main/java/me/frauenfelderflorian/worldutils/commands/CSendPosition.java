@@ -7,6 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,26 +29,25 @@ public class CSendPosition implements TabExecutor {
      * @return true if correct command syntax used and no errors, false otherwise
      */
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String alias, String[] args) {
-        if (sender instanceof Player)
-            switch (args.length) {
-                case 0 -> {
-                    //send to all players
-                    Messages.sendMessage(Messages.positionMessage(
-                            sender.getName(), ((Player) sender).getLocation()));
-                    return true;
-                }
-                case 1 -> {
-                    //send to one player
-                    try {
-                        Messages.sendMessage(Objects.requireNonNull(Bukkit.getPlayer(args[0])), Messages.positionMessage(
-                                sender.getName(), ((Player) sender).getLocation()));
-                    } catch (NullPointerException e) {
-                        Messages.playerNotFound(sender);
-                    }
-                    return true;
-                }
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias,
+                             String[] args) {
+        if (sender instanceof Player) switch (args.length) {
+            case 0 -> {
+                //send to all players
+                Messages.sendMessage(Messages.positionMessage(sender.getName(), ((Player) sender).getLocation()));
+                return true;
             }
+            case 1 -> {
+                //send to one player
+                try {
+                    Messages.sendMessage(Objects.requireNonNull(Bukkit.getPlayer(args[0])),
+                            Messages.positionMessage(sender.getName(), ((Player) sender).getLocation()));
+                } catch (NullPointerException e) {
+                    Messages.playerNotFound(sender);
+                }
+                return true;
+            }
+        }
         else {
             Messages.notConsole(sender);
             return true;
@@ -65,7 +65,8 @@ public class CSendPosition implements TabExecutor {
      * @return List of Strings for tab completion
      */
     @Override
-    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias,
+                                      String[] args) {
         List<String> players = new ArrayList<>();
         List<String> completions = new ArrayList<>();
         for (Player player : Bukkit.getOnlinePlayers())

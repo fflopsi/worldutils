@@ -4,13 +4,13 @@ import me.frauenfelderflorian.worldutils.Messages;
 import me.frauenfelderflorian.worldutils.WorldUtils;
 import me.frauenfelderflorian.worldutils.config.Positions;
 import me.frauenfelderflorian.worldutils.config.Prefs;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +32,8 @@ public record CPosition(WorldUtils plugin, Positions positions) implements TabEx
      * @return true if correct command syntax used and no errors, false otherwise
      */
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String alias, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias,
+                             String[] args) {
         switch (args.length) {
             case 1 -> {
                 //command or position name entered
@@ -40,8 +41,8 @@ public record CPosition(WorldUtils plugin, Positions positions) implements TabEx
                     case "list" -> {
                         //send all position info
                         for (String position : positions.getPositions())
-                            Messages.sendMessage(sender, Messages.positionMessage(
-                                    position, positions.getLocation(position)));
+                            Messages.sendMessage(sender,
+                                    Messages.positionMessage(position, positions.getLocation(position)));
                         return true;
                     }
                     case "clear" -> {
@@ -55,11 +56,11 @@ public record CPosition(WorldUtils plugin, Positions positions) implements TabEx
                         if (positions.contains(args[0]))
                             //existing position, send info
                             if (positions.containsAuthor(args[0]))
-                                Messages.sendMessage(sender, Messages.positionMessage(
-                                        args[0], positions.getAuthor(args[0]),
-                                        positions.getLocation(args[0])));
-                            else Messages.sendMessage(sender, Messages.positionMessage(
-                                    args[0], positions.getLocation(args[0])));
+                                Messages.sendMessage(sender, Messages.positionMessage(args[0],
+                                        positions.getAuthor(args[0]), positions.getLocation(args[0])));
+                            else
+                                Messages.sendMessage(sender,
+                                        Messages.positionMessage(args[0], positions.getLocation(args[0])));
                         else if (sender instanceof Player) {
                             //new position name, save position
                             if (!Pattern.matches("\\w+", args[0])) Messages.wrongArguments(sender);
@@ -67,9 +68,8 @@ public record CPosition(WorldUtils plugin, Positions positions) implements TabEx
                                 positions.set(args[0], ((Player) sender).getLocation(), true);
                                 if (plugin.prefs.getBoolean(Prefs.Option.POSITION_SAVE_AUTHOR))
                                     positions.setAuthor(args[0], sender.getName());
-                                Messages.sendMessage("§aAdded§r position "
-                                        + Messages.positionMessage(args[0], sender.getName(),
-                                        positions.getLocation(args[0])));
+                                Messages.sendMessage("§aAdded§r position "+ Messages.positionMessage(args[0],
+                                        sender.getName(), positions.getLocation(args[0])));
                             }
                         } else Messages.notConsole(sender);
                         return true;
@@ -92,8 +92,7 @@ public record CPosition(WorldUtils plugin, Positions positions) implements TabEx
                         try {
                             Location old = positions.getLocation(args[1]);
                             positions.remove(args[1]);
-                            Messages.sendMessage("§cDeleted§r position "
-                                    + Messages.positionMessage(args[1], old));
+                            Messages.sendMessage("§cDeleted§r position " + Messages.positionMessage(args[1], old));
                         } catch (UnsupportedOperationException | NullPointerException e) {
                             Messages.wrongArguments(sender);
                         }
@@ -115,7 +114,8 @@ public record CPosition(WorldUtils plugin, Positions positions) implements TabEx
      * @return List of Strings for tab completion
      */
     @Override
-    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias,
+                                      String[] args) {
         List<String> completions = new ArrayList<>();
         switch (args.length) {
             case 1 -> {

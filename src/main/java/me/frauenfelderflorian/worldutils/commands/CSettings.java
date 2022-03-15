@@ -3,12 +3,12 @@ package me.frauenfelderflorian.worldutils.commands;
 import me.frauenfelderflorian.worldutils.Messages;
 import me.frauenfelderflorian.worldutils.WorldUtils;
 import me.frauenfelderflorian.worldutils.config.Prefs;
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +29,8 @@ public record CSettings(WorldUtils plugin) implements TabExecutor {
      * @return true if correct command syntax used and no errors, false otherwise
      */
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String alias, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias,
+                             String[] args) {
         if (args.length == 3) {
             //correct number of arguments
             Prefs.Option setting = Prefs.Option.get(args[0], args[1]);
@@ -98,7 +99,8 @@ public record CSettings(WorldUtils plugin) implements TabExecutor {
      * @return List of Strings for tab completion
      */
     @Override
-    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias,
+                                      String[] args) {
         List<String> completions = new ArrayList<>();
         switch (args.length) {
             case 1 -> {
@@ -112,9 +114,11 @@ public record CSettings(WorldUtils plugin) implements TabExecutor {
                 //setting being entered
                 if (Prefs.Option.getCommands().contains(args[0])) {
                     if (sender.isOp() || !plugin.prefs.getBoolean(Prefs.Option.SETTINGS_NEED_OP))
-                        StringUtil.copyPartialMatches(args[1], Prefs.Option.getSettings(args[0], true), completions);
+                        StringUtil.copyPartialMatches(args[1], Prefs.Option.getSettings(args[0], true),
+                                completions);
                     if (sender instanceof Player)
-                        StringUtil.copyPartialMatches(args[1], Prefs.Option.getSettings(args[0], false), completions);
+                        StringUtil.copyPartialMatches(args[1], Prefs.Option.getSettings(args[0], false),
+                                completions);
                 }
             }
             case 3 -> {

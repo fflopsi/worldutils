@@ -8,6 +8,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -27,8 +28,8 @@ public record CReset(WorldUtils plugin) implements TabExecutor {
      * @return true if correct command syntax used and no errors, false otherwise
      */
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String alias, String[] args) {
-        if (sender.isOp() || !plugin.prefs.getBoolean(Prefs.Option.RESET_NEED_OP)) {
+    public boolean onCommand(CommandSender sender, @NotNull Command command, @NotNull String alias, String[] args) {
+        if (sender.isOp() || !plugin.prefs.getBoolean(Prefs.Option.RESET_NEED_OP))
             if (!plugin.prefs.getBoolean(Prefs.Option.RESET_NEED_CONFIRM)
                     || args.length == 1 && args[0].equalsIgnoreCase("confirm")) {
                 Messages.sendMessage("§e§oResetting server in 10 seconds.");
@@ -44,10 +45,8 @@ public record CReset(WorldUtils plugin) implements TabExecutor {
                     else Bukkit.shutdown();
                 }, 220);
                 return true;
-            } else {
-                Messages.wrongArguments(sender);
-            }
-        } else {
+            } else Messages.wrongArguments(sender);
+        else {
             Messages.notAllowed(sender);
             return true;
         }
@@ -64,7 +63,8 @@ public record CReset(WorldUtils plugin) implements TabExecutor {
      * @return List of Strings for tab completion
      */
     @Override
-    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias,
+                                      String[] args) {
         return List.of();
     }
 }

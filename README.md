@@ -38,7 +38,8 @@ The commands and their respective syntax are:
 - `/personalposition <name> | list | clear | (tp | del <name>)`
 - `/sendposition [<playername>]`
 - `/timer visible | running | reverse | reset | (set | add [[[<d>] <h>] <min>] <s>)`
-- `/personaltimer (invite | join | leave | remove <playername>) | visible | running | reverse | reset | (set | add [[[<d>] <h>] <min>] <s>)`
+- `/personaltimer (invite | join | leave | remove <playername>) | visible | running | reverse | reset |
+  (set | add [[[<d>] <h>] <min>] <s>)`
 - `/reset [confirm]`
 - `/settings <commandname> <setting> true | false`
 

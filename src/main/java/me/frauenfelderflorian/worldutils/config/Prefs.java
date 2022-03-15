@@ -348,9 +348,8 @@ public class Prefs extends Config {
             List<String> commands = new ArrayList<>();
             for (Command command : Command.values()) {
                 boolean scope = false;
-                for (Option setting : values()) {
-                    if (setting.command == command
-                            && (global && setting.isGlobal() || !global && !setting.isGlobal())) {
+                for (Option stg : values()) {
+                    if (stg.command == command && (global && stg.isGlobal() || !global && !stg.isGlobal())) {
                         scope = true;
                         break;
                     }

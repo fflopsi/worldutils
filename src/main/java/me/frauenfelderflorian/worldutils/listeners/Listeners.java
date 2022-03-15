@@ -32,11 +32,11 @@ public record Listeners(WorldUtils plugin) implements Listener {
             if (!setting.isGlobal() && !plugin.prefs.contains(event.getPlayer(), setting) && setting.isVanilla())
                 plugin.prefs.set(event.getPlayer(), setting, setting.getDefault(), true);
         //global timer setup
-        if (plugin.prefs.getBoolean(Prefs.Option.TIMER_ADD_PLAYER_ON_JOIN))
-            plugin.timer.addPlayer(event.getPlayer());
+        if (plugin.prefs.getBoolean(Prefs.Option.TIMER_ADD_PLAYER_ON_JOIN)) plugin.timer.addPlayer(event.getPlayer());
         if (plugin.prefs.getBoolean(Prefs.Option.TIMER_START_IF_WAS_RUNNING)
                 && plugin.prefs.getBoolean(Prefs.Option.TIMER_WAS_RUNNING)
-                && Bukkit.getServer().getOnlinePlayers().size() == 1) plugin.timer.setRunning(true);
+                && Bukkit.getServer().getOnlinePlayers().size() == 1)
+            plugin.timer.setRunning(true);
         //personal timer setup
         plugin.addTimer(event.getPlayer());
         if (plugin.prefs.getBoolean(event.getPlayer(), Prefs.Option.PTIMER_START_IF_WAS_RUNNING)
@@ -70,8 +70,8 @@ public record Listeners(WorldUtils plugin) implements Listener {
      */
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
-        Messages.sendMessage(event.getEntity(), "You §4died§r at "
-                + Messages.positionMessage(event.getEntity().getLocation()));
+        Messages.sendMessage(event.getEntity(),
+                "You §4died§r at " + Messages.positionMessage(event.getEntity().getLocation()));
     }
 
     /**
@@ -82,11 +82,10 @@ public record Listeners(WorldUtils plugin) implements Listener {
     @EventHandler
     public void onDragonDeath(EntityDeathEvent event) {
         if (event.getEntity() instanceof EnderDragon) {
-            if (plugin.prefs.getBoolean(Prefs.Option.TIMER_PAUSE_ON_DRAGON_DEATH))
-                plugin.timer.setRunning(false);
+            if (plugin.prefs.getBoolean(Prefs.Option.TIMER_PAUSE_ON_DRAGON_DEATH)) plugin.timer.setRunning(false);
             if (plugin.prefs.getBoolean(event.getEntity().getKiller(), Prefs.Option.PTIMER_PAUSE_ON_DRAGON_DEATH))
                 plugin.getTimer(event.getEntity().getKiller()).setRunning(false);
-                Messages.sendMessage(Objects.requireNonNull(event.getEntity().getKiller()),
+            Messages.sendMessage(Objects.requireNonNull(event.getEntity().getKiller()),
                     "§bCongratulations, you defeated the Ender Dragon!");
             Messages.sendMessage("§bCongratulations, you just won the game!");
         }
