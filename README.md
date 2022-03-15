@@ -30,7 +30,7 @@ and can be run correctly.
 ## Usage
 
 To use the plugin, enter an appropriate command. All commands have tab completion (except when accessing personal
-positions or joining personal timers of other players), so you do not need to know the exact syntax when typing.
+positions, joining personal timers of other players or resetting the server), so you do not need to know the exact syntax when typing.
 
 The commands and their respective syntax are:
 
@@ -40,7 +40,7 @@ The commands and their respective syntax are:
 - `/timer visible | running | reverse | reset | (set | add [[[<d>] <h>] <min>] <s>)`
 - `/personaltimer (invite | join | leave | remove <playername>) | visible | running | reverse | reset |
   (set | add [[[<d>] <h>] <min>] <s>)`
-- `/reset [confirm]`
+- `/reset [confirm | cancel]`
 - `/settings <commandname> <setting> true | false`
 
 Some of these commands also have an alias that can be used instead of the full command names and allow for faster

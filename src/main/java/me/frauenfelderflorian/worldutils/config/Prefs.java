@@ -237,6 +237,10 @@ public class Prefs extends Config {
          */
         PTIMER_JOINABLE(Command.PTIMER, "joinable", false, true, false),
         /**
+         * If a reset has been requested and not yet been confirmed (default: false)
+         */
+        RESET_REQUESTED(Command.RESET, "requested", false, false, true),
+        /**
          * If the world is going to be reset on next load (default: false)
          */
         RESET_RESET(Command.RESET, "reset", false, false, true),
@@ -244,10 +248,6 @@ public class Prefs extends Config {
          * Player needs OP to reset the server (default: true)
          */
         RESET_NEED_OP(Command.RESET, "needOp", true, true, true),
-        /**
-         * Reset command needs confirm as first and only argument to start resetting world (default: true)
-         */
-        RESET_NEED_CONFIRM(Command.RESET, "needConfirm", true, true, true),
         /**
          * Deletes all positions on server reset (default: true)
          */

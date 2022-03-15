@@ -27,7 +27,7 @@ commands:
     aliases: ptmr
   reset:
     description: reset the server
-    usage: /<command> [confirm]
+    usage: /<command> [confirm | cancel]
   settings:
     description: edit settings of this plugin
     usage: /<command> <commandname> <setting> true | false
