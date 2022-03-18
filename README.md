@@ -1,5 +1,11 @@
 # WorldUtils
 
+![release](https://img.shields.io/github/v/release/WorldUtils/world-utils?sort=semver)
+![commits](https://img.shields.io/github/commits-since/WorldUtils/world-utils/latest?sort=semver)
+![downloads](https://img.shields.io/github/downloads/WorldUtils/world-utils/latest/total?sort=semver)
+![issues](https://img.shields.io/github/issues/WorldUtils/world-utils)
+![build](https://img.shields.io/github/workflow/status/WorldUtils/world-utils/Java%20CI%20with%20Maven)
+
 This Minecraft Spigot plugin contains various tools, namely for managing both public and personal in-game positions,
 sending your own position, setting up a public and a personal timer, resetting the server and managing some plugin
 settings.
