@@ -75,12 +75,4 @@
             <version>23.0.0</version>
         </dependency>
     </dependencies>
-
-    <distributionManagement>
-        <repository>
-            <id>github</id>
-            <name>GitHub Packages</name>
-            <url>https://maven.pkg.github.com/WorldUtils/world-utils</url>
-        </repository>
-    </distributionManagement>
 </project>
