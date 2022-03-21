@@ -283,6 +283,14 @@ public class Prefs extends Config {
          * List which contains all already obtained items (default: null)
          */
         WUP_ALLITEMS_OBTAINED(Command.WUPROJECTS_ALLITEMS, "obtained", null, false, true),
+        /**
+         * If the LevelBorder project is running (default: null)
+         */
+        WUP_LEVELBORDER_RUNNING(Command.WUPROJECTS_LEVELBORDER, "running", null, false, true),
+        /**
+         * If the LevelBorder project is running in multiplayer-compatible shared-experience mode (default: null)
+         */
+        WUP_LEVELBORDER_SHARED_EXP(Command.WUPROJECTS_LEVELBORDER, "sharedExp", null, false, true),
         ;
 
         /**
@@ -436,7 +444,11 @@ public class Prefs extends Config {
             PTIMER("personaltimer", true),
             RESET("reset", true),
             SETTINGS("settings", true),
+
+            //all the following commands are only used in the other plugins that depend on WorldUtils
+            //vanilla: false for all the following options
             WUPROJECTS_ALLITEMS("wuprojects.allitems", false),
+            WUPROJECTS_LEVELBORDER("wuprojects.levelborder", false),
             ;
 
             /**
