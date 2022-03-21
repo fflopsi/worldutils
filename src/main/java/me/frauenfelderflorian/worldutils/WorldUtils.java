@@ -53,7 +53,9 @@ public final class WorldUtils extends JavaPlugin {
             //reset worlds
             for (String w : List.of("world", "world_nether", "world_the_end")) {
                 try {
-                    Files.walk(Paths.get(w)).sorted(Comparator.reverseOrder()).map(Path::toFile).forEach(File::delete);
+                    Files.walk(Paths.get(w)).sorted(Comparator.reverseOrder()).map(Path::toFile).forEach(file -> {
+                        if (file.delete()) getLogger().info("§e File§b " + file.getName() + " §edeleted.");
+                    });
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -62,7 +64,8 @@ public final class WorldUtils extends JavaPlugin {
             //delete positions if needed
             if (prefs.getBoolean(Prefs.Option.RESET_DELETE_POSITIONS))
                 for (File file : Objects.requireNonNull(getDataFolder().listFiles()))
-                    if (file.getName().startsWith("positions") && file.getName().endsWith(".yml")) file.delete();
+                    if (file.getName().startsWith("positions") && file.getName().endsWith(".yml"))
+                        if (file.delete()) getLogger().info("§e File§b " + file.getName() + " §edeleted.");
             //reset Settings if needed
             if (prefs.getBoolean(Prefs.Option.RESET_RESET_SETTINGS))
                 for (Prefs.Option stg : Prefs.Option.values()) prefs.set(stg, stg.getDefault(), true);
