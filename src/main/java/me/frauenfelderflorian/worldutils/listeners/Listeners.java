@@ -26,7 +26,7 @@ public record Listeners(WorldUtils plugin) implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         //greeting message
-        Messages.sendMessage(event.getPlayer(), "Hello " + event.getPlayer().getName() + ", nice to meet you!");
+        Messages.sendMessage(plugin, event.getPlayer(), "Hello " + event.getPlayer().getName() + ", nice to meet you!");
         //set default personal settings
         for (Prefs.Option setting : Prefs.Option.values())
             if (!setting.isGlobal() && !plugin.prefs.contains(event.getPlayer(), setting) && setting.isVanilla())
@@ -70,7 +70,7 @@ public record Listeners(WorldUtils plugin) implements Listener {
      */
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
-        Messages.sendMessage(event.getEntity(),
+        Messages.sendMessage(plugin, event.getEntity(),
                 "You §4died§r at " + Messages.positionMessage(event.getEntity().getLocation()));
     }
 
@@ -85,9 +85,9 @@ public record Listeners(WorldUtils plugin) implements Listener {
             if (plugin.prefs.getBoolean(Prefs.Option.TIMER_PAUSE_ON_DRAGON_DEATH)) plugin.timer.setRunning(false);
             if (plugin.prefs.getBoolean(event.getEntity().getKiller(), Prefs.Option.PTIMER_PAUSE_ON_DRAGON_DEATH))
                 plugin.getTimer(event.getEntity().getKiller()).setRunning(false);
-            Messages.sendMessage(Objects.requireNonNull(event.getEntity().getKiller()),
+            Messages.sendMessage(plugin, Objects.requireNonNull(event.getEntity().getKiller()),
                     "§bCongratulations, you defeated the Ender Dragon!");
-            Messages.sendMessage("§bCongratulations, you just won the game!");
+            Messages.sendMessage(plugin, "§bCongratulations, you just won the game!");
         }
     }
 }

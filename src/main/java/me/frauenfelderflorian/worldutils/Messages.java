@@ -4,6 +4,7 @@ import me.frauenfelderflorian.worldutils.config.Prefs;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Objects;
 
@@ -13,25 +14,25 @@ import java.util.Objects;
 public enum Messages {
     ;
 
-    private final static String pluginPrefix = "[§3§lWorldUtils§r] ";
-
     /**
      * Broadcast a message with the plugin name as a prefix
      *
+     * @param plugin  plugin sending the message
      * @param message message to be sent
      */
-    public static void sendMessage(String message) {
-        Bukkit.broadcastMessage(pluginPrefix + message);
+    public static void sendMessage(JavaPlugin plugin, String message) {
+        Bukkit.broadcastMessage("[§3§l" + plugin.getName() + "§r] " + message);
     }
 
     /**
      * Send a message with the plugin name as a prefix to a CommandSender
      *
+     * @param plugin  plugin sending the message
      * @param sender  CommandSender to whom the message should be sent
      * @param message message to be sent
      */
-    public static void sendMessage(CommandSender sender, String message) {
-        sender.sendMessage(pluginPrefix + message);
+    public static void sendMessage(JavaPlugin plugin, CommandSender sender, String message) {
+        sender.sendMessage("[§3§l" + plugin.getName() + "§r] " + message);
     }
 
     /**
@@ -89,8 +90,8 @@ public enum Messages {
      *
      * @param target the target to whom the message should be sent
      */
-    public static void notAllowed(CommandSender target) {
-        Messages.sendMessage(target, "§c§lYou are not allowed to do this.");
+    public static void notAllowed(JavaPlugin plugin, CommandSender target) {
+        Messages.sendMessage(plugin, target, "§c§lYou are not allowed to do this.");
     }
 
     /**
@@ -99,8 +100,8 @@ public enum Messages {
      *
      * @param target the target to whom the message should be sent
      */
-    public static void notConsole(CommandSender target) {
-        Messages.sendMessage(target, "§e§oThis is not a console command.");
+    public static void notConsole(JavaPlugin plugin, CommandSender target) {
+        Messages.sendMessage(plugin, target, "§e§oThis is not a console command.");
     }
 
     /**
@@ -109,8 +110,8 @@ public enum Messages {
      *
      * @param target the target to whom the message should be sent
      */
-    public static void wrongArguments(CommandSender target) {
-        Messages.sendMessage(target, "§e§oWrong argument(s) were entered for this command.");
+    public static void wrongArguments(JavaPlugin plugin, CommandSender target) {
+        Messages.sendMessage(plugin, target, "§e§oWrong argument(s) were entered for this command.");
     }
 
     /**
@@ -119,8 +120,8 @@ public enum Messages {
      *
      * @param target the target to whom the message should be sent
      */
-    public static void wrongArgumentNumber(CommandSender target) {
-        Messages.sendMessage(target, "§e§oA wrong number of arguments was entered for this command.");
+    public static void wrongArgumentNumber(JavaPlugin plugin, CommandSender target) {
+        Messages.sendMessage(plugin, target, "§e§oA wrong number of arguments was entered for this command.");
     }
 
     /**
@@ -129,8 +130,8 @@ public enum Messages {
      *
      * @param target the target to whom the message should be sent
      */
-    public static void playerNotFound(CommandSender target) {
-        Messages.sendMessage(target, "§e§oThe entered name does not belong to an online player.");
+    public static void playerNotFound(JavaPlugin plugin, CommandSender target) {
+        Messages.sendMessage(plugin, target, "§e§oThe entered name does not belong to an online player.");
     }
 
     /**
@@ -139,8 +140,8 @@ public enum Messages {
      *
      * @param target the target to whom the message should be sent
      */
-    public static void positionNotFound(CommandSender target) {
-        Messages.sendMessage(target, "§e§oThe entered position name cannot be found.");
+    public static void positionNotFound(JavaPlugin plugin, CommandSender target) {
+        Messages.sendMessage(plugin, target, "§e§oThe entered position name cannot be found.");
     }
 
     /**

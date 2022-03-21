@@ -34,10 +34,10 @@ public record CReset(WorldUtils plugin) implements TabExecutor {
             case 0 -> {
                 //request a reset
                 if (plugin.prefs.getBoolean(Prefs.Option.RESET_REQUESTED))
-                    Messages.sendMessage("§eA server reset has already been requested.");
+                    Messages.sendMessage(plugin, "§eA server reset has already been requested.");
                 else {
                     plugin.prefs.set(Prefs.Option.RESET_REQUESTED, true, true);
-                    Messages.sendMessage(
+                    Messages.sendMessage(plugin,
                             "§eA server reset has been requested. Use §o/reset confirm§r§e or §o/reset cancel.");
                 }
                 return true;
@@ -48,14 +48,14 @@ public record CReset(WorldUtils plugin) implements TabExecutor {
                         //cancel a requested reset
                         if (plugin.prefs.getBoolean(Prefs.Option.RESET_REQUESTED)) {
                             plugin.prefs.set(Prefs.Option.RESET_REQUESTED, false, true);
-                            Messages.sendMessage("§bThe server reset has been canceled.");
-                        } else Messages.sendMessage("§bThere is no server reset requested.");
+                            Messages.sendMessage(plugin, "§bThe server reset has been canceled.");
+                        } else Messages.sendMessage(plugin, "§bThere is no server reset requested.");
                         return true;
                     }
                     case "confirm" -> {
                         //confirm a requested reset
                         if (plugin.prefs.getBoolean(Prefs.Option.RESET_REQUESTED)) {
-                            Messages.sendMessage("§c§oResetting server in 10 seconds.");
+                            Messages.sendMessage(plugin, "§c§oResetting server in 10 seconds.");
                             //kick players 1 second before restarting or shutting down
                             Bukkit.getScheduler().runTaskLater(plugin, () -> {
                                 for (Player player : Bukkit.getOnlinePlayers())
@@ -70,12 +70,12 @@ public record CReset(WorldUtils plugin) implements TabExecutor {
                                 else Bukkit.shutdown();
                             }, 220);
                         } else
-                            Messages.sendMessage(
+                            Messages.sendMessage(plugin,
                                     "§eThere is no server reset requested. You can request one by using §o/reset");
                         return true;
                     }
                 }
-                else Messages.notAllowed(sender);
+                else Messages.notAllowed(plugin, sender);
             }
         }
         return false;

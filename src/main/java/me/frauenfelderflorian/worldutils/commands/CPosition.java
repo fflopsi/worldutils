@@ -41,13 +41,13 @@ public record CPosition(WorldUtils plugin, Positions positions) implements TabEx
                     case "list" -> {
                         //send all position info
                         for (String position : positions.getPositions())
-                            Messages.sendMessage(sender,
+                            Messages.sendMessage(plugin, sender,
                                     Messages.positionMessage(position, positions.getLocation(position)));
                         return true;
                     }
                     case "clear" -> {
                         //remove all positions
-                        Messages.sendMessage("§e§oCleared positions");
+                        Messages.sendMessage(plugin, "§e§oCleared positions");
                         for (String pos : positions.getPositions()) positions.remove(pos);
                         return true;
                     }
@@ -56,22 +56,22 @@ public record CPosition(WorldUtils plugin, Positions positions) implements TabEx
                         if (positions.contains(args[0]))
                             //existing position, send info
                             if (positions.containsAuthor(args[0]))
-                                Messages.sendMessage(sender, Messages.positionMessage(args[0],
+                                Messages.sendMessage(plugin, sender, Messages.positionMessage(args[0],
                                         positions.getAuthor(args[0]), positions.getLocation(args[0])));
                             else
-                                Messages.sendMessage(sender,
+                                Messages.sendMessage(plugin, sender,
                                         Messages.positionMessage(args[0], positions.getLocation(args[0])));
                         else if (sender instanceof Player) {
                             //new position name, save position
-                            if (!Pattern.matches("\\w+", args[0])) Messages.wrongArguments(sender);
+                            if (!Pattern.matches("\\w+", args[0])) Messages.wrongArguments(plugin, sender);
                             else {
                                 positions.set(args[0], ((Player) sender).getLocation(), true);
                                 if (plugin.prefs.getBoolean(Prefs.Option.POSITION_SAVE_AUTHOR))
                                     positions.setAuthor(args[0], sender.getName());
-                                Messages.sendMessage("§aAdded§r position "+ Messages.positionMessage(args[0],
+                                Messages.sendMessage(plugin, "§aAdded§r position " + Messages.positionMessage(args[0],
                                         sender.getName(), positions.getLocation(args[0])));
                             }
-                        } else Messages.notConsole(sender);
+                        } else Messages.notConsole(plugin, sender);
                         return true;
                     }
                 }
@@ -83,8 +83,8 @@ public record CPosition(WorldUtils plugin, Positions positions) implements TabEx
                         //teleport player to position if OP
                         if (sender instanceof Player && sender.isOp())
                             ((Player) sender).teleport(positions.getLocation(args[1]));
-                        else if (sender instanceof Player) Messages.notAllowed(sender);
-                        else Messages.notConsole(sender);
+                        else if (sender instanceof Player) Messages.notAllowed(plugin, sender);
+                        else Messages.notConsole(plugin, sender);
                         return true;
                     }
                     case "del" -> {
@@ -92,9 +92,10 @@ public record CPosition(WorldUtils plugin, Positions positions) implements TabEx
                         try {
                             Location old = positions.getLocation(args[1]);
                             positions.remove(args[1]);
-                            Messages.sendMessage("§cDeleted§r position " + Messages.positionMessage(args[1], old));
+                            Messages.sendMessage(plugin, "§cDeleted§r position "
+                                    + Messages.positionMessage(args[1], old));
                         } catch (UnsupportedOperationException | NullPointerException e) {
-                            Messages.wrongArguments(sender);
+                            Messages.wrongArguments(plugin, sender);
                         }
                         return true;
                     }

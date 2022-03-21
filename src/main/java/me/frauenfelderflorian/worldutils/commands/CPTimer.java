@@ -52,7 +52,7 @@ public record CPTimer(WorldUtils plugin) implements TabExecutor {
                         //change reverse status
                         plugin.prefs.set((Player) sender, Prefs.Option.PTIMER_REVERSE, !plugin.prefs.getBoolean(
                                 (Player) sender, Prefs.Option.PTIMER_REVERSE), true);
-                        Messages.sendMessage("§eTimer reversed, now in §b" + (plugin.prefs.getBoolean(
+                        Messages.sendMessage(plugin, "§eTimer reversed, now in §b" + (plugin.prefs.getBoolean(
                                 (Player) sender, Prefs.Option.TIMER_REVERSE) ? "reverse" : "normal") + "§e mode.");
                         return true;
                     }
@@ -60,7 +60,7 @@ public record CPTimer(WorldUtils plugin) implements TabExecutor {
                         //set timer to 0
                         plugin.getTimer((Player) sender).setRunning(false);
                         plugin.getTimer((Player) sender).setTime(0);
-                        Messages.sendMessage(sender, "§ePersonal timer set to 0.");
+                        Messages.sendMessage(plugin, sender, "§ePersonal timer set to 0.");
                         return true;
                     }
                 }
@@ -82,7 +82,7 @@ public record CPTimer(WorldUtils plugin) implements TabExecutor {
                                     plugin.getTimer(other).addPlayer((Player) sender);
                                     return true;
                                 }
-                            } else Messages.playerNotFound(sender);
+                            } else Messages.playerNotFound(plugin, sender);
                         }
                     }
                     case "leave", "remove" -> {
@@ -98,20 +98,20 @@ public record CPTimer(WorldUtils plugin) implements TabExecutor {
                                     plugin.getTimer((Player) sender).removePlayer(other);
                                     return true;
                                 }
-                            } else Messages.playerNotFound(sender);
+                            } else Messages.playerNotFound(plugin, sender);
                         }
                     }
                     case "set" -> {
                         //set time to input values
                         try {
                             plugin.getTimer((Player) sender).setTime(CTimer.getTime(args));
-                            Messages.sendMessage(sender, "§ePersonal timer set to §b"
+                            Messages.sendMessage(plugin, sender, "§ePersonal timer set to §b"
                                     + Timer.formatTime(plugin.prefs.getInt((Player) sender, Prefs.Option.TIMER_TIME)));
                             return true;
                         } catch (IllegalStateException e) {
-                            Messages.wrongArgumentNumber(sender);
+                            Messages.wrongArgumentNumber(plugin, sender);
                         } catch (NumberFormatException e) {
-                            Messages.wrongArguments(sender);
+                            Messages.wrongArguments(plugin, sender);
                         }
                     }
                     case "add" -> {
@@ -119,20 +119,20 @@ public record CPTimer(WorldUtils plugin) implements TabExecutor {
                         try {
                             plugin.getTimer((Player) sender).setTime(plugin.prefs.getInt(
                                     (Player) sender, Prefs.Option.TIMER_TIME) + CTimer.getTime(args));
-                            Messages.sendMessage(sender, "§eAdded §b"
+                            Messages.sendMessage(plugin, sender, "§eAdded §b"
                                     + Timer.formatTime(CTimer.getTime(args)) + " §eto personal timer");
                             return true;
                         } catch (IllegalStateException e) {
-                            Messages.wrongArgumentNumber(sender);
+                            Messages.wrongArgumentNumber(plugin, sender);
                         } catch (NumberFormatException e) {
-                            Messages.wrongArguments(sender);
+                            Messages.wrongArguments(plugin, sender);
                         }
                     }
                 }
             }
         }
         else {
-            Messages.notConsole(sender);
+            Messages.notConsole(plugin, sender);
             return true;
         }
         return false;

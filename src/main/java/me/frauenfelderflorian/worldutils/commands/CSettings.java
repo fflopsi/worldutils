@@ -42,20 +42,21 @@ public record CSettings(WorldUtils plugin) implements TabExecutor {
                         case "true" -> {
                             //set to true
                             plugin.prefs.set((Player) sender, setting, true, true);
-                            Messages.sendMessage(sender, Messages.settingSet(setting, "true"));
+                            Messages.sendMessage(plugin, sender, Messages.settingSet(setting, "true"));
                             return true;
                         }
                         case "false" -> {
                             //set to false
                             plugin.prefs.set((Player) sender, setting, false, true);
-                            Messages.sendMessage(sender, Messages.settingSet(setting, "false"));
+                            Messages.sendMessage(plugin, sender, Messages.settingSet(setting, "false"));
                             return true;
                         }
                         case "null" -> {
                             //remove setting
                             plugin.prefs.remove((Player) sender, setting);
-                            Messages.sendMessage(sender, Messages.settingSet(setting, "null"));
-                            Messages.sendMessage(sender, "§cUse with caution: §oThe plugin might not work correctly!");
+                            Messages.sendMessage(plugin, sender, Messages.settingSet(setting, "null"));
+                            Messages.sendMessage(plugin, sender,
+                                    "§cUse with caution: §oThe plugin might not work correctly!");
                             return true;
                         }
                     }
@@ -66,26 +67,26 @@ public record CSettings(WorldUtils plugin) implements TabExecutor {
                         case "true" -> {
                             //set to true
                             plugin.prefs.set(setting, true, true);
-                            Messages.sendMessage(Messages.settingSet(setting, "true"));
+                            Messages.sendMessage(plugin, Messages.settingSet(setting, "true"));
                             return true;
                         }
                         case "false" -> {
                             //set to false
                             plugin.prefs.set(setting, false, true);
-                            Messages.sendMessage(sender, Messages.settingSet(setting, "false"));
+                            Messages.sendMessage(plugin, sender, Messages.settingSet(setting, "false"));
                             return true;
                         }
                         case "null" -> {
                             //remove setting
                             plugin.prefs.remove(setting);
-                            Messages.sendMessage(Messages.settingSet(setting, "null"));
-                            Messages.sendMessage("§cUse with caution: §oThe plugin might not work correctly!");
+                            Messages.sendMessage(plugin, Messages.settingSet(setting, "null"));
+                            Messages.sendMessage(plugin, "§cUse with caution: §oThe plugin might not work correctly!");
                             return true;
                         }
                     }
                 }
-            } else Messages.wrongArguments(sender);
-        } else Messages.wrongArgumentNumber(sender);
+            } else Messages.wrongArguments(plugin, sender);
+        } else Messages.wrongArgumentNumber(plugin, sender);
         return false;
     }
 
