@@ -1,9 +1,9 @@
 # WorldUtils
 
-![release](https://img.shields.io/github/v/release/WorldUtils/world-utils?sort=semver)
-![commits](https://img.shields.io/github/commits-since/WorldUtils/world-utils/latest?sort=semver)
-![downloads](https://img.shields.io/github/downloads/WorldUtils/world-utils/latest/total?sort=semver)
-![issues](https://img.shields.io/github/issues/WorldUtils/world-utils)
+![release](https://img.shields.io/github/v/release/fflopsi/worldutils?sort=semver)
+![commits](https://img.shields.io/github/commits-since/fflopsi/worldutils/latest?sort=semver)
+![downloads](https://img.shields.io/github/downloads/fflopsi/worldutils/latest/total?sort=semver)
+![issues](https://img.shields.io/github/issues/fflopsi/worldutils)
 ![build](https://img.shields.io/github/actions/workflow/status/fflopsi/worldutils/maven.yml)
 
 This Minecraft Spigot plugin contains various tools, namely for managing both public and personal in-game positions,
